@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf5fa">
+  <meta name="description" content="A calm, friendly first step into German for beginners.">
+  <title>Hallo Deutsch — Learn German calmly</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar" id="top">
+    <a class="brand" href="#top" aria-label="Hallo Deutsch home"><span class="brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a>
+    <form class="search" role="search" onsubmit="event.preventDefault()">
+      <span class="search-icon" aria-hidden="true"></span>
+      <input type="search" aria-label="Search" data-placeholder-en="Search words or lessons" data-placeholder-de="Wörter oder Lektionen suchen" placeholder="Search words or lessons">
+      <button type="submit" aria-label="Search">⌕</button>
+    </form>
+    <label class="language-wrap">
+      <span class="sr-only">Language</span>
+      <select id="language" aria-label="Language">
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+      </select>
+    </label>
+    <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="menu-panel" id="siteMenu" aria-label="Main menu" hidden>
+      <details class="level-menu">
+        <summary data-en="Learning levels" data-de="Sprachniveaus">Learning levels <span aria-hidden="true">⌄</span></summary>
+        <div class="level-links">
+          <a href="#a1">A1</a><a href="#a2">A2</a><a href="#b1">B1</a><a href="#b2">B2</a>
+        </div>
+      </details>
+      <a href="#about" data-en="About us" data-de="Über uns">About us</a>
+      <a href="#reviews" data-en="Reviews" data-de="Bewertungen">Reviews</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span><span data-en="A calm start · Level A1" data-de="Ein ruhiger Anfang · Niveau A1">A calm start · Level A1</span></p>
+        <h1 id="hero-title" data-en="German, one small step at a time." data-de="Deutsch, Schritt für Schritt.">German, one small step at a time.</h1>
+        <p class="hero-description" data-en="A friendly place for beginners to discover German at their own pace." data-de="Ein freundlicher Ort, um Deutsch im eigenen Tempo zu entdecken.">A friendly place for beginners to discover German at their own pace.</p>
+        <a class="start-link" href="#a1"><span data-en="Begin with A1" data-de="Mit A1 beginnen">Begin with A1</span><span aria-hidden="true">→</span></a>
+        <p class="hero-note" data-en="Simple lessons. Encouraging practice. No rush." data-de="Einfache Lektionen. Spielerisches Üben. Ganz ohne Eile.">Simple lessons. Encouraging practice. No rush.</p>
+      </div>
+      <div class="hero-photo">
+        <img src="assets/schloss-original.jpg" alt="Neuschwanstein Castle in the Bavarian mountains">
+        <div class="photo-shade" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="welcome-strip" id="a1">
+      <div class="welcome-mark" aria-hidden="true">01</div>
+      <div>
+        <p class="eyebrow"><span></span><span data-en="Your learning journey" data-de="Dein Lernweg">Your learning journey</span></p>
+        <h2 data-en="Start with the essentials." data-de="Beginne mit den Grundlagen.">Start with the essentials.</h2>
+      </div>
+      <p data-en="Short, clear German practice for everyday life." data-de="Kurze, klare Deutschübungen für den Alltag.">Short, clear German practice for everyday life.</p>
+    </section>
+
+    <section class="quiet-links" aria-label="More about Hallo Deutsch">
+      <div id="about"><h2 data-en="About us" data-de="Über uns">About us</h2><p data-en="We make the first steps in German feel clear, calm, and welcoming." data-de="Wir machen die ersten Schritte auf Deutsch klar, ruhig und freundlich.">We make the first steps in German feel clear, calm, and welcoming.</p></div>
+      <div id="reviews"><h2 data-en="Reviews" data-de="Bewertungen">Reviews</h2><p data-en="Learner reviews will appear here." data-de="Hier erscheinen bald Rückmeldungen von Lernenden.">Learner reviews will appear here.</p></div>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="#top"><span class="brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a><span data-en="Learn at your own pace." data-de="Lerne in deinem Tempo.">Learn at your own pace.</span></footer>
+
+  <script>
+    const button = document.getElementById("menuButton");
+    const menu = document.getElementById("siteMenu");
+    button.addEventListener("click", () => {
+      const open = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!open));
+      button.setAttribute("aria-label", open ? "Open menu" : "Close menu");
+      menu.hidden = open;
+    });
+    menu.addEventListener("click", (event) => {
+      if (event.target.closest("a")) {
+        menu.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+        button.setAttribute("aria-label", "Open menu");
+      }
+    });
+    document.getElementById("language").addEventListener("change", (event) => {
+      const language = event.target.value;
+      document.documentElement.lang = language;
+      document.querySelectorAll("[data-en][data-de]").forEach((element) => {
+        element.textContent = element.dataset[language];
+      });
+      document.querySelectorAll("[data-placeholder-en][data-placeholder-de]").forEach((element) => {
+        element.placeholder = element.dataset["placeholder" + (language === "en" ? "En" : "De")];
+      });
+      document.querySelector(".search input").setAttribute("aria-label", language === "en" ? "Search" : "Suche");
+    });
+  </script>
+</body>
+</html>
