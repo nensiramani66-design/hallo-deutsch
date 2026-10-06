@@ -1,24 +1,46 @@
 const chapters=window.a1Chapters;
-const chapterSelect=document.getElementById("reader-chapter");
-const wordList=document.getElementById("reader-words");
 const params=new URLSearchParams(location.search);
+const hasChapter=params.has("chapter");
 let chapterNumber=Math.min(12,Math.max(1,Number(params.get("chapter"))||1));
 let pageNumber=Math.max(0,Number(params.get("page"))||0);
+const picker=document.getElementById("reader-chapter-picker");
+const readerContent=document.getElementById("reader-content");
+const chapterSelect=document.getElementById("reader-chapter");
+const wordList=document.getElementById("reader-words");
+const backLink=document.getElementById("reader-back");
+const chapterOptions=[];
 for(const [number,chapter] of Object.entries(chapters)){
+ const n=Number(number);
+ const card=document.createElement("a");card.className="reader-chapter-choice";card.href="a1-reader.html?chapter="+n;
+ const numberBox=document.createElement("span");numberBox.className="reader-chapter-number";numberBox.textContent=String(n).padStart(2,"0");
+ const label=document.createElement("strong");label.textContent=chapter.title;
+ card.append(numberBox,label);picker.append(card);
  const option=document.createElement("option");option.value=number;option.textContent="Chapter "+number+" · "+chapter.title;chapterSelect.append(option);
 }
-chapterSelect.value=String(chapterNumber);
 function renderReader(){
+ if(!hasChapter){
+  readerContent.hidden=true;picker.hidden=false;
+  document.getElementById("reader-title").textContent="Read vocabularies for A1";
+  document.getElementById("reader-description").textContent="Choose one of the 12 chapters to open its dictionary.";
+  document.getElementById("reader-kicker").textContent="A1 · CHAPTER DICTIONARY";
+  document.title="Read A1 vocabularies · Hallo Deutsch";
+  backLink.href="./#a1";
+  return;
+ }
+ picker.hidden=true;readerContent.hidden=false;
  const chapter=chapters[chapterNumber],words=chapter.words,totalPages=Math.ceil(words.length/10);
  pageNumber=Math.min(pageNumber,totalPages-1);
  document.title=chapter.title+" · A1 Vocabulary · Hallo Deutsch";
  document.getElementById("reader-kicker").textContent="A1 · CHAPTER "+chapterNumber+" · "+chapter.title.toLocaleUpperCase();
  document.getElementById("reader-title").textContent=chapter.title;
+ document.getElementById("reader-description").textContent="Ten words per page. Tap a speaker to hear the German or English pronunciation.";
  document.getElementById("reader-count").textContent=words.length+" words";
+ chapterSelect.value=String(chapterNumber);
  document.getElementById("reader-quiz-link").href="chapter-1.html?chapter="+chapterNumber;
+ backLink.href="a1-reader.html";
  const start=pageNumber*10,visible=words.slice(start,start+10);
  wordList.replaceChildren();
- visible.forEach((word,index)=>{
+ visible.forEach(word=>{
   const row=document.createElement("article");row.className="reader-row";
   row.append(makeCell("German",word.german,"de-DE"));
   row.append(makeCell("English",word.english,"en-US"));
@@ -48,7 +70,9 @@ function speak(text,locale){
  if(voice)utterance.voice=voice;
  speechSynthesis.speak(utterance);note.textContent="Playing "+(locale==="de-DE"?"German":"English")+" pronunciation.";
 }
-chapterSelect.addEventListener("change",()=>{chapterNumber=Number(chapterSelect.value);pageNumber=0;renderReader()});
+const referrerIsLocal=(()=>{try{return !!document.referrer&&new URL(document.referrer).origin===location.origin}catch{return false}})();
+backLink.addEventListener("click",event=>{if(referrerIsLocal){event.preventDefault();history.back()}});
+chapterSelect.addEventListener("change",()=>{chapterNumber=Number(chapterSelect.value);pageNumber=0;params.set("chapter",String(chapterNumber));params.set("page","0");history.pushState(null,"",location.pathname+"?"+params.toString());renderReader()});
 document.getElementById("reader-previous").addEventListener("click",()=>{pageNumber--;renderReader()});
 document.getElementById("reader-next").addEventListener("click",()=>{pageNumber++;renderReader()});
 renderReader();

@@ -156,3 +156,21 @@ a{color:inherit;text-decoration:none}
 .previous-button:disabled{background:#eef2f4;color:#8998a0;border-color:#d3dde2}
 .reader-result-link{display:block;width:max-content;max-width:100%;margin:0 auto 14px;color:#245f80;font-size:13px;font-weight:750;text-decoration:underline}
 @media(max-width:560px){.quiz-bottom{flex-wrap:wrap}.quiz-bottom .learning-tip{order:3;flex-basis:100%;text-align:left}.previous-button,.quiz-bottom>#next-button{flex:1}.question-group{min-height:32px;padding:5px 8px}.finish-group{margin-left:0}}
+
+/* Larger quiz typography and the separate question-number route */
+.single-word-quiz .question-block h2{font-size:clamp(34px,5.3vw,48px);line-height:1.12}
+.progress-copy{font-size:16px;font-weight:800}
+.progress-copy span{white-space:nowrap}
+.answer-option{min-height:58px;padding:14px 16px;font-size:16px}
+.quiz-bottom{gap:10px}
+.quiz-bottom .learning-tip{flex:1;text-align:center;font-size:13px}
+.previous-button{background:#fff;color:#245f80}
+.previous-button:hover:not(:disabled){background:#edf6fa}
+.previous-button:disabled{background:#eef2f4;color:#8998a0;border-color:#d3dde2}
+.quiz-number-entry{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:18px;padding:16px;border:1px solid #dce7ec;border-radius:12px;background:#f7fafb}
+.quiz-number-entry small{color:#6e8795;font-size:9px;font-weight:800;letter-spacing:1.1px}
+.quiz-number-entry h2{margin:4px 0;color:#173d54;font-size:19px}
+.quiz-number-entry p{margin:0;color:#69808d;font-size:12px;line-height:1.5}
+.number-entry-button{display:inline-flex;align-items:center;gap:12px;flex:none;min-height:44px;padding:10px 14px;border:1px solid #286886;border-radius:8px;background:#286886;color:#fff;font-size:13px;font-weight:750}
+.reader-result-link{display:block;width:max-content;max-width:100%;margin:0 auto 14px;color:#245f80;font-size:13px;font-weight:750;text-decoration:underline}
+@media(max-width:700px){.answer-grid{grid-template-columns:1fr}.answer-option{min-height:56px;font-size:16px}.quiz-card{padding:18px 15px}.quiz-number-entry{align-items:stretch;flex-direction:column}.number-entry-button{justify-content:space-between}.quiz-bottom{flex-wrap:wrap}.quiz-bottom .learning-tip{order:3;flex-basis:100%;text-align:left}.previous-button,.quiz-bottom>#next-button{flex:1}}

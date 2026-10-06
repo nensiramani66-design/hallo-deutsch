@@ -1,38 +1,26 @@
 const chapterData=window.a1Chapters;
-const chapterNumber=Math.min(12,Math.max(1,Number(new URLSearchParams(location.search).get("chapter"))||1));
+const params=new URLSearchParams(location.search);
+const chapterNumber=Math.min(12,Math.max(1,Number(params.get("chapter"))||1));
 const chapter=chapterData[chapterNumber],words=chapter.words;
 const stateKey="hallo-deutsch-a1-chapter-"+chapterNumber;
-let state={answers:{},options:{}};
-try{state=JSON.parse(localStorage.getItem(stateKey))||state}catch{}
-let index=0,currentOptions=[];
+let state={answers:{},options:{},finishAttempted:false};
+try{const saved=JSON.parse(localStorage.getItem(stateKey));if(saved&&saved.answers&&saved.options)state={...state,...saved}}catch{}
+let index=Math.max(0,Math.min(words.length-1,Number(params.get("word"))||0));
 const answerOptions=document.getElementById("answer-options");
 const feedback=document.getElementById("answer-feedback");
 const nextButton=document.getElementById("next-button");
 const previousButton=document.getElementById("previous-button");
 const questionPanel=document.getElementById("question-panel");
-const completePanel=document.getElementById("chapter-complete");
-const groupButtons=document.getElementById("question-groups");
-const numberButtons=document.getElementById("question-numbers");
 document.title="Chapter "+chapterNumber+" · "+chapter.title+" · Hallo Deutsch";
 document.getElementById("quiz-chapter-kicker").textContent="A1 · CHAPTER "+chapterNumber;
 document.getElementById("quiz-chapter-title").textContent=chapter.title;
-document.querySelector(".quiz-back-link").href="a1-reader.html?chapter="+chapterNumber;
+document.querySelector(".quiz-back-link").href="a1-vocabulary.html";
 document.getElementById("reader-result-link").href="a1-reader.html?chapter="+chapterNumber;
-const groupCount=Math.ceil(words.length/10);
-for(let group=0;group<groupCount;group++){
- const first=group*10+1,last=Math.min(words.length,first+9);
- const button=document.createElement("button");button.type="button";button.className="question-group";
- button.textContent=first+"–"+last;button.setAttribute("aria-label","Questions "+first+" to "+last);
- button.addEventListener("click",()=>renderNumberGroup(group));groupButtons.append(button);
-}
-const finishButton=document.createElement("button");finishButton.type="button";finishButton.className="question-group finish-group";finishButton.textContent="Finish & Submit";
-finishButton.addEventListener("click",finish);groupButtons.append(finishButton);
+document.getElementById("quiz-number-link").href="quiz-numbers.html?chapter="+chapterNumber;
 function shuffle(list){const copy=[...list];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 function category(word){
  const s=word.german.toLocaleLowerCase();
- if(/^(der|die|das|der\/die|die\/das)\b/.test(s)||/\b(der|die|das)\s+[-–]/.test(s))return "noun";
- if(/\b(ich|du|er|sie|es|wir|ihr|Sie)\b/.test(word.german))return "phrase";
- if(/\b(ich|du|er|sie|es|wir|ihr|Sie)\b/.test(word.english))return "phrase";
+ if(/^(der|die|das|der\/die|die\/das)\b/.test(s))return "noun";
  if(/(?:en|ern|eln)$/.test(s.split(/[ ,]/)[0]))return "verb";
  return "other";
 }
@@ -48,23 +36,12 @@ function getOptions(questionIndex){
 }
 function score(){return Object.values(state.answers).filter(a=>a.correct).length}
 function save(){try{localStorage.setItem(stateKey,JSON.stringify(state))}catch{}}
-function renderNumberGroup(group=Math.floor(index/10)){
- const start=group*10,end=Math.min(words.length,start+10);numberButtons.replaceChildren();
- for(let i=start;i<end;i++){
-  const button=document.createElement("button");button.type="button";button.className="question-number";button.textContent=String(i+1);
-  if(state.answers[i])button.classList.add(state.answers[i].correct?"number-correct":"number-wrong");
-  if(i===index)button.classList.add("number-current");
-  button.addEventListener("click",()=>{index=i;renderQuestion()});numberButtons.append(button);
- }
- Array.from(groupButtons.children).forEach((button,i)=>button.classList.toggle("group-active",i===group));
-}
 function renderQuestion(){
- const question=words[index];currentOptions=getOptions(index);
- document.getElementById("question-count").textContent="Word "+(index+1)+" of "+words.length;
+ const question=words[index],currentOptions=getOptions(index),prior=state.answers[index];
+ document.getElementById("question-count").textContent="Question "+(index+1)+" of "+words.length;
  document.getElementById("correct-count").textContent=score()+" correct";
  document.getElementById("english-word").textContent=question.english;
  answerOptions.replaceChildren();
- const prior=state.answers[index];
  currentOptions.forEach(item=>{
   const button=document.createElement("button");button.type="button";button.className="answer-option";
   button.innerHTML='<span></span><span class="answer-mark" aria-hidden="true"></span>';
@@ -75,31 +52,22 @@ function renderQuestion(){
    if(right){button.classList.add("is-correct");button.querySelector(".answer-mark").textContent="✓"}
    else if(!prior.correct){button.classList.add("is-wrong");button.querySelector(".answer-mark").textContent="×"}
    if(item.german===prior.selected&&!prior.correct)button.classList.add("was-selected");
-  } else button.addEventListener("click",()=>choose(item,button));
+  } else button.addEventListener("click",()=>choose(item));
   answerOptions.append(button);
  });
  feedback.hidden=!prior;feedback.className="feedback"+(prior&&!prior.correct?" is-wrong":"");
  if(prior){feedback.innerHTML='<span class="feedback-icon" aria-hidden="true"></span><span></span>';feedback.querySelector(".feedback-icon").textContent=prior.correct?"✓":"×";feedback.querySelector("span:last-child").textContent=prior.correct?"Correct! "+question.german+" means “"+question.english+"”.":"The correct answer is "+question.german+" — “"+question.english+"”."}
- const pct=Math.round(Object.keys(state.answers).length/words.length*100);
+ const answeredCount=Object.keys(state.answers).length,pct=Math.round(answeredCount/words.length*100);
  document.getElementById("progress-fill").style.width=pct+"%";document.querySelector(".progress-track").setAttribute("aria-valuenow",String(pct));
- previousButton.disabled=index===0;nextButton.disabled=!prior;
- nextButton.querySelector("span:nth-child(2)").textContent="→";
- nextButton.querySelector("span:first-child").textContent=index===words.length-1?"Finish & Submit":"Next word";
- renderNumberGroup();
+ previousButton.disabled=index===0;
+ nextButton.disabled=!prior||index===words.length-1;
+ nextButton.querySelector("span:first-child").textContent=index===words.length-1?"Last question":"Next word";
+ nextButton.querySelector("span:last-child").textContent="→";
 }
-function choose(item,selected){
+function choose(item){
  if(state.answers[index])return;
- const correct=item.german===words[index].german;
- state.answers[index]={selected:item.german,correct};save();renderQuestion();
+ state.answers[index]={selected:item.german,correct:item.german===words[index].german};save();renderQuestion();
 }
-function finish(){
- questionPanel.hidden=true;completePanel.hidden=false;document.querySelector(".quiz-bottom").hidden=true;
- document.getElementById("question-count").textContent="Quiz submitted";
- const answered=Object.keys(state.answers).length,correct=score();
- document.getElementById("chapter-result").textContent="You scored "+correct+" out of "+words.length+" ("+Math.round(correct/words.length*100)+"%). Questions answered: "+answered+" of "+words.length+".";
- document.getElementById("progress-fill").style.width=Math.round(answered/words.length*100)+"%";
-}
-nextButton.addEventListener("click",()=>{if(index<words.length-1){index++;renderQuestion()}else finish()});
-previousButton.addEventListener("click",()=>{if(index>0){index--;renderQuestion()}});
-document.getElementById("restart-button").addEventListener("click",()=>{state={answers:{},options:{}};index=0;save();completePanel.hidden=true;questionPanel.hidden=false;document.querySelector(".quiz-bottom").hidden=false;renderQuestion()});
+nextButton.addEventListener("click",()=>{if(index<words.length-1&&state.answers[index]){index++;params.set("word",String(index));history.replaceState(null,"",location.pathname+"?"+params.toString());renderQuestion()}});
+previousButton.addEventListener("click",()=>{if(index>0){index--;params.set("word",String(index));history.replaceState(null,"",location.pathname+"?"+params.toString());renderQuestion()}});
 renderQuestion();
