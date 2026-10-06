@@ -24,11 +24,19 @@ if(selectedGroup===null){
  document.getElementById("numbers-description").textContent="Select a range to revisit questions. Green means answered; red shows questions still to finish.";
  for(let g=0;g<groupCount;g++){const start=g*groupSize+1,end=Math.min(words.length,start+groupSize-1);addRange(start+"–"+end,g)}
  document.getElementById("number-progress").textContent=Object.keys(state.answers).length+" of "+words.length+" answered";
- document.getElementById("submit-quiz").addEventListener("click",()=>{
+ const submitButton=document.getElementById("submit-quiz"),confirmation=document.getElementById("submission-confirmation");
+ submitButton.addEventListener("click",()=>{
   const missing=words.map((_,i)=>i).filter(i=>!answered(i));
-  if(missing.length){state.finishAttempted=true;save();document.querySelectorAll(".range-choice").forEach((link,g)=>{const start=g*groupSize,end=Math.min(words.length,start+groupSize);const incomplete=Array.from({length:end-start},(_,n)=>!answered(start+n)).some(Boolean);link.classList.toggle("range-incomplete",incomplete);link.classList.toggle("range-complete",!incomplete)});document.getElementById("submit-message").textContent=missing.length+" question"+(missing.length===1?"":"s")+" still need an answer. Open a red range and finish its red question numbers.";return}
+  if(missing.length){
+   state.finishAttempted=true;save();
+   document.querySelectorAll(".range-choice").forEach((link,g)=>{const start=g*groupSize,end=Math.min(words.length,start+groupSize);const incomplete=Array.from({length:end-start},(_,n)=>!answered(start+n)).some(Boolean);link.classList.toggle("range-incomplete",incomplete);link.classList.toggle("range-complete",!incomplete)});
+   document.getElementById("submit-message").textContent=missing.length+" question"+(missing.length===1?"":"s")+" unanswered. The red ranges show where to continue.";
+   confirmation.hidden=false;submitButton.hidden=true;document.getElementById("confirm-submit").focus();return;
+  }
   location.href="quiz-results.html?chapter="+chapterNumber;
  });
+ document.getElementById("confirm-submit").addEventListener("click",()=>{location.href="quiz-results.html?chapter="+chapterNumber});
+ document.getElementById("cancel-submit").addEventListener("click",()=>{confirmation.hidden=true;submitButton.hidden=false;submitButton.focus()});
 }else{
  rangeGrid.hidden=true;submitArea.hidden=true;questionGrid.hidden=false;
  document.getElementById("number-card-title").textContent="Questions "+(selectedGroup*groupSize+1)+"–"+Math.min(words.length,(selectedGroup+1)*groupSize);
