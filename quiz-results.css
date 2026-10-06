@@ -8,15 +8,10 @@
 .score-ring{width:250px;height:250px;transform:rotate(-90deg);overflow:visible}
 .ring-track,.ring-progress{fill:none;stroke-width:14}
 .ring-track{stroke:#e5edf0}
-.ring-progress{stroke:#66a880;stroke-linecap:round;transition:stroke-dashoffset 1.8s cubic-bezier(.18,.78,.25,1)}
+.ring-progress{stroke:#66a880;stroke-linecap:round;transition:none}
 .ring-center{position:absolute;display:flex;flex-direction:column;align-items:center;gap:1px;color:#6e8590}
 .ring-center strong{color:#245c76;font-size:56px;line-height:1;font-weight:800;letter-spacing:-2px}
 .ring-center span{font-size:12px;font-weight:650}
-.sparkle{position:absolute;z-index:1;color:#dba943;animation:sparkle-glow 1.8s ease-in-out infinite alternate}
-.sparkle-one{top:22px;right:46px;font-size:22px}
-.sparkle-two{bottom:39px;left:32px;font-size:25px;animation-delay:.4s}
-.sparkle-three{top:64px;left:18px;font-size:15px;animation-delay:.8s}
-@keyframes sparkle-glow{from{opacity:.36;transform:scale(.72) rotate(0)}to{opacity:1;transform:scale(1.18) rotate(22deg)}}
 .score-message{max-width:460px;margin:8px auto 22px;color:#5e7888;font-size:15px;line-height:1.6}
 .incomplete-message{margin:18px auto;padding:13px;border:1px solid #e7b1b1;border-radius:10px;background:#fff0f0;color:#9c3f3f;font-size:14px}
 .incomplete-message[hidden]{display:none}
