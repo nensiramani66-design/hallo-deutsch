@@ -120,3 +120,16 @@ button,a,select{touch-action:manipulation}
 
 /* A2 image and card palette */
 .a2-feature .a1-feature-photo{object-position:center 50%}
+
+/* Smooth movement between the four learning sections. */
+html{scroll-snap-type:y proximity}
+.stage,.a1-feature,.level-feature{scroll-snap-align:start;scroll-snap-stop:normal}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}}
+/* B1 sunset palette */
+.b1-feature .a1-feature-photo{object-position:center 52%}
+.b1-feature .a1-feature-shade{background:linear-gradient(105deg,rgba(20,42,48,.79),rgba(54,54,48,.54) 55%,rgba(69,45,31,.4)),linear-gradient(0deg,rgba(15,34,41,.28),transparent 58%)}
+.b1-feature .a1-read-card{background:linear-gradient(135deg,#fffaf0,#f7ebd4 70%,#f4dfbd);color:#263f4a}
+.b1-feature .a1-quiz-card{background:linear-gradient(135deg,#fff6e7,#f5dfbb 72%,#efcf9d);color:#263f4a}
+.b1-feature .a1-choice-copy>span{color:#64777b}
+.b1-feature .a1-choice-copy small{color:#84663e}
+.b1-feature .a1-choice-icon{background:#f2dfbd;color:#72532e}
