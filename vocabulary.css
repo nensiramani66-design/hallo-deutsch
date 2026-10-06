@@ -174,3 +174,14 @@ a{color:inherit;text-decoration:none}
 .number-entry-button{display:inline-flex;align-items:center;gap:12px;flex:none;min-height:44px;padding:10px 14px;border:1px solid #286886;border-radius:8px;background:#286886;color:#fff;font-size:13px;font-weight:750}
 .reader-result-link{display:block;width:max-content;max-width:100%;margin:0 auto 14px;color:#245f80;font-size:13px;font-weight:750;text-decoration:underline}
 @media(max-width:700px){.answer-grid{grid-template-columns:1fr}.answer-option{min-height:56px;font-size:16px}.quiz-card{padding:18px 15px}.quiz-number-entry{align-items:stretch;flex-direction:column}.number-entry-button{justify-content:space-between}.quiz-bottom{flex-wrap:wrap}.quiz-bottom .learning-tip{order:3;flex-basis:100%;text-align:left}.previous-button,.quiz-bottom>#next-button{flex:1}}
+
+/* Keep the quiz controls compact in a single, aligned footer row. */
+.quiz-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid #e5ecef}
+.quiz-bottom .learning-tip{display:none}
+.quiz-bottom .previous-button{justify-self:start;background:#fff;color:#245f80}
+.quiz-bottom .previous-button:hover:not(:disabled){background:#edf6fa}
+.quiz-bottom .previous-button:disabled{background:#eef2f4;color:#8998a0;border-color:#d3dde2}
+.quiz-bottom>#quiz-number-link{justify-self:center;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid #cadbe3;border-radius:8px;background:#fff;color:#245f80;font-size:13px;font-weight:750;white-space:nowrap}
+.quiz-bottom>#quiz-number-link:hover{background:#edf6fa;border-color:#8fb3c3}
+.quiz-bottom>#next-button{justify-self:end}
+@media(max-width:700px){.quiz-bottom{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.quiz-bottom>.next-button,.quiz-bottom>#quiz-number-link{width:100%;min-width:0;min-height:42px;padding:7px 4px;gap:4px;font-size:10px;white-space:normal;text-align:center}.quiz-bottom>.next-button{justify-content:center}.quiz-bottom>#quiz-number-link{line-height:1.15}}
