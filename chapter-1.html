@@ -2,25 +2,27 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#173e59">
-<meta name="description" content="One English prompt and four German choices for every vocabulary word in Chapter 1.">
-<title>Chapter 1 · Guten Tag! · Hallo Deutsch</title><link rel="stylesheet" href="vocabulary.css">
+<meta name="description" content="A one-word-at-a-time A1 German vocabulary quiz with four choices per question.">
+<title>A1 Chapter Quiz · Hallo Deutsch</title><link rel="stylesheet" href="vocabulary.css">
 </head><body><main class="vocabulary-page"><div class="photo-layer" aria-hidden="true"></div>
 <header class="page-header">
 <a class="back-link" href="a1-vocabulary.html" aria-label="Back to chapters"><span class="back-arrow" aria-hidden="true">←</span><span>Back to chapters</span></a>
 <a class="mini-brand" href="./" aria-label="Hallo Deutsch home"><span class="brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a><span class="level-pill">A1</span>
 </header>
 <div class="page-shell chapter-quiz-shell">
-<section class="page-intro"><p class="eyebrow"><span></span><span>A1 · CHAPTER 1</span></p><h1>Guten Tag!</h1><p>Choose the German word that matches the English prompt.</p></section>
+<section class="page-intro"><p class="eyebrow"><span class="eyebrow-dot"></span><span id="quiz-chapter-kicker">A1 · CHAPTER 1</span></p><h1 id="quiz-chapter-title">Guten Tag!</h1><p>Choose the German word that matches the English meaning.</p></section>
 <section class="quiz-card single-word-quiz" aria-labelledby="english-word">
-<div class="quiz-topline"><div class="quiz-category"><span class="quiz-spark" aria-hidden="true">✦</span><span>One word at a time</span></div><div class="progress-copy"><span id="question-count">Word 1</span><span id="correct-count">0 correct</span></div></div>
+<div class="quiz-topline"><div class="quiz-category"><span class="quiz-spark" aria-hidden="true">✦</span><span>One word at a time</span></div><div class="progress-copy"><span id="question-count">Word 1 of 144</span><span id="correct-count">0 correct</span></div></div>
 <div class="progress-track" role="progressbar" aria-label="Chapter progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-fill"></span></div>
+<div class="question-map" aria-label="Question shortcuts"><div id="question-groups" class="question-groups"></div><div id="question-numbers" class="question-numbers" aria-label="Questions in selected group"></div></div>
 <div id="question-panel" class="question-block">
-<p class="question-instruction">What is the German word for:</p><h2 id="english-word">suit</h2>
+<p class="question-instruction">What is the German word for:</p><h2 id="english-word"></h2>
 <div class="answer-grid" id="answer-options"></div>
 <div class="feedback" id="answer-feedback" role="status" aria-live="polite" hidden></div>
 </div>
-<div class="completion" id="chapter-complete" hidden><span class="completion-mark" aria-hidden="true">✓</span><h2>Chapter complete!</h2><p id="chapter-result"></p><button class="next-button" id="restart-button" type="button">Practise chapter again</button></div>
-<div class="quiz-bottom"><p class="learning-tip">Take your time. Say the German word aloud.</p><button class="next-button" id="next-button" type="button" disabled><span>Next word</span><span aria-hidden="true">→</span></button></div>
+<div class="completion" id="chapter-complete" hidden><span class="completion-mark" aria-hidden="true">✓</span><h2>Quiz submitted</h2><p id="chapter-result"></p><a class="reader-result-link" id="reader-result-link" href="a1-reader.html">Read all vocabulary for this chapter →</a><button class="next-button restart-button" id="restart-button" type="button">Practise chapter again</button></div>
+<div class="quiz-bottom"><button class="next-button previous-button" id="previous-button" type="button"><span aria-hidden="true">←</span><span>Previous word</span></button><p class="learning-tip">Take your time. Say the German word aloud.</p><button class="next-button" id="next-button" type="button"><span>Next word</span><span aria-hidden="true">→</span></button></div>
 </section>
-<a class="quiz-back-link" href="a1-vocabulary.html">← Back to all 12 chapters</a></div></main>
-<script src="chapter1-data.js"></script><script src="chapter1.js"></script></body></html>
+<a class="quiz-back-link" href="a1-reader.html?chapter=1">← Read the chapter vocabulary</a>
+</div></main>
+<script src="a1-data.js"></script><script src="chapter1.js"></script></body></html>
