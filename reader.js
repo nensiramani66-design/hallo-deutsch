@@ -75,4 +75,13 @@ backLink.addEventListener("click",event=>{if(referrerIsLocal){event.preventDefau
 chapterSelect.addEventListener("change",()=>{chapterNumber=Number(chapterSelect.value);pageNumber=0;params.set("chapter",String(chapterNumber));params.set("page","0");history.pushState(null,"",location.pathname+"?"+params.toString());renderReader()});
 document.getElementById("reader-previous").addEventListener("click",()=>{pageNumber--;renderReader()});
 document.getElementById("reader-next").addEventListener("click",()=>{pageNumber++;renderReader()});
+window.addEventListener("popstate",()=>{
+ const restored=new URLSearchParams(location.search);
+ if(restored.has("chapter")){
+  chapterNumber=Math.min(12,Math.max(1,Number(restored.get("chapter"))||1));
+  pageNumber=Math.max(0,Number(restored.get("page"))||0);
+  chapterSelect.value=String(chapterNumber);
+  renderReader();
+ }
+});
 renderReader();
