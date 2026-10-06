@@ -106,3 +106,30 @@ a{color:inherit;text-decoration:none}
  .learning-tip{max-width:50%;line-height:1.5}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+.level-pill{justify-self:end;padding:7px 11px;border:1px solid rgba(255,255,255,.42);border-radius:8px;background:rgba(20,53,72,.3);color:#fff;font-size:11px;font-weight:800}
+.chapter-page-shell{padding-top:15px}
+.chapter-heading{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:17px 0 12px;color:#fff}
+.chapter-heading h2{margin:0;font-size:20px;letter-spacing:-.5px}
+.chapter-kicker{margin:0 0 5px;color:#d7eaf4;font-size:9px;font-weight:750;letter-spacing:1.2px}
+.chapter-heading>span{color:rgba(255,255,255,.85);font-size:11px}
+.chapter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.chapter-choice{display:flex;align-items:center;gap:11px;min-height:68px;padding:10px 12px;border:1px solid rgba(255,255,255,.65);border-radius:10px;background:rgba(255,255,255,.94);color:#173d54}
+.chapter-ready{box-shadow:0 8px 22px rgba(10,36,53,.15);transition:transform .15s ease,border-color .15s ease}
+.chapter-ready:hover{transform:translateY(-2px);border-color:#9dc9dc;background:#fff}
+.chapter-soon{background:rgba(246,250,252,.78);color:#516976}
+.chapter-number{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:9px;background:#e7f2f7;color:#28617e;font-size:11px;font-weight:800}
+.chapter-soon .chapter-number{background:#edf1f3;color:#80919a}
+.chapter-name{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.chapter-name strong{font-size:12px;font-weight:750}
+.chapter-name small{color:#758892;font-size:10px}
+.chapter-arrow{color:#28617e;font-size:18px}
+.chapter-status{color:#86969e;font-size:9px;white-space:nowrap}
+.chapter-page-note{margin:13px 0 0;color:rgba(255,255,255,.84);font-size:10px}
+.chapter-quiz-shell{width:min(760px,calc(100% - 36px));padding-top:12px}
+.chapter-quiz-shell .page-intro{padding-top:18px}
+.single-word-quiz{background:rgba(255,255,255,.97)}
+.single-word-quiz .question-block h2{font-size:clamp(28px,5vw,40px)}
+.quiz-back-link{display:inline-block;margin-top:13px;color:rgba(255,255,255,.92);font-size:11px}
+.quiz-back-link:hover{text-decoration:underline}
+@media(max-width:640px){.chapter-grid{grid-template-columns:1fr}.chapter-choice{min-height:62px}.chapter-page-shell{padding-top:8px}.chapter-quiz-shell{padding-top:8px}}

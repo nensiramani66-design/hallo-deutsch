@@ -1,93 +1,29 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#173e59">
-  <meta name="description" content="Practise A1 German vocabulary from Chapter 1 with friendly multiple-choice questions.">
-  <title>A1 Vocabulary · Hallo Deutsch</title>
-  <link rel="stylesheet" href="vocabulary.css">
-</head>
-<body>
-  <main class="vocabulary-page">
-    <div class="photo-layer" aria-hidden="true"></div>
-    <header class="page-header">
-      <a class="back-link" href="./" aria-label="Back to home"><span class="back-arrow" aria-hidden="true">←</span><span data-en="Back to home" data-de="Zurück zur Startseite">Back to home</span></a>
-      <a class="mini-brand" href="./" aria-label="Hallo Deutsch home"><span class="brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a>
-      <label class="language-wrap">
-        <span class="sr-only">Language / Sprache</span>
-        <select id="language" aria-label="Language">
-          <option value="en">English</option>
-          <option value="de">Deutsch</option>
-        </select>
-      </label>
-    </header>
-
-    <div class="page-shell">
-      <section class="page-intro" aria-labelledby="page-title">
-        <p class="eyebrow"><span class="eyebrow-dot"></span><span data-en="A1 · CHAPTER 1 · GUTEN TAG!" data-de="A1 · KAPITEL 1 · GUTEN TAG!">A1 · CHAPTER 1 · GUTEN TAG!</span></p>
-        <h1 id="page-title" data-en="Vocabs for A1" data-de="A1-Wortschatz">Vocabs for A1</h1>
-        <p data-en="Choose a word set, then practise one clear question at a time." data-de="Wähle einen Wortbereich und übe mit einer Frage nach der anderen.">Choose a word set, then practise one clear question at a time.</p>
-      </section>
-
-      <section class="sets-section" aria-labelledby="sets-title">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker" data-en="CHAPTER 1" data-de="KAPITEL 1">CHAPTER 1</p>
-            <h2 id="sets-title" data-en="Choose a word set" data-de="Wähle einen Wortbereich">Choose a word set</h2>
-          </div>
-          <span class="gentle-hint" data-en="Small steps help words stick." data-de="Kleine Schritte helfen beim Merken.">Small steps help words stick.</span>
-        </div>
-        <div class="set-grid" id="setGrid">
-          <button class="set-card is-selected" type="button" data-set="first">
-            <span class="set-icon" aria-hidden="true">Aa</span>
-            <span class="set-copy"><strong data-en="First words" data-de="Erste Wörter">First words</strong><small data-en="Useful words from the opening list" data-de="Nützliche Wörter vom Kapitelanfang">Useful words from the opening list</small></span>
-            <span class="set-count" data-count="first">0</span>
-          </button>
-          <button class="set-card" type="button" data-set="greetings">
-            <span class="set-icon" aria-hidden="true">☀</span>
-            <span class="set-copy"><strong data-en="Greetings & goodbyes" data-de="Grüßen & verabschieden">Greetings & goodbyes</strong><small data-en="Say hello, ask, and say goodbye" data-de="Begrüßen, nachfragen und verabschieden">Say hello, ask, and say goodbye</small></span>
-            <span class="set-count" data-count="greetings">0</span>
-          </button>
-          <button class="set-card" type="button" data-set="introductions">
-            <span class="set-icon" aria-hidden="true">↔</span>
-            <span class="set-copy"><strong data-en="Names & introductions" data-de="Namen & Vorstellungen">Names & introductions</strong><small data-en="Names, people, and where you are from" data-de="Namen, Personen und Herkunft">Names, people, and where you are from</small></span>
-            <span class="set-count" data-count="introductions">0</span>
-          </button>
-          <button class="set-card" type="button" data-set="world">
-            <span class="set-icon" aria-hidden="true">◎</span>
-            <span class="set-copy"><strong data-en="Letters & the world" data-de="Buchstaben & die Welt">Letters & the world</strong><small data-en="Spelling, countries, and languages" data-de="Buchstabieren, Länder und Sprachen">Spelling, countries, and languages</small></span>
-            <span class="set-count" data-count="world">0</span>
-          </button>
-        </div>
-      </section>
-
-      <section class="quiz-card" id="practice" aria-labelledby="question-title">
-        <div class="quiz-topline">
-          <div class="quiz-category"><span class="quiz-spark" aria-hidden="true">✦</span><span id="activeSetLabel">First words</span></div>
-          <div class="progress-copy"><span id="questionCount">Question 1</span><span id="scoreCount">0 correct</span></div>
-        </div>
-        <div class="progress-track" role="progressbar" aria-label="Practice progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressFill"></span></div>
-        <div class="question-block" id="questionBlock">
-          <p class="question-instruction" data-en="Choose the German word for" data-de="Wähle das deutsche Wort für">Choose the German word for</p>
-          <h2 id="question-title">“suit”</h2>
-          <div class="answer-grid" id="answerGrid"></div>
-          <div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div>
-        </div>
-        <div class="completion" id="completion" hidden>
-          <span class="completion-mark" aria-hidden="true">✓</span>
-          <h2 data-en="Word set complete!" data-de="Wortbereich geschafft!">Word set complete!</h2>
-          <p id="finalScore">You finished this set.</p>
-          <button class="next-button restart-button" id="restartButton" type="button" data-en="Practise again" data-de="Noch einmal üben">Practise again</button>
-        </div>
-        <div class="quiz-bottom">
-          <p class="learning-tip" data-en="Tip: say the German word aloud as you choose." data-de="Tipp: Sprich das deutsche Wort beim Auswählen laut aus.">Tip: say the German word aloud as you choose.</p>
-          <button class="next-button" id="nextButton" type="button" disabled><span data-en="Next word" data-de="Nächstes Wort">Next word</span><span aria-hidden="true">→</span></button>
-        </div>
-      </section>
-      <p class="source-note" data-en="Chapter 1 words are drawn from your A1 vocabulary PDF." data-de="Die Wörter aus Kapitel 1 stammen aus deinem A1-Wortschatz-PDF.">Chapter 1 words are drawn from your A1 vocabulary PDF.</p>
-    </div>
-  </main>
-  <script src="vocabulary.js"></script>
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173e59">
+<meta name="description" content="Choose a chapter from the A1 German vocabulary list.">
+<title>Vocabulary for A1 · Hallo Deutsch</title><link rel="stylesheet" href="vocabulary.css">
+</head><body><main class="vocabulary-page"><div class="photo-layer" aria-hidden="true"></div>
+<header class="page-header">
+<a class="back-link" href="./#a1" aria-label="Back to A1 page"><span class="back-arrow" aria-hidden="true">←</span><span>Back to A1</span></a>
+<a class="mini-brand" href="./" aria-label="Hallo Deutsch home"><span class="brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a><span class="level-pill">A1</span>
+</header>
+<div class="page-shell chapter-page-shell">
+<section class="page-intro"><p class="eyebrow"><span></span><span>A1 · VOCABULARY</span></p><h1>Vocabulary for A1</h1><p>Your PDF has 12 chapters. Choose a chapter to practise. Chapter 1 is ready.</p></section>
+<section aria-labelledby="chapter-list-title">
+<div class="chapter-heading"><div><p class="chapter-kicker">A1 VOCABULARY</p><h2 id="chapter-list-title">Choose a chapter</h2></div><span>12 chapters</span></div>
+<div class="chapter-grid"><a class="chapter-choice chapter-ready" href="chapter-1.html"><span class="chapter-number">01</span><span class="chapter-name"><strong>Guten Tag!</strong><small>Hello!</small></span><span class="chapter-arrow" aria-hidden="true">→</span></a>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">02</span><span class="chapter-name"><strong>Freunde, Kollegen und ich</strong><small>Friends, colleagues and me</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">03</span><span class="chapter-name"><strong>In der Stadt</strong><small>In the city</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">04</span><span class="chapter-name"><strong>Guten Appetit!</strong><small>Enjoy your meal!</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">05</span><span class="chapter-name"><strong>Tag für Tag</strong><small>Day by day</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">06</span><span class="chapter-name"><strong>Zeit mit Freunden</strong><small>Time with friends</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">07</span><span class="chapter-name"><strong>Kontakte</strong><small>Contacts</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">08</span><span class="chapter-name"><strong>Meine Wohnung</strong><small>My apartment</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">09</span><span class="chapter-name"><strong>Alles Arbeit?</strong><small>All about work?</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">10</span><span class="chapter-name"><strong>Kleidung und Mode</strong><small>Clothes and fashion</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">11</span><span class="chapter-name"><strong>Gesund und munter</strong><small>Healthy and well</small></span><span class="chapter-status">Coming soon</span></div>
+          <div class="chapter-choice chapter-soon" aria-disabled="true"><span class="chapter-number">12</span><span class="chapter-name"><strong>Ab in den Urlaub!</strong><small>Off on vacation!</small></span><span class="chapter-status">Coming soon</span></div></div>
+<p class="chapter-page-note">Each active chapter will practise one German word at a time.</p>
+</section></div></main></body></html>
