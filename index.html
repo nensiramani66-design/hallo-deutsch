@@ -3,89 +3,83 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#edf5fa">
+  <meta name="theme-color" content="#173e59">
   <meta name="description" content="A calm, friendly first step into German for beginners.">
-  <title>Hallo Deutsch — Learn German calmly</title>
+  <title>Hallo Deutsch — Learn German</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar" id="top">
-    <a class="brand" href="#top" aria-label="Hallo Deutsch home"><span class="brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a>
-    <form class="search" role="search" onsubmit="event.preventDefault()">
-      <span class="search-icon" aria-hidden="true"></span>
-      <input type="search" aria-label="Search" data-placeholder-en="Search words or lessons" data-placeholder-de="Wörter oder Lektionen suchen" placeholder="Search words or lessons">
-      <button type="submit" aria-label="Search">⌕</button>
-    </form>
-    <label class="language-wrap">
-      <span class="sr-only">Language</span>
-      <select id="language" aria-label="Language">
-        <option value="en">English</option>
-        <option value="de">Deutsch</option>
-      </select>
-    </label>
-    <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteMenu" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="menu-panel" id="siteMenu" aria-label="Main menu" hidden>
-      <details class="level-menu">
-        <summary data-en="Learning levels" data-de="Sprachniveaus">Learning levels <span aria-hidden="true">⌄</span></summary>
+  <main class="stage" id="top">
+    <div class="slideshow" aria-hidden="true">
+      <div class="slide is-active"><img class="slide-backdrop" src="assets/schloss-original.jpg" alt=""><img class="slide-art" src="assets/schloss-original.jpg" alt=""></div>
+      <div class="slide"><img class="slide-backdrop" src="assets/old-town-evening.jpg" alt=""><img class="slide-art" src="assets/old-town-evening.jpg" alt=""></div>
+      <div class="slide"><img class="slide-backdrop" src="assets/berlin-cathedral.jpg" alt=""><img class="slide-art" src="assets/berlin-cathedral.jpg" alt=""></div>
+      <div class="slide"><img class="slide-backdrop" src="assets/reichstag.jpg" alt=""><img class="slide-art" src="assets/reichstag.jpg" alt=""></div>
+      <div class="slide"><img class="slide-backdrop" src="assets/reichstag-river.jpg" alt=""><img class="slide-art" src="assets/reichstag-river.jpg" alt=""></div>
+      <div class="slide"><img class="slide-backdrop" src="assets/berlin-cathedral-evening.jpg" alt=""><img class="slide-art" src="assets/berlin-cathedral-evening.jpg" alt=""></div>
+    </div>
+    <div class="blue-shade" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Hallo Deutsch home"><span class="brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a>
+      <form class="search" role="search" onsubmit="event.preventDefault()">
+        <span class="search-icon" aria-hidden="true"></span>
+        <input type="search" aria-label="Search" data-placeholder-en="Search words or lessons" data-placeholder-de="Wörter oder Lektionen suchen" placeholder="Search words or lessons">
+        <button type="submit" aria-label="Search"><span aria-hidden="true">⌕</span></button>
+      </form>
+      <label class="language-wrap">
+        <span class="sr-only">Language / Sprache</span>
+        <select id="language" aria-label="Language">
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+        </select>
+      </label>
+      <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteMenu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="menu-panel" id="siteMenu" aria-label="Main menu" hidden>
+        <p class="menu-heading" data-en="LEARNING LEVELS" data-de="SPRACHNIVEAUS">LEARNING LEVELS</p>
         <div class="level-links">
-          <a href="#a1">A1</a><a href="#a2">A2</a><a href="#b1">B1</a><a href="#b2">B2</a>
+          <a href="#start">A1</a><a href="#start">A2</a><a href="#start">B1</a><a href="#start">B2</a>
         </div>
-      </details>
-      <a href="#about" data-en="About us" data-de="Über uns">About us</a>
-      <a href="#reviews" data-en="Reviews" data-de="Bewertungen">Reviews</a>
-    </nav>
-  </header>
+        <a href="#start" data-en="About us" data-de="Über uns">About us</a>
+        <a href="#start" data-en="Reviews" data-de="Bewertungen">Reviews</a>
+      </nav>
+    </header>
 
-  <main>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow"><span></span><span data-en="A calm start · Level A1" data-de="Ein ruhiger Anfang · Niveau A1">A calm start · Level A1</span></p>
-        <h1 id="hero-title" data-en="German, one small step at a time." data-de="Deutsch, Schritt für Schritt.">German, one small step at a time.</h1>
-        <p class="hero-description" data-en="A friendly place for beginners to discover German at their own pace." data-de="Ein freundlicher Ort, um Deutsch im eigenen Tempo zu entdecken.">A friendly place for beginners to discover German at their own pace.</p>
-        <a class="start-link" href="#a1"><span data-en="Begin with A1" data-de="Mit A1 beginnen">Begin with A1</span><span aria-hidden="true">→</span></a>
-        <p class="hero-note" data-en="Simple lessons. Encouraging practice. No rush." data-de="Einfache Lektionen. Spielerisches Üben. Ganz ohne Eile.">Simple lessons. Encouraging practice. No rush.</p>
-      </div>
-      <div class="hero-photo">
-        <img src="assets/schloss-original.jpg" alt="Neuschwanstein Castle in the Bavarian mountains">
-        <div class="photo-shade" aria-hidden="true"></div>
-      </div>
+    <section class="hero-copy" id="start" aria-labelledby="hero-title">
+      <p class="eyebrow"><span class="eyebrow-dot"></span><span data-en="A CALM START · LEVEL A1" data-de="EIN RUHIGER ANFANG · NIVEAU A1">A CALM START · LEVEL A1</span></p>
+      <h1 id="hero-title" data-en="German, one small step at a time." data-de="Deutsch, Schritt für Schritt.">German, one small step at a time.</h1>
+      <p class="hero-description" data-en="A friendly place for beginners to discover German at their own pace." data-de="Ein freundlicher Ort, um Deutsch im eigenen Tempo zu entdecken.">A friendly place for beginners to discover German at their own pace.</p>
+      <a class="start-link" href="#start"><span data-en="Begin with A1" data-de="Mit A1 beginnen">Begin with A1</span><span class="arrow" aria-hidden="true">→</span></a>
+      <p class="hero-note" data-en="Simple lessons. Encouraging practice. No rush." data-de="Einfache Lektionen. Spielerisches Üben. Ganz ohne Eile.">Simple lessons. Encouraging practice. No rush.</p>
     </section>
 
-    <section class="welcome-strip" id="a1">
-      <div class="welcome-mark" aria-hidden="true">01</div>
-      <div>
-        <p class="eyebrow"><span></span><span data-en="Your learning journey" data-de="Dein Lernweg">Your learning journey</span></p>
-        <h2 data-en="Start with the essentials." data-de="Beginne mit den Grundlagen.">Start with the essentials.</h2>
-      </div>
-      <p data-en="Short, clear German practice for everyday life." data-de="Kurze, klare Deutschübungen für den Alltag.">Short, clear German practice for everyday life.</p>
-    </section>
-
-    <section class="quiet-links" aria-label="More about Hallo Deutsch">
-      <div id="about"><h2 data-en="About us" data-de="Über uns">About us</h2><p data-en="We make the first steps in German feel clear, calm, and welcoming." data-de="Wir machen die ersten Schritte auf Deutsch klar, ruhig und freundlich.">We make the first steps in German feel clear, calm, and welcoming.</p></div>
-      <div id="reviews"><h2 data-en="Reviews" data-de="Bewertungen">Reviews</h2><p data-en="Learner reviews will appear here." data-de="Hier erscheinen bald Rückmeldungen von Lernenden.">Learner reviews will appear here.</p></div>
-    </section>
+    <div class="slide-controls" aria-label="Background slideshow controls">
+      <button class="slide-arrow" id="previousSlide" type="button" aria-label="Previous photo">←</button>
+      <div class="slide-dots" id="slideDots"></div>
+      <button class="slide-arrow" id="nextSlide" type="button" aria-label="Next photo">→</button>
+    </div>
+    <p class="screen-note" data-en="A welcoming first step into German" data-de="Ein freundlicher erster Schritt ins Deutsche">A welcoming first step into German</p>
   </main>
 
-  <footer><a class="brand footer-brand" href="#top"><span class="brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a><span data-en="Learn at your own pace." data-de="Lerne in deinem Tempo.">Learn at your own pace.</span></footer>
-
   <script>
-    const button = document.getElementById("menuButton");
+    const menuButton = document.getElementById("menuButton");
     const menu = document.getElementById("siteMenu");
-    button.addEventListener("click", () => {
-      const open = button.getAttribute("aria-expanded") === "true";
-      button.setAttribute("aria-expanded", String(!open));
-      button.setAttribute("aria-label", open ? "Open menu" : "Close menu");
+    menuButton.addEventListener("click", () => {
+      const open = menuButton.getAttribute("aria-expanded") === "true";
+      menuButton.setAttribute("aria-expanded", String(!open));
+      menuButton.setAttribute("aria-label", open ? "Open menu" : "Close menu");
       menu.hidden = open;
     });
     menu.addEventListener("click", (event) => {
       if (event.target.closest("a")) {
         menu.hidden = true;
-        button.setAttribute("aria-expanded", "false");
-        button.setAttribute("aria-label", "Open menu");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Open menu");
       }
     });
+
     document.getElementById("language").addEventListener("change", (event) => {
       const language = event.target.value;
       document.documentElement.lang = language;
@@ -97,6 +91,29 @@
       });
       document.querySelector(".search input").setAttribute("aria-label", language === "en" ? "Search" : "Suche");
     });
+
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const dots = document.getElementById("slideDots");
+    let currentSlide = 0;
+    slides.forEach((slide, index) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "slide-dot";
+      dot.setAttribute("aria-label", "Show photo " + (index + 1));
+      dot.setAttribute("aria-current", index === 0 ? "true" : "false");
+      dot.addEventListener("click", () => showSlide(index));
+      dots.append(dot);
+    });
+    function showSlide(index) {
+      currentSlide = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => slide.classList.toggle("is-active", slideIndex === currentSlide));
+      Array.from(dots.children).forEach((dot, dotIndex) => dot.setAttribute("aria-current", dotIndex === currentSlide ? "true" : "false"));
+    }
+    document.getElementById("previousSlide").addEventListener("click", () => showSlide(currentSlide - 1));
+    document.getElementById("nextSlide").addEventListener("click", () => showSlide(currentSlide + 1));
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      window.setInterval(() => showSlide(currentSlide + 1), 7000);
+    }
   </script>
 </body>
 </html>
