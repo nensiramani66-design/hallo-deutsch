@@ -26,3 +26,14 @@
 .return-ranges-link{display:inline-block;margin-top:16px;color:#245f80;font-size:13px;font-weight:750}
 .return-ranges-link[hidden]{display:none}
 @media(max-width:650px){.number-shell{width:calc(100% - 28px)}.number-card{padding:15px}.range-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.range-choice{align-items:flex-start;flex-direction:column;gap:4px;min-height:62px}.question-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.question-number-choice{min-height:58px}.submit-area{align-items:stretch;flex-direction:column}.submit-quiz-button{width:100%}}
+
+.submission-confirmation{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;padding:15px;border:1px solid #e3aaaa;border-radius:10px;background:#fff1f1;color:#903737}
+.submission-confirmation[hidden]{display:none}
+.submission-confirmation strong{display:block;font-size:15px}
+.submission-confirmation p{margin:5px 0 0;color:#8c5050;font-size:12px;line-height:1.45}
+.confirmation-actions{display:flex;flex:none;gap:8px}
+.confirmation-actions button{min-height:42px;padding:9px 13px;border-radius:8px;font:inherit;font-size:13px;font-weight:750;cursor:pointer}
+.confirm-submit-button{border:1px solid #b44a4a;background:#b44a4a;color:#fff}
+.confirm-submit-button:hover{background:#983b3b}
+.cancel-submit-button{border:1px solid #cbdbe3;background:#fff;color:#245f80}
+@media(max-width:650px){.submission-confirmation{align-items:stretch;flex-direction:column}.confirmation-actions{display:grid;grid-template-columns:1fr 1fr}.confirmation-actions button{padding:8px 6px;font-size:12px}}
