@@ -4,19 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#173e59">
-  <meta name="description" content="A calm, friendly first step into German for beginners.">
+  <meta name="description" content="One new German word today. More confidence tomorrow. Start learning step by step.">
   <title>Hallo Deutsch — Learn German</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="stage" id="top">
     <div class="slideshow" aria-hidden="true">
-      <div class="slide is-active"><img class="slide-backdrop" src="assets/schloss-original.jpg" alt=""><img class="slide-art" src="assets/schloss-original.jpg" alt=""></div>
-      <div class="slide"><img class="slide-backdrop" src="assets/old-town-evening.jpg" alt=""><img class="slide-art" src="assets/old-town-evening.jpg" alt=""></div>
-      <div class="slide"><img class="slide-backdrop" src="assets/berlin-cathedral.jpg" alt=""><img class="slide-art" src="assets/berlin-cathedral.jpg" alt=""></div>
-      <div class="slide"><img class="slide-backdrop" src="assets/reichstag.jpg" alt=""><img class="slide-art" src="assets/reichstag.jpg" alt=""></div>
-      <div class="slide"><img class="slide-backdrop" src="assets/reichstag-river.jpg" alt=""><img class="slide-art" src="assets/reichstag-river.jpg" alt=""></div>
-      <div class="slide"><img class="slide-backdrop" src="assets/berlin-cathedral-evening.jpg" alt=""><img class="slide-art" src="assets/berlin-cathedral-evening.jpg" alt=""></div>
+      <img class="hero-background" src="assets/schloss-original.jpg" alt="">
     </div>
     <div class="blue-shade" aria-hidden="true"></div>
 
@@ -49,18 +44,13 @@
 
     <section class="hero-copy" id="start" aria-labelledby="hero-title">
       <p class="eyebrow"><span class="eyebrow-dot"></span><span data-en="A CALM START · LEVEL A1" data-de="EIN RUHIGER ANFANG · NIVEAU A1">A CALM START · LEVEL A1</span></p>
-      <h1 id="hero-title" data-en="German, one small step at a time." data-de="Deutsch, Schritt für Schritt.">German, one small step at a time.</h1>
-      <p class="hero-description" data-en="A friendly place for beginners to discover German at their own pace." data-de="Ein freundlicher Ort, um Deutsch im eigenen Tempo zu entdecken.">A friendly place for beginners to discover German at their own pace.</p>
+      <h1 id="hero-title" data-en="One new word today. More confidence tomorrow." data-de="Ein neues Wort heute. Mehr Selbstvertrauen morgen.">One new word today. More confidence tomorrow.</h1>
+      <p class="hero-description" data-en="Build your German step by step, at your own pace." data-de="Lerne Deutsch Schritt für Schritt und in deinem Tempo.">Build your German step by step, at your own pace.</p>
       <a class="start-link" href="#start"><span data-en="Begin with A1" data-de="Mit A1 beginnen">Begin with A1</span><span class="arrow" aria-hidden="true">→</span></a>
       <p class="hero-note" data-en="Simple lessons. Encouraging practice. No rush." data-de="Einfache Lektionen. Spielerisches Üben. Ganz ohne Eile.">Simple lessons. Encouraging practice. No rush.</p>
     </section>
 
-    <div class="slide-controls" aria-label="Background slideshow controls">
-      <button class="slide-arrow" id="previousSlide" type="button" aria-label="Previous photo">←</button>
-      <div class="slide-dots" id="slideDots"></div>
-      <button class="slide-arrow" id="nextSlide" type="button" aria-label="Next photo">→</button>
-    </div>
-    <p class="screen-note" data-en="A welcoming first step into German" data-de="Ein freundlicher erster Schritt ins Deutsche">A welcoming first step into German</p>
+
   </main>
 
   <script>
@@ -92,28 +82,6 @@
       document.querySelector(".search input").setAttribute("aria-label", language === "en" ? "Search" : "Suche");
     });
 
-    const slides = Array.from(document.querySelectorAll(".slide"));
-    const dots = document.getElementById("slideDots");
-    let currentSlide = 0;
-    slides.forEach((slide, index) => {
-      const dot = document.createElement("button");
-      dot.type = "button";
-      dot.className = "slide-dot";
-      dot.setAttribute("aria-label", "Show photo " + (index + 1));
-      dot.setAttribute("aria-current", index === 0 ? "true" : "false");
-      dot.addEventListener("click", () => showSlide(index));
-      dots.append(dot);
-    });
-    function showSlide(index) {
-      currentSlide = (index + slides.length) % slides.length;
-      slides.forEach((slide, slideIndex) => slide.classList.toggle("is-active", slideIndex === currentSlide));
-      Array.from(dots.children).forEach((dot, dotIndex) => dot.setAttribute("aria-current", dotIndex === currentSlide ? "true" : "false"));
-    }
-    document.getElementById("previousSlide").addEventListener("click", () => showSlide(currentSlide - 1));
-    document.getElementById("nextSlide").addEventListener("click", () => showSlide(currentSlide + 1));
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      window.setInterval(() => showSlide(currentSlide + 1), 7000);
-    }
   </script>
 </body>
 </html>
