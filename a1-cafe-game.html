@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b3b">
+<meta name="description" content="Practise a friendly A1 café conversation: order a drink, ask for food, and pay politely.">
+<title>Café in Berlin | Hallo Deutsch A1</title>
+<link rel="stylesheet" href="a1-games.css">
+</head>
+<body class="a1-game-page" data-game="a1-cafe-game">
+<main class="game-shell">
+<header class="game-header">
+<a class="game-back" href="./#a1">← <span>Back to A1</span></a>
+<a class="game-brand" href="./" aria-label="Hallo Deutsch home">hallo <strong>deutsch</strong></a>
+</header>
+<section class="game-hero">
+<p class="game-eyebrow">A1 · PLAY &amp; PRACTISE</p>
+<h1>Café in Berlin</h1>
+<p>Practise a friendly A1 café conversation: order a drink, ask for food, and pay politely.</p>
+</section>
+<section class="game-panel game-start" id="game-start">
+<h2>Your table is ready.</h2><p>You are visiting a Berlin café. Read the server’s line, then choose a natural German reply. Take your time and use a hint whenever you need one.</p>
+<div class="game-facts"><span>6 conversation turns</span><span>Everyday A1 phrases</span><span>Hints and pronunciation</span></div>
+<button class="game-primary" id="start-button" type="button">Start game <span aria-hidden="true">→</span></button>
+</section>
+<section class="game-panel game-play" id="game-play" aria-label="Game" hidden>
+<div class="game-progress-head"><span id="round-label">Round 1</span><span id="score-label">Score: 0</span></div>
+<div class="game-progress-track" role="progressbar" aria-label="Game progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="game-progress-fill" id="progress-fill"></div></div>
+<div class="game-scene">
+<p class="game-scene-label" id="scene-label">THE SERVER SAYS</p>
+<p class="game-scene-line" id="scene-line"></p>
+<button class="game-audio" id="listen-button" type="button">🔊 Listen in German</button>
+</div>
+<p class="game-task" id="task-text"></p>
+<p class="game-sentence" id="sentence-text"></p>
+<div class="game-options" id="game-options" role="group" aria-label="Choose your answer"></div>
+<div class="game-hint-row"><button class="game-hint-button" id="hint-button" type="button">Show a hint</button><p class="game-hint" id="hint-text" hidden></p></div>
+<div class="game-feedback" id="game-feedback" role="status" aria-live="polite" hidden></div>
+<div class="game-actions" id="game-actions" hidden><span class="game-score" id="turn-score"></span><button class="game-primary" id="next-button" type="button">Next <span aria-hidden="true">→</span></button></div>
+</section>
+<section class="game-panel game-results" id="game-results" hidden>
+<p class="game-eyebrow">SESSION COMPLETE</p><h2 id="result-title">Nice work!</h2>
+<div class="game-score-ring" id="final-score"></div>
+<p id="result-message"></p><ul class="game-review" id="game-review"></ul>
+<div class="game-results-actions"><button class="game-primary" id="play-again-button" type="button">Play again ↻</button><a class="game-secondary" href="./#a1">Back to A1</a></div>
+</section>
+<footer class="game-footer">Short practice. Real-life German. No timer.</footer>
+</main>
+<script src="a1-cafe-game.js" defer></script>
+</body>
+</html>
