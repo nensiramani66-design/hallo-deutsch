@@ -79,10 +79,32 @@
   const correctTextNode = document.getElementById("sb-correct-text");
   const explainLink = document.getElementById("sb-explain-link");
   const scored = new Set();
+  const GAME_STATE_KEY = "a1SentenceBuilderProgress";
+  const RESULTS_KEY = "a1SentenceBuilderResults";
   let current = 0;
   let points = 0;
   let attempts = 0;
   let bank = [];
+  let review = Array.from({length:allTasks.length}, () => ({wrongAttempts:[], answeredCorrectly:false}));
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(GAME_STATE_KEY) || "null");
+    if (saved && Array.isArray(saved.review) && saved.review.length === allTasks.length) {
+      review = saved.review;
+      points = Number(saved.points) || 0;
+      (saved.scored || []).forEach((index) => scored.add(index));
+      current = Math.max(0, Math.min(allTasks.length - 1, Number(saved.current) || 0));
+    }
+  } catch (error) {
+    // Continue without saved progress if browser storage is unavailable.
+  }
+
+  function saveProgress() {
+    try {
+      sessionStorage.setItem(GAME_STATE_KEY, JSON.stringify({current, points, scored:[...scored], review}));
+    } catch (error) {
+      // The game still works when browser storage is unavailable.
+    }
+  }
   let answer = [];
   let hintShown = false;
   let locked = false;
@@ -156,29 +178,6 @@
     document.getElementById("sb-check-button").disabled = locked || answer.length === 0;
   }
 
-  function renderQuestionNav() {
-    const nav = document.getElementById("sb-question-nav");
-    nav.replaceChildren();
-    allTasks.forEach((item, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = String(index + 1);
-      button.setAttribute("aria-label", "Go to question " + (index + 1));
-      if (index === current) {
-        button.classList.add("is-current");
-        button.setAttribute("aria-current", "step");
-      }
-      if (scored.has(index)) button.classList.add("is-complete");
-      button.addEventListener("click", () => {
-        if (index !== current) {
-          current = index;
-          renderQuestion();
-        }
-      });
-      nav.appendChild(button);
-    });
-  }
-
   function renderQuestion() {
     if (current >= allTasks.length) { finish(); return; }
     const item = allTasks[current];
@@ -189,7 +188,7 @@
     const progress = Math.round((current / allTasks.length) * 100);
     document.getElementById("sb-progress").style.width = progress + "%";
     document.getElementById("sb-progressbar").setAttribute("aria-valuenow", String(current));
-    renderQuestionNav();
+    saveProgress();
     document.getElementById("sb-chapter-label").textContent = "CHAPTER " + (item.chapterIndex + 1) + " OF " + chapters.length;
     document.getElementById("sb-chapter-title").textContent = chapter.title;
     document.getElementById("sb-chapter-note").textContent = chapter.note;
@@ -216,22 +215,29 @@
   }
 
   function finish() {
-    board.hidden = true;
-    results.hidden = false;
-    document.getElementById("sb-progress").style.width = "100%";
-    document.getElementById("sb-progressbar").setAttribute("aria-valuenow", String(allTasks.length));
-    document.getElementById("sb-final-score").textContent = points + " points";
-    document.getElementById("sb-result-title").textContent = points >= 120 ? "You built a strong first-week conversation!" : "You built your first conversation!";
-    document.getElementById("sb-result-copy").textContent = "You completed all four chapters: introductions, your home, daily routines, and making plans. Replay any time to practise the sentence patterns again.";
+    const summary = {
+      score: points,
+      questions: allTasks.map(({task}, index) => ({
+        number: index + 1,
+        prompt: task.prompt,
+        correctSentence: (review[index] && review[index].correctSentence) || task.tokens.join(" "),
+        wrongAttempts: (review[index] && review[index].wrongAttempts) || [],
+        answeredCorrectly: Boolean(review[index] && review[index].answeredCorrectly)
+      }))
+    };
+    try { sessionStorage.setItem(RESULTS_KEY, JSON.stringify(summary)); } catch (error) {}
+    window.location.href = "a1-sentence-builder-results.html";
   }
 
   function restart() {
     current = 0;
     points = 0;
     scored.clear();
-    results.hidden = true;
+    review = Array.from({length:allTasks.length}, () => ({wrongAttempts:[], answeredCorrectly:false}));
+    try { sessionStorage.removeItem(RESULTS_KEY); } catch (error) {}
     startPanel.hidden = true;
     board.hidden = false;
+    saveProgress();
     renderQuestion();
   }
 
@@ -286,17 +292,25 @@
         scored.add(current);
       }
       const model = accepted || target;
+      const record = review[current] || {wrongAttempts:[], answeredCorrectly:false};
+      record.answeredCorrectly = true;
+      record.correctSentence = model;
+      review[current] = record;
+      saveProgress();
       setFeedback("Correct! " + task.feedback, false);
       showCorrection(built, true, model);
       document.getElementById("sb-check-button").hidden = true;
       document.getElementById("sb-retry-button").hidden = true;
       document.getElementById("sb-next-button").hidden = false;
       document.getElementById("sb-score").textContent = "Score: " + points;
-      renderQuestionNav();
       renderTiles();
     } else {
       attempts += 1;
       locked = true;
+      const record = review[current] || {wrongAttempts:[], answeredCorrectly:false};
+      record.wrongAttempts.push(built);
+      review[current] = record;
+      saveProgress();
       setFeedback("Not quite. Compare your sentence with the correct version below, then try again or continue.", true);
       showCorrection(built, false, target);
       document.getElementById("sb-check-button").hidden = true;
@@ -310,4 +324,14 @@
     renderQuestion();
   });
   document.getElementById("sb-replay-button").addEventListener("click", restart);
+
+  const route = new URLSearchParams(window.location.search);
+  if (route.has("question") || route.get("resume") === "1") {
+    const requested = Number(route.get("question"));
+    if (route.has("question") && Number.isInteger(requested) && requested >= 1 && requested <= allTasks.length) current = requested - 1;
+    startPanel.hidden = true;
+    board.hidden = false;
+    results.hidden = true;
+    renderQuestion();
+  }
 })();
