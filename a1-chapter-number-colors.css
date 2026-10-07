@@ -1,0 +1,4 @@
+/* A1 chapter number badges only; colors coordinate with the forest backdrop. */
+.reader-page .reader-chapter-number,.chapter-page-shell .chapter-number{background:#dcebdd;color:#315c3f;border:1px solid #c8ddc9}
+.reader-page .reader-chapter-choice:hover .reader-chapter-number,.chapter-page-shell .chapter-choice:hover .chapter-number{background:#cfe3d1;color:#244b31}
+.reader-page .reader-chapter-choice:focus-visible .reader-chapter-number,.chapter-page-shell .chapter-choice:focus-visible .chapter-number{outline:2px solid #739b78;outline-offset:2px}
