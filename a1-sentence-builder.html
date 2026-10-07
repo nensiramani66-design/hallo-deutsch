@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#392c43">
-<meta name="description" content="Build clear A1 German sentences as you introduce yourself, describe a new home, talk about routines, and make plans.">
+<meta name="theme-color" content="#322b3c">
+<meta name="description" content="Choose an A1 German sentence-building level and practise ten useful sentences.">
 <title>Sentence Builder | Hallo Deutsch A1</title>
 <link rel="stylesheet" href="a1-games.css?v=layout3">
-<link rel="stylesheet" href="a1-sentence-builder.css?v=4">
+<link rel="stylesheet" href="a1-sentence-builder.css?v=5">
 </head>
-<body class="a1-game-page" data-game="a1-sentence-builder">
-<main class="game-shell sentence-shell">
+<body class="a1-game-page" data-game="a1-sentence-builder" data-page="levels">
+<main class="game-shell sb-level-shell">
 <header class="game-header">
 <a class="game-back" href="a1-games.html">← <span>Back to games</span></a>
 <a class="game-brand" href="./" aria-label="Hallo Deutsch home">hallo <strong>deutsch</strong></a>
@@ -18,66 +18,28 @@
 <section class="game-hero">
 <p class="game-eyebrow">A1 · BUILD YOUR GERMAN</p>
 <h1>Sentence Builder</h1>
-<p>Meet your new neighbor, settle into your home, and build German sentences one step at a time.</p>
+<p>Build useful German sentences one step at a time. Choose a level to begin.</p>
 </section>
-<section class="game-panel sb-start" id="sb-start">
-<p class="sb-kicker">YOUR FIRST WEEK IN A NEW HOME</p>
-<h2>Start with one word. Build a whole conversation.</h2>
-<p>Put the German words in order. Learn where the verb belongs, how it changes, and how to ask a simple question.</p>
-<div class="game-facts"><span>4 everyday chapters</span><span>16 sentence challenges</span><span>Hints whenever you need them</span></div>
-<button class="game-primary" id="sb-start-button" type="button">Start building <span aria-hidden="true">→</span></button>
-</section>
-<section class="game-panel sb-board" id="sb-board" aria-label="Sentence building game" hidden>
-<div class="sb-progress">
-<div class="game-progress-head"><span id="sb-round">Sentence 1 of 16</span><span id="sb-score">Score: 0</span></div>
-<div class="game-progress-track" role="progressbar" id="sb-progressbar" aria-label="Game progress" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0"><div class="game-progress-fill" id="sb-progress"></div></div>
-<div class="sb-chapter-heading"><p class="sb-chapter-label" id="sb-chapter-label">CHAPTER 1 OF 4</p><h2 id="sb-chapter-title">Meet your neighbor</h2><p id="sb-chapter-note"></p></div>
-</div>
-<figure class="sb-scene">
-<picture id="sb-picture">
-<source id="sb-phone-source" media="(max-width: 700px)" srcset="assets/sentence-builder/scene-1-phone.png">
-<img id="sb-scene-image" src="assets/sentence-builder/scene-1-desktop.png" alt="Lea greets her new neighbor Sam at her apartment doorway." fetchpriority="high">
-</picture>
-<figcaption id="sb-scene-caption">Lea has just moved in and is meeting her neighbor.</figcaption>
-</figure>
-<div class="sb-task">
-<p class="sb-task-label">BUILD THIS SENTENCE IN GERMAN</p>
-<p class="sb-prompt" id="sb-prompt"></p>
-<p class="sb-instruction">Tap the word tiles in order. Tap a tile in your sentence to move it back.</p>
-<div class="sb-answer-zone" id="sb-answer-zone" role="group" aria-label="Your sentence"></div>
-<div class="sb-word-bank" id="sb-word-bank" role="group" aria-label="Available German word tiles"></div>
-<div class="sb-tools">
-<button class="sb-text-button" id="sb-hint-button" type="button" aria-expanded="false">Show a hint</button>
-<button class="sb-text-button" id="sb-reset-button" type="button">Start again</button>
-</div>
-<p class="sb-hint" id="sb-hint" hidden></p>
-<div class="sb-feedback" id="sb-feedback" role="status" aria-live="polite" hidden></div>
-<div class="sb-correction" id="sb-correction" hidden>
-<div class="sb-wrong-answer" id="sb-wrong-answer" hidden><span>Your sentence</span><p id="sb-attempt-text"></p></div>
-<div class="sb-correct-answer"><span>Correct sentence</span><p id="sb-correct-text"></p></div>
-<a class="sb-explain-link" id="sb-explain-link" href="a1-sentence-builder-guide.html#sentence-1">Why is it built this way? Read the simple explanation →</a>
-</div>
-<div class="sb-actions">
-<button class="sb-previous" id="sb-previous-button" type="button">← Previous</button>
-<a class="sb-question-picker" href="a1-sentence-builder-questions.html?resume=1">Choose a question <span aria-hidden="true">▦</span></a>
-<button class="game-primary sb-check" id="sb-check-button" type="button">Check sentence</button>
-<button class="game-primary sb-retry" id="sb-retry-button" type="button" hidden>Try again</button>
-<button class="game-primary sb-next" id="sb-next-button" type="button" hidden>Next sentence <span aria-hidden="true">→</span></button>
-</div>
-</div>
-</section>
-<section class="game-panel sb-results" id="sb-results" hidden>
-<p class="sb-kicker">A NEW HOME, A NEW CONVERSATION</p>
-<h2 id="sb-result-title">You built it!</h2>
-<p id="sb-result-copy"></p>
-<div class="sb-final-score" id="sb-final-score"></div>
-<div class="sb-result-actions">
-<button class="game-primary" id="sb-replay-button" type="button">Play again ↻</button>
-<a class="game-secondary" href="a1-games.html">Choose another game</a>
-</div>
-</section>
-<footer class="game-footer">Take your time. Every sentence is a new step.</footer>
+<nav class="sb-level-grid" aria-label="Choose a sentence-building level">
+<a class="sb-level-card level-intro" href="a1-sentence-builder-play.html?level=introduction">
+<span class="sb-level-tag">LEVEL 1 · FOUNDATION</span><h2>Basic introduction</h2>
+<p>Say hello, share a few details, and ask simple questions.</p><span class="sb-level-action">Start 10 sentences <span aria-hidden="true">→</span></span>
+</a>
+<a class="sb-level-card level-market" href="a1-sentence-builder-play.html?level=intermediate">
+<span class="sb-level-tag">LEVEL 2 · INTERMEDIATE</span><h2>At the weekly market</h2>
+<p>Shop for food, ask about prices, and pay politely.</p><span class="sb-level-action">Start 10 sentences <span aria-hidden="true">→</span></span>
+</a>
+<a class="sb-level-card level-safari" href="a1-sentence-builder-play.html?level=hard">
+<span class="sb-level-tag">LEVEL 3 · HARD A1</span><h2>Wildlife in the Maasai Mara</h2>
+<p>Describe animals, their actions, and where you see them.</p><span class="sb-level-action">Start 10 sentences <span aria-hidden="true">→</span></span>
+</a>
+<a class="sb-level-card level-space" href="a1-sentence-builder-play.html?level=veryHard">
+<span class="sb-level-tag">LEVEL 4 · VERY HARD A1</span><h2>A mission in space</h2>
+<p>Use time phrases, modal verbs, and separable verbs.</p><span class="sb-level-action">Start 10 sentences <span aria-hidden="true">→</span></span>
+</a>
+</nav>
+<footer class="game-footer">Four themes. Ten sentences in each. Practise at your own pace.</footer>
 </main>
-<script src="a1-sentence-builder.js?v=3" defer></script>
 </body>
 </html>
+

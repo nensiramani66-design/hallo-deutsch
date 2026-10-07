@@ -1,337 +1,166 @@
 (() => {
   "use strict";
-  const chapters = [
-    {
-      title: "Meet your neighbor",
-      note: "Say hello, introduce yourself, and ask a simple question.",
-      caption: "Lea has just moved in and is meeting her neighbor Sam.",
-      alt: "Lea greets her new neighbor Sam at her apartment doorway.",
-      desktop: "assets/sentence-builder/scene-1-desktop.png",
-      phone: "assets/sentence-builder/scene-1-phone.png",
-      tasks: [
-        {prompt:"Tell Sam: “My name is Lea.”",tokens:["Ich","heiße","Lea."],extra:["wohnt"],hint:"Start with “Ich”. With ich, heißen becomes heiße.",feedback:"The subject is ich, so the verb is heiße."},
-        {prompt:"Tell Sam: “I come from Spain.”",tokens:["Ich","komme","aus","Spanien."],extra:["wohne"],hint:"Use Ich + komme + aus + the country.",feedback:"Kommt is used with er/sie/es and ihr. With ich, use komme."},
-        {prompt:"Tell Sam: “I live in Berlin now.”",tokens:["Ich","wohne","jetzt","in","Berlin."],extra:["komme"],accepted:["Jetzt wohne ich in Berlin."],hint:"Start with Ich, then the verb wohne. Add jetzt and the place.",feedback:"In a simple statement, the conjugated verb follows the subject."},
-        {prompt:"Ask Sam: “Where do you live?”",tokens:["Wo","wohnst","du?"],extra:["wohnt"],hint:"A W-question starts with Wo. Put the conjugated verb before du.",feedback:"In a W-question, the question word comes first, then the verb, then the subject."}
-      ]
-    },
-    {
-      title: "Describe your new home",
-      note: "Name rooms and furniture, then describe them with a simple adjective.",
-      caption: "Lea shows Sam the rooms and furniture in her new apartment.",
-      alt: "Lea shows Sam the bright living room in her new apartment.",
-      desktop: "assets/sentence-builder/scene-2-desktop.png",
-      phone: "assets/sentence-builder/scene-2-phone.png",
-      tasks: [
-        {prompt:"Say: “My room is bright.”",tokens:["Mein","Zimmer","ist","hell."],extra:["helles"],hint:"Zimmer is neuter: Mein Zimmer. Use ist before the description.",feedback:"The noun Zimmer is neuter, so the possessive is Mein."},
-        {prompt:"Say: “The kitchen is big.”",tokens:["Die","Küche","ist","groß."],extra:["große"],hint:"Start with the noun group Die Küche, then ist, then the adjective.",feedback:"After ist, this adjective stays unchanged: groß."},
-        {prompt:"Say: “I have a table.”",tokens:["Ich","habe","einen","Tisch."],extra:["ein"],hint:"Tisch is masculine. As the object of habe, use einen Tisch.",feedback:"Tisch is masculine and is the direct object, so use einen."},
-        {prompt:"Say: “The sofa is in the living room.”",tokens:["Das","Sofa","ist","im","Wohnzimmer."],extra:["Wohnzimmer"],hint:"Use Das Sofa + ist + im Wohnzimmer.",feedback:"Im is the common contraction of in dem."}
-      ]
-    },
-    {
-      title: "Talk about your routine",
-      note: "Add days and times. The conjugated verb still belongs in position two.",
-      caption: "Lea and Sam compare their weekly schedules at home.",
-      alt: "Lea writes in a blank weekly calendar while Sam looks on.",
-      desktop: "assets/sentence-builder/scene-3-desktop.png",
-      phone: "assets/sentence-builder/scene-3-phone.png",
-      tasks: [
-        {prompt:"Say: “I learn German every day.”",tokens:["Ich","lerne","jeden","Tag","Deutsch."],extra:["lernt"],accepted:["Jeden Tag lerne ich Deutsch."],hint:"Start with Ich and use the ich form lerne.",feedback:"The subject ich needs lerne; Tag is a noun and starts with a capital letter."},
-        {prompt:"Say: “I work on Monday.”",tokens:["Am","Montag","arbeite","ich."],extra:["arbeitet"],accepted:["Ich arbeite am Montag."],hint:"When Am Montag comes first, the conjugated verb still comes second.",feedback:"Am Montag is the first phrase; arbeite is the second element, before ich."},
-        {prompt:"Say: “I get up at seven.”",tokens:["Um","sieben","Uhr","stehe","ich","auf."],extra:["steht"],accepted:["Ich stehe um sieben Uhr auf."],hint:"Aufstehen is separable: stehe goes in position two and auf goes at the end.",feedback:"With the separable verb aufstehen, its prefix auf goes at the end."},
-        {prompt:"Ask: “When does your course begin?”",tokens:["Wann","beginnt","dein","Kurs?"],extra:["beginnen"],hint:"Start with Wann, then the verb beginnt, then the subject dein Kurs.",feedback:"Kurs is singular, so begin is conjugated as beginnt."}
-      ]
-    },
-    {
-      title: "Make plans together",
-      note: "Ask for help and make a friendly weekend plan with a modal verb.",
-      caption: "Lea and Sam look at a blank calendar and make a weekend plan.",
-      alt: "Lea and Sam plan a weekend together while looking at a blank calendar.",
-      desktop: "assets/sentence-builder/scene-4-desktop.png",
-      phone: "assets/sentence-builder/scene-4-phone.png",
-      tasks: [
-        {prompt:"Say: “I have time on Saturday.”",tokens:["Am","Samstag","habe","ich","Zeit."],extra:["hat"],accepted:["Ich habe am Samstag Zeit."],hint:"Start with Am Samstag. The conjugated verb habe comes next.",feedback:"The time phrase is first, so habe must stay in position two."},
-        {prompt:"Ask Sam: “Can you help me?”",tokens:["Kannst","du","mir","helfen?"],extra:["kann"],hint:"In a yes/no question, the conjugated verb comes first. The infinitive helfen goes last.",feedback:"Kannst matches du. With a modal verb, helfen stays in the infinitive at the end."},
-        {prompt:"Answer: “Yes, I can help you.”",tokens:["Ja,","ich","kann","dir","helfen."],extra:["hilfst"],hint:"After Ja, use ich + kann. Put the infinitive helfen at the end.",feedback:"The modal kann is conjugated; helfen remains at the end in the infinitive."},
-        {prompt:"Suggest: “We can go for a walk on Sunday.”",tokens:["Wir","können","am","Sonntag","spazieren","gehen."],extra:["geht"],accepted:["Am Sonntag können wir spazieren gehen."],hint:"Use Wir + können, then the time phrase. The two infinitives go at the end.",feedback:"With können, the other verbs stay in the infinitive at the end: spazieren gehen."}
-      ]
-    }
-  ];
-
-  const allTasks = [];
-  chapters.forEach((chapter, chapterIndex) => {
-    chapter.tasks.forEach((task) => allTasks.push({chapterIndex, task}));
-  });
-  const startPanel = document.getElementById("sb-start");
-  const board = document.getElementById("sb-board");
-  const results = document.getElementById("sb-results");
-  const source = document.getElementById("sb-phone-source");
-  const image = document.getElementById("sb-scene-image");
-  const bankNode = document.getElementById("sb-word-bank");
-  const answerNode = document.getElementById("sb-answer-zone");
-  const promptNode = document.getElementById("sb-prompt");
-  const feedbackNode = document.getElementById("sb-feedback");
-  const hintNode = document.getElementById("sb-hint");
-  const correctionNode = document.getElementById("sb-correction");
-  const wrongAnswerNode = document.getElementById("sb-wrong-answer");
-  const attemptTextNode = document.getElementById("sb-attempt-text");
-  const correctTextNode = document.getElementById("sb-correct-text");
-  const explainLink = document.getElementById("sb-explain-link");
-  const scored = new Set();
-  const GAME_STATE_KEY = "a1SentenceBuilderProgress";
-  const RESULTS_KEY = "a1SentenceBuilderResults";
-  let current = 0;
-  let points = 0;
+  const levels = window.SENTENCE_BUILDER_LEVELS;
+  const params = new URLSearchParams(location.search);
+  const levelKey = params.get("level") || "introduction";
+  const level = levels[levelKey] || levels.introduction;
+  const tasks = level.tasks;
+  const progressKey = "a1SentenceBuilder_" + levelKey;
+  const resultKey = "a1SentenceBuilderResults_" + levelKey;
+  let current = Math.max(0, Math.min(tasks.length - 1, Number(params.get("question") || 1) - 1));
+  let score = 0;
   let attempts = 0;
-  let bank = [];
-  let review = Array.from({length:allTasks.length}, () => ({wrongAttempts:[], answeredCorrectly:false}));
-  try {
-    const saved = JSON.parse(sessionStorage.getItem(GAME_STATE_KEY) || "null");
-    if (saved && Array.isArray(saved.review) && saved.review.length === allTasks.length) {
-      review = saved.review;
-      points = Number(saved.points) || 0;
-      (saved.scored || []).forEach((index) => scored.add(index));
-      current = Math.max(0, Math.min(allTasks.length - 1, Number(saved.current) || 0));
-    }
-  } catch (error) {
-    // Continue without saved progress if browser storage is unavailable.
-  }
-
-  function saveProgress() {
-    try {
-      sessionStorage.setItem(GAME_STATE_KEY, JSON.stringify({current, points, scored:[...scored], review}));
-    } catch (error) {
-      // The game still works when browser storage is unavailable.
-    }
-  }
-  let answer = [];
   let hintShown = false;
   let locked = false;
+  let answer = [];
+  let bank = [];
+  let review = tasks.map(() => ({wrongAttempts:[], answeredCorrectly:false}));
 
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(progressKey) || "null");
+    if (saved && Array.isArray(saved.review) && saved.review.length === tasks.length) {
+      review = saved.review;
+      score = Number(saved.score) || 0;
+      if (!params.has("question")) current = Math.max(0, Math.min(tasks.length - 1, Number(saved.current) || 0));
+    }
+  } catch (_) {}
+  const $ = (id) => document.getElementById(id);
+  const image = $("sb-scene-image");
+  const phoneSource = $("sb-phone-source");
+  $("sb-level-label").textContent = "A1 · " + level.label;
+  $("sb-level-title").textContent = level.title;
+  $("sb-level-subtitle").textContent = level.subtitle;
+  document.body.dataset.level = levelKey;
+  $("sb-question-picker").href = "a1-sentence-builder-questions.html?level=" + encodeURIComponent(levelKey) + "&resume=1";
+  document.querySelector(".sb-explain-link").href = "a1-sentence-builder-guide.html?level=" + encodeURIComponent(levelKey);
+
+  function save() {
+    try { sessionStorage.setItem(progressKey, JSON.stringify({current, score, review})); } catch (_) {}
+  }
   function shuffle(items) {
-    for (let i = items.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = items[i]; items[i] = items[j]; items[j] = temp;
+    for (let i=items.length-1;i>0;i--) {
+      const j=Math.floor(Math.random()*(i+1)); [items[i],items[j]]=[items[j],items[i]];
     }
     return items;
   }
-
-  function setFeedback(message, wrong) {
-    feedbackNode.textContent = message;
-    feedbackNode.classList.toggle("is-wrong", Boolean(wrong));
-    feedbackNode.hidden = false;
+  function showFeedback(message, wrong) {
+    const node=$("sb-feedback"); node.textContent=message;
+    node.classList.toggle("is-wrong",Boolean(wrong)); node.hidden=false;
   }
-
-  function clearCorrection() {
-    correctionNode.hidden = true;
-    wrongAnswerNode.hidden = true;
-    answerNode.classList.remove("is-wrong", "is-correct");
-  }
-
-  function showCorrection(built, correct, model) {
-    correctionNode.hidden = false;
-    wrongAnswerNode.hidden = correct;
-    attemptTextNode.textContent = built;
-    correctTextNode.textContent = model;
-    explainLink.href = "a1-sentence-builder-guide.html#sentence-" + (current + 1);
-    answerNode.classList.toggle("is-wrong", !correct);
-    answerNode.classList.toggle("is-correct", correct);
-  }
-
   function renderTiles() {
-    answerNode.replaceChildren();
+    const answerNode=$("sb-answer-zone"), bankNode=$("sb-word-bank");
+    answerNode.replaceChildren(); bankNode.replaceChildren();
     if (!answer.length) {
-      const empty = document.createElement("span");
-      empty.className = "sb-empty-note";
-      empty.textContent = "Your sentence will appear here.";
-      answerNode.appendChild(empty);
+      const empty=document.createElement("span"); empty.className="sb-empty-note";
+      empty.textContent="Your sentence will appear here."; answerNode.appendChild(empty);
     }
-    answer.forEach((tile, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "sb-tile";
-      button.textContent = tile.word;
-      button.setAttribute("aria-label", tile.word + ", remove from sentence");
-      button.dataset.answerIndex = String(index);
-      button.addEventListener("click", () => {
-        if (locked) return;
-        bank.push(answer.splice(index, 1)[0]);
-        renderTiles();
-      });
-      answerNode.appendChild(button);
+    answer.forEach((tile,index)=>{
+      const button=document.createElement("button"); button.type="button"; button.className="sb-tile";
+      button.textContent=tile.word; button.setAttribute("aria-label",tile.word+", remove from sentence");
+      button.disabled=locked; button.addEventListener("click",()=>{
+        if(locked)return; bank.push(answer.splice(index,1)[0]); renderTiles();
+      }); answerNode.appendChild(button);
     });
-    bankNode.replaceChildren();
-    bank.forEach((tile, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "sb-tile";
-      button.textContent = tile.word;
-      button.dataset.bankIndex = String(index);
-      button.addEventListener("click", () => {
-        if (locked) return;
-        answer.push(bank.splice(index, 1)[0]);
-        renderTiles();
-      });
-      bankNode.appendChild(button);
+    bank.forEach((tile,index)=>{
+      const button=document.createElement("button"); button.type="button"; button.className="sb-tile";
+      button.textContent=tile.word; button.disabled=locked; button.addEventListener("click",()=>{
+        if(locked)return; answer.push(bank.splice(index,1)[0]); renderTiles();
+      }); bankNode.appendChild(button);
     });
-    document.getElementById("sb-check-button").disabled = locked || answer.length === 0;
+    $("sb-check-button").disabled=locked||!answer.length;
   }
-
-  function renderQuestion() {
-    if (current >= allTasks.length) { finish(); return; }
-    const item = allTasks[current];
-    const chapter = chapters[item.chapterIndex];
-    const task = item.task;
-    document.getElementById("sb-round").textContent = "Sentence " + (current + 1) + " of " + allTasks.length;
-    document.getElementById("sb-score").textContent = "Score: " + points;
-    const progress = Math.round((current / allTasks.length) * 100);
-    document.getElementById("sb-progress").style.width = progress + "%";
-    document.getElementById("sb-progressbar").setAttribute("aria-valuenow", String(current));
-    saveProgress();
-    document.getElementById("sb-chapter-label").textContent = "CHAPTER " + (item.chapterIndex + 1) + " OF " + chapters.length;
-    document.getElementById("sb-chapter-title").textContent = chapter.title;
-    document.getElementById("sb-chapter-note").textContent = chapter.note;
-    document.getElementById("sb-scene-caption").textContent = chapter.caption;
-    source.srcset = chapter.phone;
-    image.src = chapter.desktop;
-    image.alt = chapter.alt;
-    promptNode.textContent = task.prompt;
-    answer = [];
-    bank = shuffle(task.tokens.concat(task.extra).map((word, index) => ({word, id:index})));
-    attempts = 0;
-    hintShown = false;
-    locked = false;
-    hintNode.hidden = true;
-    hintNode.textContent = task.hint;
-    document.getElementById("sb-hint-button").setAttribute("aria-expanded","false");
-    document.getElementById("sb-next-button").hidden = true;
-    document.getElementById("sb-retry-button").hidden = true;
-    document.getElementById("sb-previous-button").hidden = current === 0;
-    document.getElementById("sb-check-button").hidden = false;
-    feedbackNode.hidden = true;
-    clearCorrection();
-    renderTiles();
+  function renderNav() {
+    const nav=$("sb-question-nav"); nav.replaceChildren();
+    tasks.forEach((_,index)=>{
+      const b=document.createElement("button"); b.type="button"; b.textContent=String(index+1);
+      b.setAttribute("aria-label","Open sentence "+(index+1));
+      if(index===current)b.classList.add("is-current");
+      if(review[index].answeredCorrectly)b.classList.add("is-complete");
+      b.addEventListener("click",()=>{current=index;render();document.querySelector(".sb-board").scrollIntoView({block:"start",behavior:"smooth"});});
+      nav.appendChild(b);
+    });
   }
-
-  function finish() {
-    const summary = {
-      score: points,
-      questions: allTasks.map(({task}, index) => ({
-        number: index + 1,
-        prompt: task.prompt,
-        correctSentence: (review[index] && review[index].correctSentence) || task.tokens.join(" "),
-        wrongAttempts: (review[index] && review[index].wrongAttempts) || [],
-        answeredCorrectly: Boolean(review[index] && review[index].answeredCorrectly)
-      }))
-    };
-    try { sessionStorage.setItem(RESULTS_KEY, JSON.stringify(summary)); } catch (error) {}
-    window.location.href = "a1-sentence-builder-results.html";
-  }
-
-  function restart() {
-    current = 0;
-    points = 0;
-    scored.clear();
-    review = Array.from({length:allTasks.length}, () => ({wrongAttempts:[], answeredCorrectly:false}));
-    try { sessionStorage.removeItem(RESULTS_KEY); } catch (error) {}
-    startPanel.hidden = true;
-    board.hidden = false;
-    saveProgress();
-    renderQuestion();
-  }
-
-  document.getElementById("sb-start-button").addEventListener("click", restart);
-  document.getElementById("sb-reset-button").addEventListener("click", () => {
-    if (locked) return;
-    bank = shuffle(answer.concat(bank));
-    answer = [];
-    feedbackNode.hidden = true;
-    clearCorrection();
-    document.getElementById("sb-check-button").hidden = false;
-    document.getElementById("sb-retry-button").hidden = true;
-    document.getElementById("sb-next-button").hidden = true;
-    locked = false;
-    renderTiles();
-  });
-  document.getElementById("sb-hint-button").addEventListener("click", (event) => {
-    const opening = hintNode.hidden;
-    hintNode.hidden = !opening;
-    event.currentTarget.setAttribute("aria-expanded", String(opening));
-    hintShown = hintShown || opening;
-  });
-  document.getElementById("sb-retry-button").addEventListener("click", () => {
-    bank = shuffle(answer.concat(bank));
-    answer = [];
-    locked = false;
-    feedbackNode.hidden = true;
-    clearCorrection();
-    document.getElementById("sb-check-button").hidden = false;
-    document.getElementById("sb-retry-button").hidden = true;
-    document.getElementById("sb-next-button").hidden = true;
-    renderTiles();
-  });
-  document.getElementById("sb-previous-button").addEventListener("click", () => {
-    if (current > 0) {
-      current -= 1;
-      renderQuestion();
-    }
-  });
-  document.getElementById("sb-check-button").addEventListener("click", () => {
-    if (locked || !answer.length) return;
-    const task = allTasks[current].task;
-    const built = answer.map((tile) => tile.word).join(" ");
-    const target = task.tokens.join(" ");
-    const normalized = built.trim().toLocaleLowerCase("de-DE");
-    const accepted = (task.accepted || []).find((sentence) => sentence.toLocaleLowerCase("de-DE") === normalized);
-    const isCorrect = built === target || Boolean(accepted);
-    if (isCorrect) {
-      locked = true;
-      if (!scored.has(current)) {
-        points += (attempts === 0 && !hintShown) ? 10 : 5;
-        scored.add(current);
-      }
-      const model = accepted || target;
-      const record = review[current] || {wrongAttempts:[], answeredCorrectly:false};
-      record.answeredCorrectly = true;
-      record.correctSentence = model;
-      review[current] = record;
-      saveProgress();
-      setFeedback("Correct! " + task.feedback, false);
-      showCorrection(built, true, model);
-      document.getElementById("sb-check-button").hidden = true;
-      document.getElementById("sb-retry-button").hidden = true;
-      document.getElementById("sb-next-button").hidden = false;
-      document.getElementById("sb-score").textContent = "Score: " + points;
-      renderTiles();
+  function render() {
+    const task=tasks[current], scene=level.scenes[Math.floor(current/2)];
+    attempts=0; hintShown=false;
+    $("sb-round").textContent="Sentence "+(current+1)+" of "+tasks.length;
+    $("sb-score").textContent="Score: "+score;
+    $("sb-progress").style.width=(((current+1)/tasks.length)*100)+"%";
+    $("sb-progressbar").setAttribute("aria-valuenow",String(current+1));
+    $("sb-chapter-label").textContent=level.label+" · SCENE "+(Math.floor(current/2)+1)+" OF 5";
+    $("sb-chapter-title").textContent=level.theme;
+    $("sb-chapter-note").textContent="Question "+(current+1)+" of 10 · Build a natural German sentence.";
+    $("sb-scene-caption").textContent=scene.caption;
+    image.src=scene.desktop; image.alt=scene.alt;
+    phoneSource.srcset=scene.phone;
+    $("sb-prompt").textContent=task.prompt;
+    $("sb-hint").textContent=task.hint;
+    $("sb-hint").hidden=true; $("sb-hint-button").setAttribute("aria-expanded","false");
+    $("sb-feedback").hidden=true; $("sb-correction").hidden=true;
+    $("sb-answer-zone").classList.remove("is-wrong","is-correct");
+    const prior=review[current];
+    $("sb-next-button").textContent=current===tasks.length-1?"Submit sentences →":"Next sentence →";
+    if(prior.answeredCorrectly){
+      locked=true; answer=(prior.correctSentence||task.target).split(" ").map(word=>({word}));
+      bank=[]; $("sb-correction").hidden=false; $("sb-wrong-answer").hidden=true;
+      $("sb-correct-text").textContent=prior.correctSentence||task.target;
+      $("sb-answer-zone").classList.add("is-correct"); $("sb-check-button").hidden=true;
+      $("sb-next-button").hidden=false;
     } else {
-      attempts += 1;
-      locked = true;
-      const record = review[current] || {wrongAttempts:[], answeredCorrectly:false};
-      record.wrongAttempts.push(built);
-      review[current] = record;
-      saveProgress();
-      setFeedback("Not quite. Compare your sentence with the correct version below, then try again or continue.", true);
-      showCorrection(built, false, target);
-      document.getElementById("sb-check-button").hidden = true;
-      document.getElementById("sb-retry-button").hidden = false;
-      document.getElementById("sb-next-button").hidden = false;
-      renderTiles();
+      locked=false; answer=[]; bank=shuffle(task.target.split(" ").map((word,index)=>({word,id:index})));
+      $("sb-check-button").hidden=false; $("sb-next-button").hidden=true;
     }
-  });
-  document.getElementById("sb-next-button").addEventListener("click", () => {
-    current += 1;
-    renderQuestion();
-  });
-  document.getElementById("sb-replay-button").addEventListener("click", restart);
-
-  const route = new URLSearchParams(window.location.search);
-  if (route.has("question") || route.get("resume") === "1") {
-    const requested = Number(route.get("question"));
-    if (route.has("question") && Number.isInteger(requested) && requested >= 1 && requested <= allTasks.length) current = requested - 1;
-    startPanel.hidden = true;
-    board.hidden = false;
-    results.hidden = true;
-    renderQuestion();
+    renderTiles(); renderNav(); save();
   }
+  $("sb-hint-button").addEventListener("click",()=>{
+    const node=$("sb-hint"); node.hidden=!node.hidden;
+    $("sb-hint-button").setAttribute("aria-expanded",String(!node.hidden));
+    if(!node.hidden)hintShown=true;
+  });
+  $("sb-reset-button").addEventListener("click",()=>{
+    if(locked)return;
+    bank=shuffle(tasks[current].target.split(" ").map((word,index)=>({word,id:index})));
+    answer=[]; $("sb-answer-zone").classList.remove("is-wrong","is-correct"); renderTiles();
+  });
+  $("sb-check-button").addEventListener("click",()=>{
+    if(locked||!answer.length)return;
+    const task=tasks[current], built=answer.map(x=>x.word).join(" ");
+    const correct=built===task.target||(task.accepted||[]).includes(built);
+    const record=review[current];
+    locked=true;
+    if(correct){
+      if(!record.answeredCorrectly)score+=(attempts===0&&!hintShown?10:5);
+      record.answeredCorrectly=true; record.correctSentence=built;
+      showFeedback("Correct! "+task.note,false);
+      $("sb-answer-zone").classList.add("is-correct");
+      $("sb-correction").hidden=false; $("sb-wrong-answer").hidden=true;
+      $("sb-correct-text").textContent=built;
+    } else {
+      attempts++;
+      record.wrongAttempts.push(built);
+      showFeedback("Not quite. The correct sentence is shown below. You can continue and review it at the end.",true);
+      $("sb-answer-zone").classList.add("is-wrong");
+      $("sb-correction").hidden=false; $("sb-wrong-answer").hidden=false;
+      $("sb-attempt-text").textContent=built; $("sb-correct-text").textContent=task.target;
+      $("sb-explain-link").href="a1-sentence-builder-guide.html?level="+encodeURIComponent(levelKey)+"#sentence-"+(current+1);
+    }
+    $("sb-check-button").hidden=true; $("sb-next-button").hidden=false;
+    $("sb-next-button").textContent=current===tasks.length-1?"Submit sentences →":"Next sentence →";
+    $("sb-score").textContent="Score: "+score; save(); renderTiles();
+  });
+  $("sb-next-button").addEventListener("click",()=>{
+    if(current===tasks.length-1){
+      const report={level:levelKey,title:level.title,score,questions:tasks.map((task,index)=>({
+        number:index+1,prompt:task.prompt,correctSentence:task.target,
+        answeredCorrectly:Boolean(review[index].answeredCorrectly),
+        wrongAttempts:review[index].wrongAttempts||[]
+      }))};
+      try { sessionStorage.setItem(resultKey,JSON.stringify(report)); } catch (_) {}
+      location.href="a1-sentence-builder-results.html?level="+encodeURIComponent(levelKey);
+      return;
+    }
+    current++; attempts=0; hintShown=false; render();
+  });
+  render();
 })();
+

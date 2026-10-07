@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#322b3c">
+<meta name="description" content="Build A1 German sentences with guided word tiles, hints, and helpful corrections.">
+<title>Build a sentence | Hallo Deutsch A1</title>
+<link rel="stylesheet" href="a1-games.css?v=layout3">
+<link rel="stylesheet" href="a1-sentence-builder.css?v=5">
+</head>
+<body class="a1-game-page" data-game="a1-sentence-builder" data-page="play">
+<main class="game-shell sb-play-shell">
+<header class="game-header">
+<a class="game-back" href="a1-sentence-builder.html">← <span>All levels</span></a>
+<a class="game-brand" href="./" aria-label="Hallo Deutsch home">hallo <strong>deutsch</strong></a>
+</header>
+<section class="game-hero">
+<p class="game-eyebrow" id="sb-level-label">A1 · SENTENCE BUILDER</p>
+<h1 id="sb-level-title">Basic introduction</h1>
+<p id="sb-level-subtitle">Build a German sentence one step at a time.</p>
+</section>
+<section class="game-panel sb-board" id="sb-board" aria-label="Sentence building game">
+<div class="sb-progress">
+<div class="game-progress-head"><span id="sb-round">Sentence 1 of 10</span><span id="sb-score">Score: 0</span></div>
+<div class="game-progress-track" id="sb-progressbar" role="progressbar" aria-label="Level progress" aria-valuemin="0" aria-valuemax="10" aria-valuenow="1"><div class="game-progress-fill" id="sb-progress"></div></div>
+<div class="sb-chapter-heading"><p class="sb-chapter-label" id="sb-chapter-label"></p><h2 id="sb-chapter-title"></h2><p id="sb-chapter-note"></p></div>
+</div>
+<figure class="sb-scene">
+<picture><source id="sb-phone-source" media="(max-width: 700px)"><img id="sb-scene-image" alt="" fetchpriority="high"></picture>
+<figcaption id="sb-scene-caption"></figcaption>
+</figure>
+<nav class="sb-question-nav" id="sb-question-nav" aria-label="Choose a sentence number"></nav>
+<section class="sb-task">
+<p class="sb-task-label">BUILD THIS SENTENCE IN GERMAN</p>
+<p class="sb-prompt" id="sb-prompt"></p>
+<p class="sb-instruction">Tap the word tiles in order. Tap a tile in your sentence to move it back.</p>
+<div class="sb-answer-zone" id="sb-answer-zone" role="group" aria-label="Your sentence"></div>
+<div class="sb-word-bank" id="sb-word-bank" role="group" aria-label="Available German word tiles"></div>
+<div class="sb-tools"><button class="sb-text-button" id="sb-hint-button" type="button" aria-expanded="false">Show a hint</button><button class="sb-text-button" id="sb-reset-button" type="button">Start again</button></div>
+<p class="sb-hint" id="sb-hint" hidden></p>
+<div class="sb-feedback" id="sb-feedback" role="status" aria-live="polite" hidden></div>
+<div class="sb-correction" id="sb-correction" hidden>
+<div class="sb-wrong-answer" id="sb-wrong-answer" hidden><span>Your sentence</span><p id="sb-attempt-text"></p></div>
+<div class="sb-correct-answer"><span>Correct sentence</span><p id="sb-correct-text"></p></div>
+<a class="sb-explain-link" id="sb-explain-link" href="a1-sentence-builder-guide.html">Why is it built this way? Read the simple explanation →</a>
+</div>
+<div class="sb-actions">
+<a class="sb-question-picker" id="sb-question-picker" href="a1-sentence-builder-questions.html">Choose a sentence <span aria-hidden="true">▦</span></a>
+<button class="game-primary sb-check" id="sb-check-button" type="button" disabled>Check sentence</button>
+<button class="game-primary sb-next" id="sb-next-button" type="button" hidden>Next sentence <span aria-hidden="true">→</span></button>
+</div>
+</section>
+</section>
+<footer class="game-footer">Take your time. Every sentence is a new step.</footer>
+</main>
+<script src="a1-sentence-builder-data.js?v=1" defer></script>
+<script src="a1-sentence-builder.js?v=5" defer></script>
+</body>
+</html>
+
