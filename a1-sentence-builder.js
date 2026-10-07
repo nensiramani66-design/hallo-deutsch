@@ -7,6 +7,9 @@
   const tasks = level.tasks;
   const progressKey = "a1SentenceBuilder_" + levelKey;
   const resultKey = "a1SentenceBuilderResults_" + levelKey;
+  if (params.get("restart") === "1") {
+    try { sessionStorage.removeItem(progressKey); sessionStorage.removeItem(resultKey); } catch (_) {}
+  }
   let current = Math.max(0, Math.min(tasks.length - 1, Number(params.get("question") || 1) - 1));
   let score = 0;
   let attempts = 0;

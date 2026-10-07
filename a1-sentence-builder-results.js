@@ -4,7 +4,7 @@
   const level=levels[key]||levels.introduction;
   document.body.dataset.level=key;
   document.getElementById("result-title").textContent=level.title+" · Sentence review";
-  document.getElementById("play-again").href="a1-sentence-builder-play.html?level="+encodeURIComponent(key);
+  document.getElementById("play-again").href="a1-sentence-builder-play.html?level="+encodeURIComponent(key)+"&restart=1";
   let report=null;
   try{report=JSON.parse(sessionStorage.getItem("a1SentenceBuilderResults_"+key)||"null")}catch(_){}
   const summary=document.getElementById("sb-review-summary"),root=document.getElementById("sb-review-list");
