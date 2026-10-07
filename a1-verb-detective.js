@@ -12,7 +12,7 @@ const clues=[
 ];
 const start=document.getElementById("game-start"),play=document.getElementById("game-play"),results=document.getElementById("game-results");
 const options=document.getElementById("game-options"),feedback=document.getElementById("game-feedback");
-let index=0,score=0,missed=[];
+let index=0,score=0,missed=[],previousCorrectSlot=-1;
 async function loadStationArtwork(){
  const phone=window.matchMedia("(max-width:560px)");
  const load=async()=>{
@@ -23,10 +23,15 @@ async function loadStationArtwork(){
  if(phone.addEventListener)phone.addEventListener("change",load);
 }
 loadStationArtwork();
+function shuffleChoices(choices,correctAnswer,previousSlot){
+ let ordered,correctSlot;
+ do{ordered=[...choices];for(let i=ordered.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ordered[i],ordered[j]]=[ordered[j],ordered[i]]}correctSlot=ordered.indexOf(correctAnswer)}while(correctSlot===previousSlot);
+ return{ordered,correctSlot}
+}
 function say(text){if(!("speechSynthesis"in window)||!("SpeechSynthesisUtterance"in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="de-DE";const v=window.speechSynthesis.getVoices().find(x=>x.lang.toLowerCase().startsWith("de"));if(v)u.voice=v;window.speechSynthesis.speak(u)}
 function sentence(q,filled){const p=document.getElementById("sentence-text");p.replaceChildren();p.append(document.createTextNode(q.before));if(filled){const strong=document.createElement("strong");strong.textContent=q.answer;p.append(strong)}else p.append(document.createTextNode("___"));p.append(document.createTextNode(q.after))}
 function render(){
- const q=clues[index];document.getElementById("round-label").textContent="Clue "+(index+1)+" of "+clues.length;
+ const q=clues[index];const shuffled=shuffleChoices(q.choices,q.answer,previousCorrectSlot);q.displayChoices=shuffled.ordered;q.displayAnswer=shuffled.correctSlot;previousCorrectSlot=q.displayAnswer;document.getElementById("round-label").textContent="Clue "+(index+1)+" of "+clues.length;
  document.getElementById("score-label").textContent="Score: "+score;
  const pct=Math.round(index/clues.length*100);document.getElementById("progress-fill").style.width=pct+"%";document.querySelector(".game-progress-track").setAttribute("aria-valuenow",String(pct));
  document.getElementById("scene-label").textContent="CLUE · "+q.group.toUpperCase();
@@ -35,11 +40,11 @@ function render(){
  sentence(q,false);
  const hint=document.getElementById("hint-text");hint.textContent=q.hint;hint.hidden=true;
  document.getElementById("hint-button").hidden=false;document.getElementById("game-actions").hidden=true;feedback.hidden=true;feedback.className="game-feedback";options.replaceChildren();
- q.choices.forEach(choice=>{const b=document.createElement("button");b.type="button";b.className="game-choice";b.textContent=choice;b.addEventListener("click",()=>choose(choice));options.append(b)});
+ q.displayChoices.forEach((choice,i)=>{const b=document.createElement("button");b.type="button";b.className="game-choice";b.textContent=choice;b.addEventListener("click",()=>choose(i));options.append(b)});
 }
 function choose(choice){
- const q=clues[index],buttons=[...options.children],correct=choice===q.answer;
- buttons.forEach(b=>{b.disabled=true;if(b.textContent===q.answer)b.classList.add("is-correct");else if(b.textContent===choice)b.classList.add("is-wrong")});
+ const q=clues[index],buttons=[...options.children],correct=choice===q.displayAnswer;
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===q.displayAnswer)b.classList.add("is-correct");else if(i===choice)b.classList.add("is-wrong")});
  if(correct)score+=10;else missed.push({number:index+1,answer:q.before+q.answer+q.after,verb:q.answer,meaning:q.meaning});
  sentence(q,true);
  feedback.hidden=false;feedback.className="game-feedback"+(correct?"":" is-wrong");feedback.textContent=(correct?"Correct! ":"The correct form is “"+q.answer+"”. ")+q.hint+" (“"+q.answer+"” = "+q.meaning+")";
@@ -58,6 +63,6 @@ document.getElementById("next-button").addEventListener("click",()=>{
  document.getElementById("result-message").textContent="You solved the station case with "+score/10+" of "+clues.length+" first-try answers correct. Review the verbs below, then play again.";
  const list=document.getElementById("game-review");list.replaceChildren();missed.forEach(m=>{const li=document.createElement("li");li.textContent="Clue "+m.number+" · "+m.answer+" — "+m.verb+" means "+m.meaning;list.append(li)});
 });
-document.getElementById("play-again-button").addEventListener("click",()=>{index=0;score=0;missed=[];results.hidden=true;start.hidden=false;document.getElementById("progress-fill").style.width="0";});
+document.getElementById("play-again-button").addEventListener("click",()=>{index=0;score=0;missed=[];previousCorrectSlot=-1;results.hidden=true;start.hidden=false;document.getElementById("progress-fill").style.width="0";});
 if(!("speechSynthesis"in window))document.getElementById("listen-button").hidden=true;
 })();
