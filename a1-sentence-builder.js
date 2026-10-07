@@ -30,12 +30,42 @@
   const $ = (id) => document.getElementById(id);
   const image = $("sb-scene-image");
   const phoneSource = $("sb-phone-source");
+  const sceneFigure = document.querySelector(".sb-scene");
+  const taskPanel = document.querySelector(".sb-task");
   $("sb-level-label").textContent = "A1 · " + level.label;
   $("sb-level-title").textContent = level.title;
   $("sb-level-subtitle").textContent = level.subtitle;
   document.body.dataset.level = levelKey;
   $("sb-question-picker").href = "a1-sentence-builder-questions.html?level=" + encodeURIComponent(levelKey) + "&resume=1";
   document.querySelector(".sb-explain-link").href = "a1-sentence-builder-guide.html?level=" + encodeURIComponent(levelKey);
+
+  // On phones, link the quiz panel's small rise to scrolling through the scene.
+  // The same progress is used in reverse when the learner scrolls back up.
+  let scrollFramePending = false;
+  function updatePhonePanelMotion() {
+    if (!window.matchMedia("(max-width: 700px)").matches) {
+      taskPanel.style.removeProperty("--sb-scroll-rise");
+      return;
+    }
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const sceneBottom = sceneFigure.getBoundingClientRect().bottom;
+    const motionStart = viewportHeight * 0.9;
+    const motionEnd = viewportHeight * 0.55;
+    const progress = Math.max(0, Math.min(1, (motionStart - sceneBottom) / (motionStart - motionEnd)));
+    taskPanel.style.setProperty("--sb-scroll-rise", (progress * 90).toFixed(1) + "px");
+  }
+  function schedulePhonePanelMotion() {
+    if (scrollFramePending) return;
+    scrollFramePending = true;
+    requestAnimationFrame(() => {
+      updatePhonePanelMotion();
+      scrollFramePending = false;
+    });
+  }
+  window.addEventListener("scroll", schedulePhonePanelMotion, {passive:true});
+  window.addEventListener("resize", schedulePhonePanelMotion, {passive:true});
+  image.addEventListener("load", schedulePhonePanelMotion);
+  schedulePhonePanelMotion();
 
   function save() {
     try { sessionStorage.setItem(progressKey, JSON.stringify({current, score, review})); } catch (_) {}

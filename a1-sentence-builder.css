@@ -77,6 +77,8 @@ body.a1-game-page[data-game="a1-sentence-builder"][data-level="veryHard"]{backgr
   position:relative;
   z-index:2;
   margin-top:clamp(-300px,-38vh,-220px);
+  transform:translate3d(0,calc(90px - var(--sb-scroll-rise,0px)),0);
+  will-change:transform;
   padding:22px 14px 18px;
   border:1px solid rgba(255,255,255,.58);
   border-bottom:0;
