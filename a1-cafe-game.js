@@ -3,13 +3,23 @@ const turns=[
  {line:"Guten Morgen! Was möchten Sie?",task:"You would like one coffee. Choose a polite order.",choices:["Ich möchte einen Kaffee, bitte.","Ich möchte eine Kaffee, bitte.","Ich möchten einen Kaffee, bitte."],answer:0,hint:"Start with “Ich möchte …” (I would like …).",note:"“Ich möchte …, bitte” is a polite way to order: “I would like …, please.”"},
  {line:"Möchten Sie Milch und Zucker?",task:"You would like both milk and sugar.",choices:["Ja, bitte. Ohne Milch und Zucker.","Ja, bitte. Mit Milch und Zucker.","Nein, danke. Nur Milch."],answer:1,hint:"Say yes, then name both things with “mit”.",note:"“Mit Milch und Zucker” means “with milk and sugar.”"},
  {line:"Und möchten Sie etwas essen?",task:"You would like a croissant.",choices:["Einen Croissant, bitte.","Zwei Croissants, bitte.","Ein Croissant, bitte."],answer:2,hint:"Name the food, then add “bitte”.",note:"“Ein Croissant, bitte” is a simple and natural way to order food."},
- {line:"Möchten Sie hier trinken oder zum Mitnehmen?",task:"You want to drink your coffee here.",choices:["Hier trinken, bitte.","Zum Mitnehmen, bitte.","Hier bezahlen, bitte."],answer:0,hint:"Choose the option that means “here”.",note:"“Hier trinken, bitte” means “I’ll have it here, please.”"},
- {line:"Möchten Sie bar oder mit Karte zahlen?",task:"You want to pay by card.",choices:["Bar, bitte.","Mit Karte, bitte.","Mit Bargeld, bitte."],answer:1,hint:"“Karte” means card; answer with “mit”.",note:"“Mit Karte, bitte” means “By card, please.”"},
+ {line:"Möchten Sie hier trinken oder zum Mitnehmen?",task:"You want to drink your coffee here.",choices:["Ich trinke meinen Kaffee hier.","Ich nehme meinen Kaffee mit.","Ich trinke meinen Kaffee später."],answer:0,hint:"Choose the sentence that says you are drinking your coffee here.",note:"“Ich trinke meinen Kaffee hier” means “I’m drinking my coffee here.”"},
+ {line:"Möchten Sie bar oder mit Karte zahlen?",task:"You want to pay by card.",choices:["Bar, bitte.","Mit Karte, bitte.","Mit dem Handy, bitte."],answer:1,hint:"“Karte” means card; answer with “mit”.",note:"“Mit Karte, bitte” means “By card, please.”"},
  {line:"Hier ist Ihr Kaffee. Guten Appetit!",task:"Thank the server.",choices:["Gern geschehen!","Bitte schön!","Danke schön!"],answer:2,hint:"Use the short, friendly phrase for “Thank you very much.”",note:"“Danke schön” means “Thank you very much.” You completed a polite café conversation."}
 ];
 const start=document.getElementById("game-start"),play=document.getElementById("game-play"),results=document.getElementById("game-results");
 const options=document.getElementById("game-options"),feedback=document.getElementById("game-feedback");
 let index=0,score=0,missed=[],previousCorrectSlot=-1;
+async function loadCafeArtwork(){
+ const phone=window.matchMedia("(max-width:560px)");
+ const load=async()=>{
+  const path=phone.matches?"assets/cafe-berlin-phone.png.b64":"assets/cafe-berlin-desktop.png.b64";
+  try{const response=await fetch(path);if(!response.ok)return;const encoded=await response.text();const binary=atob(encoded.trim());const bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);const imageUrl=URL.createObjectURL(new Blob([bytes],{type:"image/png"}));document.body.style.setProperty("--cafe-image",'url("'+imageUrl+'")')}catch(error){/* Keep the coordinated gradient background if artwork cannot load. */}
+ };
+ await load();
+ if(phone.addEventListener)phone.addEventListener("change",load);
+}
+loadCafeArtwork();
 function shuffleChoices(choices,correctAnswer,previousSlot){
  let ordered,correctSlot;
  do{ordered=[...choices];for(let i=ordered.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ordered[i],ordered[j]]=[ordered[j],ordered[i]]}correctSlot=ordered.indexOf(correctAnswer)}while(correctSlot===previousSlot);
