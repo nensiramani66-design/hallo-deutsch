@@ -37,7 +37,7 @@ window.A1_VERB_DETAILS = {
   baden:{tail:"im See"},
   melden:{tail:"{{reflexive}} heute bei der Lehrerin",reflexive:true},
   warten:{tail:"an der Haltestelle auf den Bus"},
-  reiten:{tail:"ein ruhiges Pferd",aux:"sein"},
+  reiten:{tail:"ein ruhiges Pferd",aux:"haben"},
   berichten:{tail:"von der Reise"},
   verbieten:{tail:"den Kindern das Rauchen"},
   verabreden:{tail:"{{reflexive}} heute mit Anna",reflexive:true},
