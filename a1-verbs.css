@@ -162,3 +162,21 @@ mark{padding:1px 3px;border-radius:4px;background:#c7e7bd;color:#174f45;font-wei
   .pdf-table-scroll table[data-columns="6"] th:nth-child(5),.pdf-table-scroll table[data-columns="6"] td:nth-child(5){width:19%}
   .pdf-table-scroll table[data-columns="6"] th:nth-child(6),.pdf-table-scroll table[data-columns="6"] td:nth-child(6){width:31%}
 }
+
+/* Keep every word intact in the compact phone tables. */
+@media(max-width:600px){
+  .pdf-table-scroll th,.pdf-table-scroll td{overflow-wrap:normal;word-break:normal;hyphens:none}
+  .pdf-table-scroll table[data-columns="5"] td{font-size:clamp(7.5px,2.4vw,9px)}
+  .pdf-table-scroll table[data-columns="6"] td{font-size:clamp(7px,2.2vw,8px)}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(1),.pdf-table-scroll table[data-columns="5"] td:nth-child(1){width:18%}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(2),.pdf-table-scroll table[data-columns="5"] td:nth-child(2){width:18%}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(3),.pdf-table-scroll table[data-columns="5"] td:nth-child(3){width:18%}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(4),.pdf-table-scroll table[data-columns="5"] td:nth-child(4){width:21%}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(5),.pdf-table-scroll table[data-columns="5"] td:nth-child(5){width:25%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(1),.pdf-table-scroll table[data-columns="6"] td:nth-child(1){width:15%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(2),.pdf-table-scroll table[data-columns="6"] td:nth-child(2){width:12%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(3),.pdf-table-scroll table[data-columns="6"] td:nth-child(3){width:16%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(4),.pdf-table-scroll table[data-columns="6"] td:nth-child(4){width:12%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(5),.pdf-table-scroll table[data-columns="6"] td:nth-child(5){width:20%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(6),.pdf-table-scroll table[data-columns="6"] td:nth-child(6){width:25%}
+}
