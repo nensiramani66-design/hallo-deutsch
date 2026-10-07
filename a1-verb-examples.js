@@ -1,14 +1,10 @@
 (() => {
-  const groupKey = document.body.dataset.verbGroup;
+  const params = new URLSearchParams(location.search);
+  const groupKey = params.get("group") || document.body.dataset.verbGroup;
   const group = window.A1_VERB_GROUPS && window.A1_VERB_GROUPS[groupKey];
   const details = window.A1_VERB_DETAILS || {};
   if (!group) return;
 
-  const pronouns = [
-    ["Ich", "Ich"], ["Du", "Du"], ["Er", "Er"], ["Sie (she)", "Sie"],
-    ["Es", "Es"], ["Wir", "Wir"], ["Ihr", "Ihr"], ["sie (they)", "Sie"],
-    ["Sie (formal)", "Sie"]
-  ];
   const reflexives = ["mich", "dich", "sich", "sich", "sich", "uns", "euch", "sich", "sich"];
   const subjects = ["Ich", "Du", "Er", "Sie", "Es", "Wir", "Ihr", "Sie", "Sie"];
   const labels = ["Ich", "Du", "Er", "sie (she)", "Es", "Wir", "Ihr", "sie (they)", "Sie (formal)"];
@@ -38,13 +34,11 @@
       ];
       rawPast = row[3];
     }
-    const match = rawPast.match(/^(hat|ist)(?:\\s*\\/\\s*(?:hat|ist))?\\s+(.+)$/);
-    const auxiliary = info.aux || (match && match[1] === "ist" ? "sein" : "haben");
-    const participle = info.participle || (match ? match[2] : "");
+    const auxiliary = info.aux || (rawPast.startsWith("ist") ? "sein" : "haben");
+    const participle = info.participle || rawPast.trim().split(" ").filter(Boolean).pop();
     return {infinitive:row[0], meaning, forms, auxiliary, participle, info};
   }
 
-  const params = new URLSearchParams(location.search);
   const requested = params.get("verb");
   const verb = group.verbs.map(getVerb).find(item => item.infinitive === requested);
   const title = document.getElementById("example-title");
@@ -65,13 +59,13 @@
   document.title = verb.infinitive + " example sentences | Hallo Deutsch A1";
   document.getElementById("back-to-group").href = "a1-verbs-" + groupKey + ".html";
 
-  function appendHighlightedSentence(target, subject, form, tail, particle) {
+  function appendHighlightedSentence(target, subject, form, tail, particle, index) {
     target.append(document.createTextNode(subject + " "));
     const finite = particle ? form.replace(new RegExp("\\s+" + particle + "$"), "") : form;
     const verbMark = document.createElement("mark");
     verbMark.textContent = finite;
     target.append(verbMark);
-    const cleanTail = tail.replace("{{reflexive}}", reflexives[subjects.indexOf(subject)]);
+    const cleanTail = tail.replace("{{reflexive}}", reflexives[index]);
     if (cleanTail) target.append(document.createTextNode(" " + cleanTail));
     if (particle) {
       target.append(document.createTextNode(" "));
@@ -89,7 +83,7 @@
     label.textContent = labels[index];
     const sentence = document.createElement("p");
     sentence.className = "sentence-example";
-    appendHighlightedSentence(sentence, subjects[index], form, verb.info.tail || "", verb.info.particle || "");
+    appendHighlightedSentence(sentence, subjects[index], form, verb.info.tail || "", verb.info.particle || "", index);
     item.append(label, sentence);
     list.append(item);
   });
