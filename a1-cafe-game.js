@@ -9,20 +9,25 @@ const turns=[
 ];
 const start=document.getElementById("game-start"),play=document.getElementById("game-play"),results=document.getElementById("game-results");
 const options=document.getElementById("game-options"),feedback=document.getElementById("game-feedback");
-let index=0,score=0,missed=[];
+let index=0,score=0,missed=[],previousCorrectSlot=-1;
+function shuffleChoices(choices,correctAnswer,previousSlot){
+ let ordered,correctSlot;
+ do{ordered=[...choices];for(let i=ordered.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ordered[i],ordered[j]]=[ordered[j],ordered[i]]}correctSlot=ordered.indexOf(correctAnswer)}while(correctSlot===previousSlot);
+ return{ordered,correctSlot}
+}
 function say(text){if(!("speechSynthesis"in window)||!("SpeechSynthesisUtterance"in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="de-DE";const v=window.speechSynthesis.getVoices().find(x=>x.lang.toLowerCase().startsWith("de"));if(v)u.voice=v;window.speechSynthesis.speak(u)}
 function render(){
- const q=turns[index];document.getElementById("round-label").textContent="Turn "+(index+1)+" of "+turns.length;
+ const q=turns[index];const shuffled=shuffleChoices(q.choices,q.choices[q.answer],previousCorrectSlot);q.displayChoices=shuffled.ordered;q.displayAnswer=shuffled.correctSlot;previousCorrectSlot=q.displayAnswer;document.getElementById("round-label").textContent="Turn "+(index+1)+" of "+turns.length;
  document.getElementById("score-label").textContent="Score: "+score;
  const pct=Math.round(index/turns.length*100);document.getElementById("progress-fill").style.width=pct+"%";document.querySelector(".game-progress-track").setAttribute("aria-valuenow",String(pct));
  document.getElementById("scene-line").textContent=q.line;document.getElementById("task-text").textContent=q.task;document.getElementById("sentence-text").textContent="";
  const hint=document.getElementById("hint-text");hint.textContent=q.hint;hint.hidden=true;
  document.getElementById("hint-button").hidden=false;document.getElementById("game-actions").hidden=true;feedback.hidden=true;feedback.className="game-feedback";options.replaceChildren();
- q.choices.forEach((choice,i)=>{const b=document.createElement("button");b.type="button";b.className="game-choice";b.textContent=choice;b.addEventListener("click",()=>choose(i));options.append(b)});
+ q.displayChoices.forEach((choice,i)=>{const b=document.createElement("button");b.type="button";b.className="game-choice";b.textContent=choice;b.addEventListener("click",()=>choose(i));options.append(b)});
 }
 function choose(choice){
- const q=turns[index],buttons=[...options.children],correct=choice===q.answer;
- buttons.forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add("is-correct");else if(i===choice)b.classList.add("is-wrong")});
+ const q=turns[index],buttons=[...options.children],correct=choice===q.displayAnswer;
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===q.displayAnswer)b.classList.add("is-correct");else if(i===choice)b.classList.add("is-wrong")});
  if(correct)score+=10;else missed.push({number:index+1,answer:q.choices[q.answer]});
  feedback.hidden=false;feedback.className="game-feedback"+(correct?"":" is-wrong");feedback.textContent=(correct?"Correct! ":"Not quite. The natural reply is “"+q.choices[q.answer]+"”. ")+q.note;
  document.getElementById("score-label").textContent="Score: "+score;document.getElementById("turn-score").textContent=correct?"+10 points":"Keep going";
@@ -40,6 +45,6 @@ document.getElementById("next-button").addEventListener("click",()=>{
  document.getElementById("result-message").textContent="You completed the café conversation with "+score/10+" of "+turns.length+" first-try answers correct. You can replay and practise any phrase.";
  const list=document.getElementById("game-review");list.replaceChildren();missed.forEach(m=>{const li=document.createElement("li");li.textContent="Turn "+m.number+" · Practise: "+m.answer;list.append(li)});
 });
-document.getElementById("play-again-button").addEventListener("click",()=>{index=0;score=0;missed=[];results.hidden=true;start.hidden=false;document.getElementById("progress-fill").style.width="0";});
+document.getElementById("play-again-button").addEventListener("click",()=>{index=0;score=0;missed=[];previousCorrectSlot=-1;results.hidden=true;start.hidden=false;document.getElementById("progress-fill").style.width="0";});
 if(!("speechSynthesis"in window))document.getElementById("listen-button").hidden=true;
 })();
