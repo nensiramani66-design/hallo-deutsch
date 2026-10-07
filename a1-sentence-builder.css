@@ -121,10 +121,22 @@ body[data-game="a1-sentence-builder"] .game-panel{border-color:rgba(255,249,236,
  .sb-scene picture,.sb-scene figcaption{position:static}
  .sb-task{position:static;z-index:auto;top:auto;bottom:auto;left:auto;width:auto;max-height:none;overflow:visible;margin:0;padding:clamp(18px,3.5vw,32px);border:0;border-radius:0;background:var(--sb-cream);box-shadow:none;backdrop-filter:none}
 }
-.sb-question-nav{display:grid;grid-template-columns:repeat(16,minmax(24px,1fr));gap:6px;margin:-8px 0 20px}
+.sb-question-nav{display:grid;grid-template-columns:repeat(16,minmax(24px,1fr));gap:6px;margin:14px clamp(18px,3.2vw,34px) 0;padding-top:12px;border-top:1px solid #e7dccc}
 .sb-question-nav button{min-width:0;min-height:30px;padding:4px 2px;border:1px solid #dfd2df;border-radius:8px;background:#fffaf2;color:#594565;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
 .sb-question-nav button:hover{border-color:#80609b;background:#f3eaf4}
 .sb-question-nav button.is-current{border-color:#765487;background:#765487;color:#fff}
 .sb-question-nav button.is-complete:not(.is-current){border-color:#9bc6a0;background:#e8f6eb;color:#205c37}
 .sb-question-nav button:focus-visible{outline:3px solid #b88b56;outline-offset:2px}
 @media(max-width:700px){.sb-question-nav{display:none!important}}
+
+/* Keep every instruction and control below the full scene image. */
+.sb-scene{position:static;isolation:auto}
+.sb-scene picture,.sb-scene figcaption{position:static}
+.sb-task{position:static;z-index:auto;top:auto;bottom:auto;left:auto;width:auto;max-height:none;overflow:visible;margin:0;padding:clamp(18px,3.5vw,32px);border:0;border-radius:0;background:var(--sb-cream);box-shadow:none;backdrop-filter:none}
+.sb-question-nav{margin:0;padding:14px clamp(18px,3.2vw,34px) 0}
+@media(max-width:700px){
+ .sb-question-nav{display:none!important}
+ .sb-task{padding:17px 14px}
+}
+
+.sb-question-nav::before{grid-column:1/-1;content:"Choose a question:";color:#6b6476;font-size:11px;font-weight:800;letter-spacing:.05em}

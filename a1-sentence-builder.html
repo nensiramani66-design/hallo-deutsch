@@ -7,7 +7,7 @@
 <meta name="description" content="Build clear A1 German sentences as you introduce yourself, describe a new home, talk about routines, and make plans.">
 <title>Sentence Builder | Hallo Deutsch A1</title>
 <link rel="stylesheet" href="a1-games.css?v=layout3">
-<link rel="stylesheet" href="a1-sentence-builder.css?v=1">
+<link rel="stylesheet" href="a1-sentence-builder.css?v=3">
 </head>
 <body class="a1-game-page" data-game="a1-sentence-builder">
 <main class="game-shell sentence-shell">
@@ -31,7 +31,6 @@
 <div class="sb-progress">
 <div class="game-progress-head"><span id="sb-round">Sentence 1 of 16</span><span id="sb-score">Score: 0</span></div>
 <div class="game-progress-track" role="progressbar" id="sb-progressbar" aria-label="Game progress" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0"><div class="game-progress-fill" id="sb-progress"></div></div>
-<nav class="sb-question-nav" id="sb-question-nav" aria-label="Jump to a question"></nav>
 <div class="sb-chapter-heading"><p class="sb-chapter-label" id="sb-chapter-label">CHAPTER 1 OF 4</p><h2 id="sb-chapter-title">Meet your neighbor</h2><p id="sb-chapter-note"></p></div>
 </div>
 <figure class="sb-scene">
@@ -40,6 +39,8 @@
 <img id="sb-scene-image" src="assets/sentence-builder/scene-1-desktop.png" alt="Lea greets her new neighbor Sam at her apartment doorway." fetchpriority="high">
 </picture>
 <figcaption id="sb-scene-caption">Lea has just moved in and is meeting her neighbor.</figcaption>
+</figure>
+<nav class="sb-question-nav" id="sb-question-nav" aria-label="Jump to a question"></nav>
 <div class="sb-task">
 <p class="sb-task-label">BUILD THIS SENTENCE IN GERMAN</p>
 <p class="sb-prompt" id="sb-prompt"></p>
@@ -64,7 +65,6 @@
 <button class="game-primary sb-next" id="sb-next-button" type="button" hidden>Next sentence <span aria-hidden="true">→</span></button>
 </div>
 </div>
-</figure>
 </section>
 <section class="game-panel sb-results" id="sb-results" hidden>
 <p class="sb-kicker">A NEW HOME, A NEW CONVERSATION</p>
@@ -78,6 +78,6 @@
 </section>
 <footer class="game-footer">Take your time. Every sentence is a new step.</footer>
 </main>
-<script src="a1-sentence-builder.js?v=1" defer></script>
+<script src="a1-sentence-builder.js?v=2" defer></script>
 </body>
 </html>
