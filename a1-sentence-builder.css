@@ -114,3 +114,17 @@ body[data-game="a1-sentence-builder"] .game-panel{border-color:rgba(255,249,236,
 .sb-guide-card>p:last-child{margin:0;color:var(--sb-muted);font-size:15px;line-height:1.65}
 .sb-guide-back{display:inline-flex;margin:22px 0 8px;padding:12px 16px;border:1px solid rgba(249,231,205,.5);border-radius:10px;background:rgba(255,255,255,.08);color:#fffaf2;font-weight:800;text-decoration:none}
 @media(max-width:700px){.sb-guide-list{gap:10px;margin-top:18px}.sb-guide-card{padding:17px}.sb-guide-card>p:last-child{font-size:14px}}
+
+/* Restore the original full-width image followed by the complete exercise. */
+@media(min-width:701px){
+ .sb-scene{background:var(--sb-cream)}
+ .sb-scene picture,.sb-scene figcaption{position:static}
+ .sb-task{position:static;z-index:auto;top:auto;bottom:auto;left:auto;width:auto;max-height:none;overflow:visible;margin:0;padding:clamp(18px,3.5vw,32px);border:0;border-radius:0;background:var(--sb-cream);box-shadow:none;backdrop-filter:none}
+}
+.sb-question-nav{display:grid;grid-template-columns:repeat(16,minmax(24px,1fr));gap:6px;margin:-8px 0 20px}
+.sb-question-nav button{min-width:0;min-height:30px;padding:4px 2px;border:1px solid #dfd2df;border-radius:8px;background:#fffaf2;color:#594565;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.sb-question-nav button:hover{border-color:#80609b;background:#f3eaf4}
+.sb-question-nav button.is-current{border-color:#765487;background:#765487;color:#fff}
+.sb-question-nav button.is-complete:not(.is-current){border-color:#9bc6a0;background:#e8f6eb;color:#205c37}
+.sb-question-nav button:focus-visible{outline:3px solid #b88b56;outline-offset:2px}
+@media(max-width:700px){.sb-question-nav{display:none!important}}

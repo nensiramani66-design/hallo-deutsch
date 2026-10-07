@@ -156,6 +156,29 @@
     document.getElementById("sb-check-button").disabled = locked || answer.length === 0;
   }
 
+  function renderQuestionNav() {
+    const nav = document.getElementById("sb-question-nav");
+    nav.replaceChildren();
+    allTasks.forEach((item, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = String(index + 1);
+      button.setAttribute("aria-label", "Go to question " + (index + 1));
+      if (index === current) {
+        button.classList.add("is-current");
+        button.setAttribute("aria-current", "step");
+      }
+      if (scored.has(index)) button.classList.add("is-complete");
+      button.addEventListener("click", () => {
+        if (index !== current) {
+          current = index;
+          renderQuestion();
+        }
+      });
+      nav.appendChild(button);
+    });
+  }
+
   function renderQuestion() {
     if (current >= allTasks.length) { finish(); return; }
     const item = allTasks[current];
@@ -166,6 +189,7 @@
     const progress = Math.round((current / allTasks.length) * 100);
     document.getElementById("sb-progress").style.width = progress + "%";
     document.getElementById("sb-progressbar").setAttribute("aria-valuenow", String(current));
+    renderQuestionNav();
     document.getElementById("sb-chapter-label").textContent = "CHAPTER " + (item.chapterIndex + 1) + " OF " + chapters.length;
     document.getElementById("sb-chapter-title").textContent = chapter.title;
     document.getElementById("sb-chapter-note").textContent = chapter.note;
@@ -268,6 +292,7 @@
       document.getElementById("sb-retry-button").hidden = true;
       document.getElementById("sb-next-button").hidden = false;
       document.getElementById("sb-score").textContent = "Score: " + points;
+      renderQuestionNav();
       renderTiles();
     } else {
       attempts += 1;
