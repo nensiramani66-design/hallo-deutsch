@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#153b53">
-  <meta name="description" content="Sign in or create an account for Hallo Deutsch.">
-  <title>Log in or register · Hallo Deutsch</title>
+  <meta name="theme-color" content="#132c32">
+  <meta name="description" content="Log in or create your Hallo Deutsch account.">
+  <title>Log in · Hallo Deutsch</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -13,73 +13,54 @@
 </head>
 <body class="auth-page">
   <picture class="auth-backdrop" aria-hidden="true">
-    <source media="(max-width: 700px)" srcset="assets/login-mobile.jpg">
-    <img src="assets/login-desktop.jpg" alt="">
+    <img src="assets/login-mountain.jpg" alt="">
   </picture>
   <div class="auth-shade" aria-hidden="true"></div>
-  <main class="auth-frame">
-    <section class="auth-welcome" aria-labelledby="welcome-title">
+  <main class="login-stage">
+    <section class="auth-card" aria-label="Hallo Deutsch account">
       <a class="auth-brand" href="./" aria-label="Hallo Deutsch home"><span class="auth-brand-mark">H</span><span>hallo <strong>deutsch</strong></span></a>
-      <div class="welcome-copy">
-        <p class="auth-eyebrow"><span aria-hidden="true">✦</span> YOUR GERMAN JOURNEY</p>
-        <h1 id="welcome-title">One new word today.<br>More confidence tomorrow.</h1>
-        <p>Build your German step by step, at your own pace.</p>
-        <a class="home-link" href="./#top"><span aria-hidden="true">←</span> Back to learning</a>
+      <div class="auth-tabs" role="tablist" aria-label="Account access">
+        <button class="auth-tab" id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-panel">Log in</button>
+        <button class="auth-tab" id="register-tab" type="button" role="tab" aria-selected="false" aria-controls="register-panel">Sign up</button>
       </div>
-      <p class="welcome-foot">Simple lessons. Encouraging practice. No rush.</p>
-    </section>
 
-    <section class="auth-side" aria-label="Account access">
-      <div class="auth-card">
-        <div class="auth-tabs" role="tablist" aria-label="Choose sign-in or registration">
-          <button class="auth-tab" id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-panel">Log in</button>
-          <button class="auth-tab" id="register-tab" type="button" role="tab" aria-selected="false" aria-controls="register-panel">Create account</button>
+      <section id="login-panel" class="auth-panel" role="tabpanel" aria-labelledby="login-tab">
+        <h1>Log in</h1>
+        <form id="login-form">
+          <label for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" autocomplete="email" placeholder="Email address" required>
+          <div class="password-label"><label for="login-password">Password</label><button class="text-button" id="forgot-password" type="button">Forgot password?</button></div>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Password" required>
+          <button class="primary-auth-button" type="submit">Log in <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="auth-divider"><span>or</span></div>
+        <div class="provider-buttons">
+          <button class="provider-button" type="button" data-provider="google"><span class="google-mark" aria-hidden="true">G</span><span>Continue with Google</span></button>
+          <button class="provider-button" type="button" data-provider="apple"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M16.37 12.57c.02 2.1 1.84 2.8 1.86 2.81-.02.05-.29 1.01-.96 2-.58.86-1.19 1.72-2.15 1.74-.94.02-1.24-.56-2.32-.56-1.08 0-1.41.54-2.3.58-.92.03-1.62-.92-2.21-1.77-1.2-1.74-2.12-4.92-.89-7.06.61-1.06 1.69-1.73 2.85-1.75.89-.02 1.73.6 2.32.6.58 0 1.68-.74 2.83-.63.48.02 1.84.19 2.71 1.46-.07.04-1.62.95-1.6 2.58ZM14.52 6.99c.49-.6.83-1.43.74-2.26-.71.03-1.57.47-2.08 1.07-.46.53-.86 1.37-.75 2.18.79.06 1.6-.4 2.09-.99Z"/></svg><span>Continue with Apple</span></button>
         </div>
+      </section>
 
-        <section id="login-panel" class="auth-panel" role="tabpanel" aria-labelledby="login-tab">
-          <p class="panel-kicker">WELCOME BACK</p>
-          <h2>Continue learning</h2>
-          <p class="auth-panel-copy">Pick up where your German learning left off.</p>
-          <form id="login-form">
-            <label for="login-email">Email address</label>
-            <input id="login-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-            <div class="password-label"><label for="login-password">Password</label><button class="text-button" id="forgot-password" type="button">Forgot password?</button></div>
-            <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
-            <button class="primary-auth-button" type="submit">Log in <span aria-hidden="true">→</span></button>
-          </form>
-          <div class="auth-divider"><span>or continue with</span></div>
-          <div class="provider-buttons">
-            <button class="provider-button" type="button" data-provider="google"><span class="google-mark" aria-hidden="true">G</span><span>Google</span></button>
-            <button class="provider-button" type="button" data-provider="apple"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M16.37 12.57c.02 2.1 1.84 2.8 1.86 2.81-.02.05-.29 1.01-.96 2-.58.86-1.19 1.72-2.15 1.74-.94.02-1.24-.56-2.32-.56-1.08 0-1.41.54-2.3.58-.92.03-1.62-.92-2.21-1.77-1.2-1.74-2.12-4.92-.89-7.06.61-1.06 1.69-1.73 2.85-1.75.89-.02 1.73.6 2.32.6.58 0 1.68-.74 2.83-.63.48.02 1.84.19 2.71 1.46-.07.04-1.62.95-1.6 2.58ZM14.52 6.99c.49-.6.83-1.43.74-2.26-.71.03-1.57.47-2.08 1.07-.46.53-.86 1.37-.75 2.18.79.06 1.6-.4 2.09-.99Z"/></svg><span>Apple</span></button>
-          </div>
-        </section>
-
-        <section id="register-panel" class="auth-panel" role="tabpanel" aria-labelledby="register-tab" hidden>
-          <p class="panel-kicker">START YOUR JOURNEY</p>
-          <h2>Create your account</h2>
-          <p class="auth-panel-copy">A little practice today, a little more confidence tomorrow.</p>
-          <form id="register-form">
-            <label for="register-name">Your name</label>
-            <input id="register-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
-            <label for="register-email">Email address</label>
-            <input id="register-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-            <label for="register-password">Create a password</label>
-            <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required>
-            <label for="register-confirm">Repeat password</label>
-            <input id="register-confirm" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Enter it once more" required>
-            <button class="primary-auth-button" type="submit">Create account <span aria-hidden="true">→</span></button>
-          </form>
-          <div class="auth-divider"><span>or continue with</span></div>
-          <div class="provider-buttons">
-            <button class="provider-button" type="button" data-provider="google"><span class="google-mark" aria-hidden="true">G</span><span>Google</span></button>
-            <button class="provider-button" type="button" data-provider="apple"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M16.37 12.57c.02 2.1 1.84 2.8 1.86 2.81-.02.05-.29 1.01-.96 2-.58.86-1.19 1.72-2.15 1.74-.94.02-1.24-.56-2.32-.56-1.08 0-1.41.54-2.3.58-.92.03-1.62-.92-2.21-1.77-1.2-1.74-2.12-4.92-.89-7.06.61-1.06 1.69-1.73 2.85-1.75.89-.02 1.73.6 2.32.6.58 0 1.68-.74 2.83-.63.48.02 1.84.19 2.71 1.46-.07.04-1.62.95-1.6 2.58ZM14.52 6.99c.49-.6.83-1.43.74-2.26-.71.03-1.57.47-2.08 1.07-.46.53-.86 1.37-.75 2.18.79.06 1.6-.4 2.09-.99Z"/></svg><span>Apple</span></button>
-          </div>
-        </section>
-
-        <p class="auth-status" id="auth-status" role="status" aria-live="polite">Add your authentication project settings to enable secure account access.</p>
-        <p class="auth-switch" id="auth-switch">New to Hallo Deutsch? <button class="text-button" type="button" data-show="register">Create an account</button></p>
-      </div>
-      <p class="auth-privacy">Your learning journey starts with one small step.</p>
+      <section id="register-panel" class="auth-panel" role="tabpanel" aria-labelledby="register-tab" hidden>
+        <h1>Create account</h1>
+        <form id="register-form">
+          <label for="register-name">Name</label>
+          <input id="register-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+          <label for="register-email">Email</label>
+          <input id="register-email" name="email" type="email" autocomplete="email" placeholder="Email address" required>
+          <label for="register-password">Password</label>
+          <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required>
+          <label for="register-confirm">Repeat password</label>
+          <input id="register-confirm" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Repeat password" required>
+          <button class="primary-auth-button" type="submit">Create account <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="auth-divider"><span>or</span></div>
+        <div class="provider-buttons">
+          <button class="provider-button" type="button" data-provider="google"><span class="google-mark" aria-hidden="true">G</span><span>Continue with Google</span></button>
+          <button class="provider-button" type="button" data-provider="apple"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M16.37 12.57c.02 2.1 1.84 2.8 1.86 2.81-.02.05-.29 1.01-.96 2-.58.86-1.19 1.72-2.15 1.74-.94.02-1.24-.56-2.32-.56-1.08 0-1.41.54-2.3.58-.92.03-1.62-.92-2.21-1.77-1.2-1.74-2.12-4.92-.89-7.06.61-1.06 1.69-1.73 2.85-1.75.89-.02 1.73.6 2.32.6.58 0 1.68-.74 2.83-.63.48.02 1.84.19 2.71 1.46-.07.04-1.62.95-1.6 2.58ZM14.52 6.99c.49-.6.83-1.43.74-2.26-.71.03-1.57.47-2.08 1.07-.46.53-.86 1.37-.75 2.18.79.06 1.6-.4 2.09-.99Z"/></svg><span>Continue with Apple</span></button>
+        </div>
+      </section>
+      <p class="auth-status" id="auth-status" role="status" aria-live="polite" hidden></p>
+      <p class="auth-switch" id="auth-switch">New to Hallo Deutsch? <button class="text-button" type="button" data-show="register">Create account</button></p>
     </section>
   </main>
   <script src="auth-config.js"></script>

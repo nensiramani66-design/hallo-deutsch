@@ -1,10 +1,16 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
 const config = window.HALLO_AUTH_CONFIG || {};
 const configured = Boolean(config.supabaseUrl && config.supabaseAnonKey);
-const client = configured ? createClient(config.supabaseUrl, config.supabaseAnonKey, {
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
-}) : null;
+let clientPromise;
+async function getClient() {
+  if (!configured) return null;
+  if (!clientPromise) {
+    clientPromise = import("https://esm.sh/@supabase/supabase-js@2")
+      .then(({ createClient }) => createClient(config.supabaseUrl, config.supabaseAnonKey, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+      }));
+  }
+  return clientPromise;
+}
 const loginTab = document.getElementById("login-tab");
 const registerTab = document.getElementById("register-tab");
 const loginPanel = document.getElementById("login-panel");
@@ -16,10 +22,9 @@ const callbackUrl = new URL("./login.html", window.location.href).toString();
 function announce(message, state = "") {
   status.textContent = message;
   status.dataset.state = state;
+  status.hidden = false;
 }
-function friendlyError(error) {
-  return error?.message || "Something went wrong. Please try again.";
-}
+function friendlyError(error) { return error?.message || "Something went wrong. Please try again."; }
 function showPanel(name) {
   const isLogin = name === "login";
   loginTab.setAttribute("aria-selected", String(isLogin));
@@ -27,27 +32,23 @@ function showPanel(name) {
   loginPanel.hidden = !isLogin;
   registerPanel.hidden = isLogin;
   switchLine.innerHTML = isLogin
-    ? 'New to Hallo Deutsch? <button class="text-button" type="button" data-show="register">Create an account</button>'
+    ? 'New to Hallo Deutsch? <button class="text-button" type="button" data-show="register">Create account</button>'
     : 'Already have an account? <button class="text-button" type="button" data-show="login">Log in</button>';
-  announce(configured ? "Your sign-in is secure. Choose a method to continue." : "Sign-in setup is not complete yet. Add your project URL and public key in auth-config.js, then configure provider redirects.", configured ? "" : "notice");
 }
 function setBusy(form, busy) {
   form.querySelectorAll("button").forEach(button => { button.disabled = busy; });
 }
 async function withForm(form, task) {
   if (!form.reportValidity()) return;
+  const client = await getClient();
   if (!client) {
-    announce("Account access is not connected yet. Add the auth project settings and provider callback URLs first.", "notice");
+    announce("Account sign-in is not connected yet.", "notice");
     return;
   }
   setBusy(form, true);
-  try {
-    await task();
-  } catch (error) {
-    announce(friendlyError(error), "error");
-  } finally {
-    setBusy(form, false);
-  }
+  try { await task(client); }
+  catch (error) { announce(friendlyError(error), "error"); }
+  finally { setBusy(form, false); }
 }
 
 loginTab.addEventListener("click", () => showPanel("login"));
@@ -56,20 +57,18 @@ document.addEventListener("click", event => {
   const switchButton = event.target.closest("[data-show]");
   if (switchButton) showPanel(switchButton.dataset.show);
 });
-
 document.getElementById("login-form").addEventListener("submit", event => {
   event.preventDefault();
   const form = event.currentTarget;
   const email = form.elements.email.value.trim();
   const password = form.elements.password.value;
-  withForm(form, async () => {
+  withForm(form, async client => {
     const { error } = await client.auth.signInWithPassword({ email, password });
     if (error) throw error;
     const { data } = await client.auth.getUser();
-    announce("Welcome back" + (data.user?.email ? ", " + data.user.email : "") + ". You are signed in.");
+    announce("Signed in" + (data.user?.email ? " as " + data.user.email : "") + ".");
   });
 });
-
 document.getElementById("register-form").addEventListener("submit", event => {
   event.preventDefault();
   const form = event.currentTarget;
@@ -77,24 +76,21 @@ document.getElementById("register-form").addEventListener("submit", event => {
   const name = form.elements.name.value.trim();
   const password = form.elements.password.value;
   if (password !== form.elements.confirmPassword.value) {
-    announce("Those passwords do not match. Please check them and try again.", "error");
+    announce("Those passwords do not match.", "error");
     form.elements.confirmPassword.focus();
     return;
   }
-  withForm(form, async () => {
-    const { data, error } = await client.auth.signUp({
-      email, password,
-      options: { data: { full_name: name }, emailRedirectTo: callbackUrl }
-    });
+  withForm(form, async client => {
+    const { data, error } = await client.auth.signUp({ email, password, options: { data: { full_name: name }, emailRedirectTo: callbackUrl } });
     if (error) throw error;
-    announce(data.session ? "Your account is ready. Welcome to Hallo Deutsch!" : "Check your email for a confirmation link to finish creating your account.");
+    announce(data.session ? "Account created. Welcome to Hallo Deutsch!" : "Check your email to confirm your account.");
   });
 });
-
 document.querySelectorAll("[data-provider]").forEach(button => {
   button.addEventListener("click", async () => {
+    const client = await getClient();
     if (!client) {
-      announce("Connect your auth project and add the provider callback URLs to enable " + (button.dataset.provider === "google" ? "Google" : "Apple") + " sign-in.", "notice");
+      announce("Account sign-in is not connected yet.", "notice");
       return;
     }
     document.querySelectorAll("[data-provider]").forEach(item => { item.disabled = true; });
@@ -111,33 +107,27 @@ document.querySelectorAll("[data-provider]").forEach(button => {
     }
   });
 });
-
 document.getElementById("forgot-password").addEventListener("click", async () => {
-  if (!client) {
-    announce("Password recovery will be ready once the auth project and redirect settings are connected.", "notice");
-    return;
-  }
   const email = document.getElementById("login-email").value.trim();
   if (!email) {
-    announce("Enter your email address first, then choose “Forgot password?”.", "notice");
+    announce("Enter your email first, then request a password reset.", "notice");
     document.getElementById("login-email").focus();
+    return;
+  }
+  const client = await getClient();
+  if (!client) {
+    announce("Password recovery is not connected yet.", "notice");
     return;
   }
   try {
     const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: callbackUrl });
     if (error) throw error;
-    announce("If an account exists for that address, a password reset email is on its way.");
-  } catch (error) {
-    announce(friendlyError(error), "error");
-  }
+    announce("If an account exists for that email, a reset link has been sent.");
+  } catch (error) { announce(friendlyError(error), "error"); }
 });
-
-if (client) {
-  client.auth.getSession().then(({ data, error }) => {
+if (configured) {
+  getClient().then(client => client.auth.getSession()).then(({ data, error }) => {
     if (error) announce(friendlyError(error), "error");
-    else if (data.session?.user?.email) announce("Welcome back, " + data.session.user.email + ". Your account is signed in.");
-    else announce("Your account access is ready. Log in or create an account to continue.");
-  });
-} else {
-  announce("Sign-in setup is not complete yet. Add your project URL and public key in auth-config.js, then configure provider redirects.", "notice");
+    else if (data.session?.user?.email) announce("Signed in as " + data.session.user.email + ".");
+  }).catch(error => announce(friendlyError(error), "error"));
 }
