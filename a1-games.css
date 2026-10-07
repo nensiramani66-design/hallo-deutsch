@@ -70,3 +70,23 @@ body[data-game="a1-verb-detective"] .game-scene{background:rgba(255,255,255,.72)
 @media(max-width:560px){body.a1-game-page[data-game="a1-verb-detective"]{background-position:center,center 35%;background-attachment:scroll}body[data-game="a1-verb-detective"] .game-shell{background:rgba(15,55,52,.3)}}
 
 body[data-game="a1-verb-detective"] .game-panel.game-start{background:rgba(246,248,240,.82)}
+
+/* Atmospheric A1 game screens: imagery stays visible, with clear glass-like panels. */
+body.a1-game-page[data-game="a1-verb-detective"]{background-color:#143d3c;background-image:linear-gradient(180deg,rgba(8,34,36,.2),rgba(7,35,31,.6)),var(--station-image,linear-gradient(145deg,#122f34,#19413f 55%,#203b36));background-position:center,center 42%;background-size:cover;background-attachment:fixed}
+body.a1-game-page[data-game="a1-cafe-game"]{background-color:#183b35;background-image:linear-gradient(180deg,rgba(25,34,25,.15),rgba(25,34,25,.55)),var(--cafe-image,linear-gradient(145deg,#263a32,#6b5438));background-position:center,center 48%;background-size:cover;background-attachment:fixed}
+body[data-game="a1-verb-detective"] .game-shell,body[data-game="a1-cafe-game"] .game-shell{background:rgba(12,45,41,.3);border-color:rgba(235,239,218,.4)}
+.game-hero p:last-child{display:inline-block;max-width:min(740px,100%);margin-top:14px;padding:9px 13px;border-radius:10px;background:rgba(235,242,225,.9);color:#183d38;font-size:clamp(16px,1.8vw,18px);font-weight:700;line-height:1.5}
+.game-hero + .game-panel.game-start{margin-top:clamp(70px,12vh,138px)}
+body[data-game="a1-verb-detective"] .game-panel.game-start,body[data-game="a1-cafe-game"] .game-panel.game-start{border-color:rgba(241,236,210,.52);color:#fff;box-shadow:0 18px 48px rgba(5,25,22,.24)}
+body[data-game="a1-verb-detective"] .game-panel.game-start{background:rgba(15,57,53,.73)}
+body[data-game="a1-cafe-game"] .game-panel.game-start{background:rgba(53,45,31,.74)}
+body[data-game="a1-verb-detective"] .game-start h2,body[data-game="a1-cafe-game"] .game-start h2{color:#fffaf0}
+body[data-game="a1-verb-detective"] .game-start p,body[data-game="a1-cafe-game"] .game-start p{color:rgba(255,250,239,.88)}
+body[data-game="a1-verb-detective"] .game-facts span,body[data-game="a1-cafe-game"] .game-facts span{border-color:rgba(238,242,222,.3);background:rgba(232,238,217,.14);color:#f5f4e8}
+body[data-game="a1-cafe-game"] .game-primary{background:#86613a}
+body[data-game="a1-cafe-game"] .game-primary:hover{background:#704c2e}
+body[data-game="a1-cafe-game"] .game-progress-fill{background:#b48750}
+body[data-game="a1-cafe-game"] .game-panel.game-play{background:rgba(250,247,237,.91)}
+body[data-game="a1-cafe-game"] .game-scene{background:rgba(255,255,255,.79)}
+body[data-game="a1-cafe-game"] .game-scene-label{color:#937044}
+@media(max-width:560px){body.a1-game-page[data-game="a1-verb-detective"],body.a1-game-page[data-game="a1-cafe-game"]{background-attachment:scroll;background-position:center,center 38%}.game-hero + .game-panel.game-start{margin-top:clamp(48px,9vh,90px)}}
