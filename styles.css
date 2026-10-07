@@ -170,3 +170,15 @@ html{scroll-snap-type:y proximity}
   #a1 .a1-cards{grid-template-columns:1fr;width:min(560px,100%)}
   #a1 .a1-choice-card{min-height:120px}
 }
+
+/* A1 conversation and verb games. */
+#a1 .a1-games-links{display:grid;grid-template-columns:auto repeat(2,minmax(0,1fr));align-items:stretch;gap:9px;width:min(1120px,100%);margin-top:12px}
+#a1 .a1-games-heading{align-self:center;margin:0 4px 0 0;color:#e4f1df;font-size:9px;font-weight:850;letter-spacing:.13em}
+#a1 .a1-game-link{display:flex;align-items:center;gap:9px;min-width:0;padding:10px 12px;border:1px solid rgba(255,255,255,.58);border-radius:11px;background:rgba(238,246,232,.94);color:#234332;box-shadow:0 8px 22px rgba(7,28,42,.14)}
+#a1 .a1-game-link:hover{background:#fff}
+#a1 .a1-game-icon{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border-radius:9px;background:#d8e8d4;color:#356c4c}
+#a1 .a1-game-link>span:nth-child(2){display:grid;gap:3px;min-width:0}
+#a1 .a1-game-link strong{font-size:12px}
+#a1 .a1-game-link small{color:#587263;font-size:10px;line-height:1.35}
+#a1 .a1-game-link>span:last-child{margin-left:auto;color:#39704b;font-size:18px}
+@media(max-width:900px){#a1 .a1-games-links{grid-template-columns:1fr;width:min(560px,100%)}#a1 .a1-games-heading{margin:3px 0;font-size:9px}}
