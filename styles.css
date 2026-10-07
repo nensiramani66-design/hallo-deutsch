@@ -133,3 +133,11 @@ html{scroll-snap-type:y proximity}
 .b1-feature .a1-choice-copy>span{color:#64777b}
 .b1-feature .a1-choice-copy small{color:#84663e}
 .b1-feature .a1-choice-icon{background:#f2dfbd;color:#72532e}
+
+/* A1 card colors tuned to the forest greens in the castle background. */
+#a1 .a1-read-card{background:linear-gradient(135deg,#f3f7ed 0%,#e7efdf 58%,#dce8d3 100%);color:#243e32}
+#a1 .a1-quiz-card{background:linear-gradient(135deg,#eff5e9 0%,#e2eddc 62%,#d6e6d5 100%);color:#243e32}
+#a1 .a1-choice-copy small{color:#53745d}
+#a1 .a1-choice-copy span{color:#526c5c}
+#a1 .a1-choice-icon{background:#d5e5d5;color:#315f42}
+#a1 .a1-choice-arrow{color:#316a47}
