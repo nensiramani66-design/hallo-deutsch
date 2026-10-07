@@ -1,5 +1,5 @@
 const config = window.HALLO_AUTH_CONFIG || {};
-const configured = Boolean(config.supabaseUrl && config.supabaseAnonKey);
+const configured = Boolean(config.supabaseUrl && config.supabasePublishableKey);
 let clientPromise;
 async function getClient() {
   if (!configured) return null;
