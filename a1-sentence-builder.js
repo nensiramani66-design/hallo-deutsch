@@ -10,7 +10,7 @@
       phone: "assets/sentence-builder/scene-1-phone.png",
       tasks: [
         {prompt:"Tell Sam: “My name is Lea.”",tokens:["Ich","heiße","Lea."],extra:["wohnt"],hint:"Start with “Ich”. With ich, heißen becomes heiße.",feedback:"The subject is ich, so the verb is heiße."},
-        {prompt:"Tell Sam: “I come from Spain.”",tokens:["Ich","komme","aus","Spanien."],extra:["wohne"],hint:"Use Ich + komme + aus + the country.",feedback:"Kommt is for er/sie/es. With ich, use komme."},
+        {prompt:"Tell Sam: “I come from Spain.”",tokens:["Ich","komme","aus","Spanien."],extra:["wohne"],hint:"Use Ich + komme + aus + the country.",feedback:"Kommt is used with er/sie/es and ihr. With ich, use komme."},
         {prompt:"Tell Sam: “I live in Berlin now.”",tokens:["Ich","wohne","jetzt","in","Berlin."],extra:["komme"],hint:"Start with Ich, then the verb wohne. Add jetzt and the place.",feedback:"In a simple statement, the conjugated verb follows the subject."},
         {prompt:"Ask Sam: “Where do you live?”",tokens:["Wo","wohnst","du?"],extra:["wohnt"],hint:"A W-question starts with Wo. Put the conjugated verb before du.",feedback:"In a W-question, the question word comes first, then the verb, then the subject."}
       ]
