@@ -1,18 +1,28 @@
 (() => {
 const clues=[
- {before:"Anna ",after:" einen Kaffee vor der Fahrt.",answer:"trinkt",choices:["trinkt","trinken","trinkst"],task:"Anna drinks a coffee before the journey.",hint:"Anna = sie. With “sie”, trinken becomes trinkt.",group:"Normal verb",meaning:"to drink"},
- {before:"Sie ",after:" ein Ticket online.",answer:"kauft",choices:["kaufen","kauft","kaufst"],task:"She buys a ticket online.",hint:"Sie (she) takes the third-person singular form of kaufen.",group:"Normal verb",meaning:"to buy"},
- {before:"Am Bahnhof ",after:" Anna ihre Freundin.",answer:"trifft",choices:["trefft","trifft","treffen"],task:"At the station, Anna meets her friend.",hint:"treffen changes e → i with er/sie/es.",group:"Strong verb",meaning:"to meet"},
- {before:"Anna ",after:" den Zug auf der Anzeige.",answer:"sieht",choices:["sehen","sieht","siehst"],task:"Anna sees the train on the display.",hint:"sehen changes e → ie with er/sie/es.",group:"Strong verb",meaning:"to see"},
- {before:"Sie ",after:" am Gleis auf den Zug.",answer:"wartet",choices:["wartest","warten","wartet"],task:"She waits for the train at the platform.",hint:"warten has a stem ending in t, so this form adds an extra e: wartet.",group:"T-D verb",meaning:"to wait"},
- {before:"Der Zug ",after:" pünktlich an.",answer:"kommt",choices:["kommen","kommt","kommst"],task:"The train arrives on time.",hint:"Der Zug = er. The verb is ankommen: kommt … an.",group:"Normal verb",meaning:"to arrive"},
+ {before:"Anna ",after:" einen Kaffee vor der Fahrt.",answer:"trinkt",choices:["trinkt","trinkst","trinken"],task:"Anna drinks a coffee before the journey.",hint:"Anna = sie. With “sie”, trinken becomes trinkt.",group:"Normal verb",meaning:"to drink"},
+ {before:"Sie ",after:" ein Ticket online.",answer:"kauft",choices:["kaufe","kauft","kaufen"],task:"She buys a ticket online.",hint:"Sie (she) takes the third-person singular form of kaufen.",group:"Normal verb",meaning:"to buy"},
+ {before:"Am Bahnhof ",after:" Anna ihre Freundin.",answer:"trifft",choices:["treffe","trefft","trifft"],task:"At the station, Anna meets her friend.",hint:"treffen changes e → i with er/sie/es.",group:"Strong verb",meaning:"to meet"},
+ {before:"Anna ",after:" den Zug auf der Anzeige.",answer:"sieht",choices:["sieht","sehen","seht"],task:"Anna sees the train on the display.",hint:"sehen changes e → ie with er/sie/es.",group:"Strong verb",meaning:"to see"},
+ {before:"Sie ",after:" am Gleis auf den Zug.",answer:"wartet",choices:["wartest","wartet","warten"],task:"She waits for the train at the platform.",hint:"warten has a stem ending in t, so this form adds an extra e: wartet.",group:"T-D verb",meaning:"to wait"},
+ {before:"Der Zug ",after:" pünktlich an.",answer:"kommt",choices:["kommen","kommst","kommt"],task:"The train arrives on time.",hint:"Der Zug = er. The verb is ankommen: kommt … an.",group:"Normal verb",meaning:"to arrive"},
  {before:"Ihre Freundin ",after:" den Koffer.",answer:"trägt",choices:["trägt","tragen","trägst"],task:"Her friend carries the suitcase.",hint:"tragen changes a → ä with er/sie/es.",group:"Strong verb",meaning:"to carry"},
- {before:"Anna ",after:" ihrer Freundin mit der Tasche.",answer:"hilft",choices:["hilft","helfen","helft"],task:"Anna helps her friend with the bag.",hint:"helfen changes e → i with er/sie/es.",group:"Strong verb",meaning:"to help"},
- {before:"Am Abend ",after:" Anna nach Hause.",answer:"fährt",choices:["fahren","fährt","fahrt"],task:"In the evening, Anna travels home.",hint:"fahren changes a → ä with er/sie/es.",group:"Strong verb",meaning:"to travel"}
+ {before:"Anna ",after:" ihrer Freundin mit der Tasche.",answer:"hilft",choices:["helfe","hilft","helfen"],task:"Anna helps her friend with the bag.",hint:"helfen changes e → i with er/sie/es.",group:"Strong verb",meaning:"to help"},
+ {before:"Am Abend ",after:" Anna nach Hause.",answer:"fährt",choices:["fahrt","fährst","fährt"],task:"In the evening, Anna travels home.",hint:"fahren changes a → ä with er/sie/es.",group:"Strong verb",meaning:"to travel"}
 ];
 const start=document.getElementById("game-start"),play=document.getElementById("game-play"),results=document.getElementById("game-results");
 const options=document.getElementById("game-options"),feedback=document.getElementById("game-feedback");
 let index=0,score=0,missed=[];
+async function loadStationArtwork(){
+ const phone=window.matchMedia("(max-width:560px)");
+ const load=async()=>{
+  const path=phone.matches?"assets/verb-detective-phone.png.b64":"assets/verb-detective-desktop.png.b64";
+  try{const response=await fetch(path);if(!response.ok)return;const encoded=await response.text();const binary=atob(encoded.trim());const bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);const imageUrl=URL.createObjectURL(new Blob([bytes],{type:"image/png"}));document.body.style.setProperty("--station-image",'url("'+imageUrl+'")')}catch(error){/* Keep the gradient background if artwork cannot load. */}
+ };
+ await load();
+ if(phone.addEventListener)phone.addEventListener("change",load);
+}
+loadStationArtwork();
 function say(text){if(!("speechSynthesis"in window)||!("SpeechSynthesisUtterance"in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="de-DE";const v=window.speechSynthesis.getVoices().find(x=>x.lang.toLowerCase().startsWith("de"));if(v)u.voice=v;window.speechSynthesis.speak(u)}
 function sentence(q,filled){const p=document.getElementById("sentence-text");p.replaceChildren();p.append(document.createTextNode(q.before));if(filled){const strong=document.createElement("strong");strong.textContent=q.answer;p.append(strong)}else p.append(document.createTextNode("___"));p.append(document.createTextNode(q.after))}
 function render(){
