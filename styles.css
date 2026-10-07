@@ -153,3 +153,5 @@ html{scroll-snap-type:y proximity}
 /* Account access link in the main menu */
 .menu-account-link{display:flex!important;align-items:center;justify-content:space-between;margin:9px 4px 4px;padding:12px 13px!important;border:1px solid rgba(255,255,255,.36);border-radius:9px;background:rgba(222,239,247,.16);font-weight:750}
 .menu-account-link:hover{background:rgba(222,239,247,.25)!important}
+
+.hero-account-link{margin-top:20px}
