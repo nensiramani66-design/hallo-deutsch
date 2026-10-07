@@ -155,3 +155,18 @@ html{scroll-snap-type:y proximity}
 .menu-account-link:hover{background:rgba(222,239,247,.25)!important}
 
 .hero-account-link{margin-top:20px}
+
+/* Compact three-route A1 learning row, tuned to the forest background. */
+#a1 .a1-feature-content{width:min(1260px,calc(100% - 48px))}
+#a1 .a1-cards{grid-template-columns:repeat(3,minmax(0,1fr));width:min(1120px,100%);gap:12px}
+#a1 .a1-choice-card{min-height:142px;padding:14px;gap:10px}
+#a1 .a1-choice-icon{flex-basis:40px;width:40px;height:40px}
+#a1 .a1-choice-copy strong{font-size:15px}
+#a1 .a1-choice-copy>span{font-size:11px}
+#a1 .a1-verbs-card{background:linear-gradient(135deg,#eaf2e5 0%,#dce9d6 62%,#cddfc9 100%);color:#243e32}
+#a1 .a1-verbs-card .a1-choice-icon{background:#c8dcc8;color:#315f42}
+@media(max-width:900px){
+  #a1 .a1-feature-content{width:calc(100% - 44px);margin:0 22px}
+  #a1 .a1-cards{grid-template-columns:1fr;width:min(560px,100%)}
+  #a1 .a1-choice-card{min-height:120px}
+}
