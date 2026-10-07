@@ -90,3 +90,23 @@ body[data-game="a1-cafe-game"] .game-panel.game-play{background:rgba(250,247,237
 body[data-game="a1-cafe-game"] .game-scene{background:rgba(255,255,255,.79)}
 body[data-game="a1-cafe-game"] .game-scene-label{color:#937044}
 @media(max-width:560px){body.a1-game-page[data-game="a1-verb-detective"],body.a1-game-page[data-game="a1-cafe-game"]{background-attachment:scroll;background-position:center,center 38%}.game-hero + .game-panel.game-start{margin-top:clamp(48px,9vh,90px)}}
+
+/* A1 game chooser: a simple second step from the A1 Games card. */
+body.a1-game-page[data-game="a1-games-menu"] .game-shell{width:min(1040px,100%)}
+.game-menu-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:clamp(36px,7vh,68px)}
+.game-menu-card{display:flex;flex-direction:column;align-items:flex-start;min-height:210px;padding:clamp(20px,3vw,30px);background:rgba(246,248,240,.94);color:#173b43;transition:transform .16s ease,box-shadow .16s ease}
+.game-menu-card:hover{transform:translateY(-3px);box-shadow:0 20px 44px rgba(4,25,27,.28)}
+.game-menu-card .game-eyebrow{color:#548070}
+.game-menu-card h2{margin:6px 0 8px;font-size:clamp(22px,3vw,30px);color:#173b43}
+.game-menu-card p{margin:0 0 22px;color:#607776;font-size:14px;line-height:1.6}
+.game-menu-card .game-menu-action{display:inline-flex;align-items:center;gap:8px;margin-top:auto;color:#216b5b;font-size:14px;font-weight:800}
+.game-menu-card:focus-visible{outline:3px solid #9fc6a5;outline-offset:4px}
+body[data-game="a1-cafe-game"] .game-hero{max-width:none}
+body[data-game="a1-cafe-game"] .game-hero p:last-child{max-width:none;white-space:nowrap}
+body[data-game="a1-cafe-game"] .game-hero + .game-panel.game-start{margin-top:clamp(165px,24vh,220px)}
+@media(max-width:760px){body[data-game="a1-cafe-game"] .game-hero p:last-child{white-space:normal}}
+@media(max-width:560px){
+ .game-menu-list{grid-template-columns:1fr;gap:11px;margin-top:clamp(32px,7vh,55px)}
+ .game-menu-card{min-height:170px;padding:19px}
+ body[data-game="a1-cafe-game"] .game-hero + .game-panel.game-start{margin-top:clamp(90px,17vh,140px)}
+}
