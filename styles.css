@@ -141,3 +141,11 @@ html{scroll-snap-type:y proximity}
 #a1 .a1-choice-copy span{color:#526c5c}
 #a1 .a1-choice-icon{background:#d5e5d5;color:#315f42}
 #a1 .a1-choice-arrow{color:#316a47}
+
+/* A2 card colors tuned to the clear blue tones in the Munich background. */
+#a2 .a1-read-card{background:linear-gradient(135deg,#f0f8fc 0%,#e2f0f7 58%,#d7eaf3 100%);color:#183c54}
+#a2 .a1-quiz-card{background:linear-gradient(135deg,#e8f4fa 0%,#d8ebf5 62%,#c9e1ee 100%);color:#183c54}
+#a2 .a1-choice-copy small{color:#426b84}
+#a2 .a1-choice-copy span{color:#55758a}
+#a2 .a1-choice-icon{background:#cfe5f0;color:#285f7c}
+#a2 .a1-choice-arrow{color:#2d6685}
