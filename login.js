@@ -1,11 +1,12 @@
 const config = window.HALLO_AUTH_CONFIG || {};
-const configured = Boolean(config.supabaseUrl && config.supabasePublishableKey);
+const supabaseKey = config.supabasePublishableKey || config.supabaseAnonKey || "";
+const configured = Boolean(config.supabaseUrl && supabaseKey);
 let clientPromise;
 async function getClient() {
   if (!configured) return null;
   if (!clientPromise) {
     clientPromise = import("https://esm.sh/@supabase/supabase-js@2")
-      .then(({ createClient }) => createClient(config.supabaseUrl, config.supabaseAnonKey, {
+      .then(({ createClient }) => createClient(config.supabaseUrl, supabaseKey, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
       }));
   }
