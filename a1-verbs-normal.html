@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173b3b">
+  <title>Normal Verben | Hallo Deutsch A1</title>
+  <link rel="stylesheet" href="a1-verbs.css">
+  <script src="a1-verbs-data.js" defer></script>
+  <script src="a1-verbs.js" defer></script>
+</head>
+<body class="verb-site" data-verb-group="normal">
+  <main class="verbs-shell list-shell">
+    <a class="verb-back" href="a1-verbs.html">← <span>Back to verb groups</span></a>
+    <header class="list-heading">
+      <p class="eyebrow">A1 · GERMAN VERBS</p>
+      <h1 id="group-title">Normal Verben</h1>
+      <p class="intro-copy" id="group-description">Browse the verb forms and English meanings.</p>
+    </header>
+    <section class="verb-list-panel">
+      <div class="list-toolbar">
+        <label class="search-wrap"><span class="sr-only">Search verbs</span><span aria-hidden="true">⌕</span><input id="verb-search" type="search" placeholder="Search German or English…" autocomplete="off"></label>
+        <p class="result-count" id="verb-count" aria-live="polite"></p>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead id="verb-table-head"></thead>
+          <tbody id="verb-table-body"></tbody>
+        </table>
+      </div>
+      <p class="empty-state" id="verb-empty" hidden>No matching verbs. Try another search.</p>
+    </section>
+    <footer class="verbs-footer">Verb forms and meanings from your A1 study list.</footer>
+  </main>
+</body>
+</html>
