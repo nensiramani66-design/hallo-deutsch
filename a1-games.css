@@ -61,3 +61,10 @@ a{color:inherit;text-decoration:none}
 .game-footer{padding:20px 0 4px;text-align:center;color:rgba(255,255,255,.7);font-size:11px}
 @media(max-width:560px){body.a1-game-page{padding:9px}.game-shell{min-height:calc(100vh - 18px);padding:14px 12px;border-radius:18px}.game-hero{margin:24px 0 17px}.game-hero h1{font-size:38px}.game-hero p:last-child{font-size:13px}.game-options{grid-template-columns:1fr;gap:7px}.game-choice{min-height:46px;padding:10px 11px;font-size:13px}.game-scene{padding:14px}.game-actions{align-items:stretch}.game-actions .game-primary{flex:1}.game-progress-head{font-size:11px}.game-brand{font-size:12px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.game-progress-fill,.game-choice{transition:none}}
+
+/* The detective story uses a matching Berlin station image on desktop and phone. */
+body.a1-game-page[data-game="a1-verb-detective"]{background-color:#15393a;background-image:linear-gradient(180deg,rgba(8,34,36,.24),rgba(8,35,33,.58)),var(--station-image,linear-gradient(145deg,#122f34,#19413f 55%,#203b36));background-position:center,center 42%;background-size:cover;background-attachment:fixed}
+body[data-game="a1-verb-detective"] .game-shell{background:rgba(15,55,52,.42)}
+body[data-game="a1-verb-detective"] .game-panel.game-play{background:rgba(246,248,240,.9)}
+body[data-game="a1-verb-detective"] .game-scene{background:rgba(255,255,255,.84)}
+@media(max-width:560px){body.a1-game-page[data-game="a1-verb-detective"]{background-position:center,center 35%;background-attachment:scroll}body[data-game="a1-verb-detective"] .game-shell{background:rgba(15,55,52,.3)}}
