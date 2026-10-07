@@ -110,3 +110,19 @@ body[data-game="a1-cafe-game"] .game-hero + .game-panel.game-start{margin-top:cl
  .game-menu-card{min-height:170px;padding:19px}
  body[data-game="a1-cafe-game"] .game-hero + .game-panel.game-start{margin-top:clamp(90px,17vh,140px)}
 }
+
+/* The game chooser uses its own indigo-and-amber palette, distinct from the forest pages. */
+body.a1-game-page[data-game="a1-games-menu"]{
+ background:radial-gradient(ellipse at 82% 8%,rgba(127,103,166,.42),transparent 38%),radial-gradient(ellipse at 5% 100%,rgba(173,124,70,.2),transparent 42%),linear-gradient(145deg,#171d38 0%,#292744 54%,#342c42 100%);
+ color:#fffaf2
+}
+body.a1-game-page[data-game="a1-games-menu"] .game-shell{border-color:rgba(238,216,177,.34);background:rgba(28,31,55,.28)}
+body.a1-game-page[data-game="a1-games-menu"] .game-eyebrow{color:#efd09b}
+body.a1-game-page[data-game="a1-games-menu"] .game-hero p:last-child{background:rgba(239,228,207,.94);color:#343049}
+body.a1-game-page[data-game="a1-games-menu"] .game-menu-card{border-color:rgba(255,244,224,.9);background:linear-gradient(145deg,#fbf3e4,#e9e1f0);color:#302d47}
+body.a1-game-page[data-game="a1-games-menu"] .game-menu-card .game-eyebrow{color:#80629a}
+body.a1-game-page[data-game="a1-games-menu"] .game-menu-card h2{color:#302d47}
+body.a1-game-page[data-game="a1-games-menu"] .game-menu-card p{color:#625b70}
+body.a1-game-page[data-game="a1-games-menu"] .game-menu-card .game-menu-action{color:#76522d}
+body.a1-game-page[data-game="a1-games-menu"] .game-menu-card:hover{box-shadow:0 20px 44px rgba(8,10,28,.34)}
+@media(prefers-reduced-motion:reduce){.game-menu-card{transition:none}}
