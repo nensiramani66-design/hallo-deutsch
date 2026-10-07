@@ -35,14 +35,14 @@
       scenes: scenes("introduction", "intro"),
       tasks: [
         {prompt:"Tell Mia: “My name is Lea.”", target:"Ich heiße Lea.", hint:"Start with Ich. The verb heißen becomes heiße with ich.", note:"The subject Ich comes first. The matching verb heiße comes second."},
-        {prompt:"Ask Ben: “What is your name?”", target:"Wie heißt du?", hint:"A question word comes first, followed by the verb and then du.", note:"Wie asks “what/how”; heißt comes before the subject du in this question."},
-        {prompt:"Say: “I come from Spain.”", target:"Ich komme aus Spanien.", hint:"Use Ich + komme + aus + the country.", note:"Kommen changes to komme with ich. Aus comes before the country."},
-        {prompt:"Ask: “Where are you from?”", target:"Woher kommst du?", hint:"Begin with Woher, then the verb kommst, and finish with du.", note:"In this question, Woher is followed by the verb kommst and then du."},
-        {prompt:"Say: “I live in Berlin now.”", target:"Ich wohne jetzt in Berlin.", accepted:["Jetzt wohne ich in Berlin."], hint:"In a simple statement, the conjugated verb follows the subject.", note:"Wohne matches ich. The time and place phrases add when and where."},
+        {prompt:"Greet your new neighbor: “Good afternoon, Sam!”", target:"Guten Tag, Sam!", hint:"Guten Tag is a polite greeting. Use a comma before the name.", note:"Guten Tag is a common greeting when you meet someone."},
+        {prompt:"Ask Sam: “Is this your mailbox?”", target:"Ist das dein Briefkasten?", hint:"A yes/no question starts with the conjugated verb Ist.", note:"The verb Ist comes first in this yes/no question. Dein matches the masculine noun Briefkasten."},
+        {prompt:"Say: “I live on the third floor.”", target:"Ich wohne im dritten Stock.", hint:"Im means in dem. After im, Stock uses the dative form dritten.", note:"Im dritten Stock tells where you live. Im is short for in dem."},
+        {prompt:"Say: “I live in Berlin.”", target:"Ich wohne in Berlin.", hint:"Use the ich form wohne. In Berlin tells where you live.", note:"Wohne matches ich. In Berlin names the place where you live."},
         {prompt:"Ask: “Where do you live?”", target:"Wo wohnst du?", hint:"Start with Wo, then use the verb wohnst before du.", note:"A question word comes first; the conjugated verb comes next."},
-        {prompt:"Say: “I speak a little German.”", target:"Ich spreche ein bisschen Deutsch.", hint:"Sprechen changes to spreche with ich. Deutsch is capitalized.", note:"The verb spreche matches ich; ein bisschen describes how much German."},
         {prompt:"Say: “I am twenty years old.”", target:"Ich bin zwanzig Jahre alt.", hint:"Use bin with ich. German says the years are old.", note:"Bin is the first-person form of sein. Jahre is a noun and is capitalized."},
-        {prompt:"Say: “I like playing tennis.”", target:"Ich spiele gern Tennis.", hint:"Put gern after the verb to say that you enjoy an activity.", note:"Spiele matches ich. Gern means that you like doing the activity."},
+        {prompt:"Ask Sam: “How old are you?”", target:"Wie alt bist du?", hint:"Start with Wie alt, then put bist before du.", note:"In this question, the phrase Wie alt comes first, followed by bist and du."},
+        {prompt:"Say: “I like drinking tea.”", target:"Ich trinke gern Tee.", hint:"Put gern after trinke to say that you enjoy drinking tea.", note:"Trinke matches ich. Gern tells that you enjoy the activity."},
         {prompt:"Greet Mia: “Nice to meet you.”", target:"Freut mich.", hint:"This is a common short German expression when meeting someone.", note:"Freut mich is a natural, polite expression meaning “Nice to meet you.”"}
       ]
     },
@@ -57,14 +57,14 @@
       tasks: [
         {prompt:"Say: “I am buying three apples.”", target:"Ich kaufe drei Äpfel.", hint:"Use the ich form kaufe. Äpfel is the plural of Apfel.", note:"The subject and conjugated verb start the statement; the amount and object follow."},
         {prompt:"Ask the seller: “Do you have fresh tomatoes?”", target:"Haben Sie frische Tomaten?", hint:"A polite yes/no question starts with the verb Haben.", note:"Haben comes first in a yes/no question. Sie is the polite form of “you.”"},
-        {prompt:"Ask: “How much does one kilo of bananas cost?”", target:"Was kostet ein Kilo Bananen?", hint:"Begin with Was kostet, then name the amount you are asking about.", note:"Was is the question word; kostet agrees with the singular subject ein Kilo."},
         {prompt:"Order: “I would like one loaf of bread and two rolls, please.”", target:"Ich möchte ein Brot und zwei Brötchen, bitte.", hint:"Möchte is a polite form. Put bitte at the end.", note:"Möchte is a polite request form; ein Brot and zwei Brötchen are the items."},
+        {prompt:"Ask the baker: “Is the bread fresh?”", target:"Ist das Brot frisch?", hint:"Start a yes/no question with Ist. Brot is neuter, so use das.", note:"In a yes/no question, Ist comes first. Frisch describes the bread."},
         {prompt:"Say: “The strawberries are very sweet today.”", target:"Die Erdbeeren sind heute sehr süß.", hint:"Erdbeeren is plural, so use sind.", note:"The plural subject Erdbeeren takes sind. Heute and sehr süß add time and description."},
-        {prompt:"Say: “We still need a bottle of water.”", target:"Wir brauchen noch eine Flasche Wasser.", hint:"Brauchen matches wir. Noch means “still” or “another” here.", note:"Brauchen matches wir. Eine agrees with the feminine noun Flasche."},
+        {prompt:"Ask: “How much does one kilo of bananas cost?”", target:"Was kostet ein Kilo Bananen?", hint:"Begin with Was kostet, then name the amount you are asking about.", note:"Was is the question word; kostet agrees with the singular subject ein Kilo."},
+        {prompt:"At checkout, say: “That comes to twelve euros altogether.”", target:"Das macht zusammen zwölf Euro.", hint:"This useful checkout phrase begins with Das macht.", note:"Das macht zusammen is a natural phrase for stating the total price."},
         {prompt:"Ask: “Can I pay by card?”", target:"Kann ich mit Karte bezahlen?", hint:"In a yes/no question, Kann comes first; the infinitive bezahlen goes last.", note:"Kann is the modal verb. The infinitive bezahlen stays at the end."},
-        {prompt:"Say: “The cheese stand is next to the entrance.”", target:"Der Käsestand ist neben dem Eingang.", hint:"After neben for a location, use the dative: dem Eingang.", note:"Neben describes a location here, so Eingang takes the dative form dem."},
-        {prompt:"Tell the seller: “I am looking for a small cheese.”", target:"Ich suche einen kleinen Käse.", hint:"Käse is masculine. After suchen, use the accusative form einen kleinen Käse.", note:"Käse is masculine and is the direct object, so the adjective ending is -en."},
-        {prompt:"At checkout, say: “That comes to twelve euros altogether.”", target:"Das macht zusammen zwölf Euro.", hint:"This useful checkout phrase begins with Das macht.", note:"Das macht zusammen is a natural phrase for stating the total price."}
+        {prompt:"Ask at the market map: “Where can I find the cheese stand?”", target:"Wo finde ich den Käsestand?", hint:"Start with Wo, then the verb finde and the subject ich.", note:"The question word Wo is followed by the verb finde, then ich."},
+        {prompt:"Say: “We are going to the cheese stand now.”", target:"Wir gehen jetzt zum Käsestand.", hint:"Zum means zu dem. The place comes after the verb gehen.", note:"Gehen matches wir. Zum is the contraction of zu dem."}
       ]
     },
     hard: {
@@ -77,15 +77,15 @@
       scenes: scenes("hard", "safari"),
       tasks: [
         {prompt:"Describe the scene: “The elephant is drinking water by the river.”", target:"Der Elefant trinkt Wasser am Fluss.", hint:"Elefant is singular, so use trinkt. Am is short for an dem.", note:"The singular subject takes trinkt. Am Fluss tells where the elephant drinks."},
-        {prompt:"Ask: “Where do the lions sleep in the evening?”", target:"Wo schlafen die Löwen am Abend?", hint:"After the question word Wo, use the plural verb schlafen.", note:"Löwen is plural, so the verb is schlafen. The time phrase comes later."},
+        {prompt:"Ask: “Where is the elephant drinking?”", target:"Wo trinkt der Elefant?", hint:"After Wo, use the singular verb trinkt before der Elefant.", note:"The question word Wo comes first, followed by trinkt and the subject der Elefant."},
+        {prompt:"Ask: “Where are the lions sleeping?”", target:"Wo schlafen die Löwen?", hint:"After Wo, put the plural verb schlafen before die Löwen.", note:"The question word Wo is followed by schlafen and then the plural subject die Löwen."},
+        {prompt:"Say: “The lions are sleeping under the tree.”", target:"Die Löwen schlafen unter dem Baum.", hint:"Löwen is plural, so use schlafen. Unter dem Baum describes where.", note:"Schlafen matches the plural subject. Unter dem Baum tells where they rest."},
         {prompt:"Say: “We see a giraffe next to the tree.”", target:"Wir sehen eine Giraffe neben dem Baum.", hint:"Giraffe is feminine, so the object is eine Giraffe. Dem Baum follows neben for a location.", note:"Eine Giraffe is the direct object; neben dem Baum gives the location."},
-        {prompt:"Say: “The giraffe eats leaves from a tree.”", target:"Die Giraffe frisst Blätter von einem Baum.", hint:"Frisst is the er/sie form of fressen. Von is followed by the dative.", note:"Frisst matches the singular subject. Von takes the dative: einem Baum."},
+        {prompt:"Say: “The giraffe is standing next to a tree.”", target:"Die Giraffe steht neben einem Baum.", hint:"Steht matches Die Giraffe. For a location after neben, use dative einem Baum.", note:"Die Giraffe is singular, so use steht. Neben a location takes the dative."},
         {prompt:"Ask: “Why are the zebras running to the waterhole?”", target:"Warum laufen die Zebras zur Wasserstelle?", hint:"Zebras is plural, so use laufen. Zur means zu der.", note:"The question word comes first, then the plural verb laufen. Zur is zu + der."},
-        {prompt:"Say: “Our group is waiting for the ranger.”", target:"Unsere Gruppe wartet auf den Ranger.", hint:"Gruppe is singular. Warten auf takes the accusative: den Ranger.", note:"Gruppe is a singular noun, so use wartet. Auf den Ranger is the object of warten auf."},
-        {prompt:"Say: “I do not have binoculars with me today.”", target:"Ich habe heute kein Fernglas dabei.", hint:"Fernglas is neuter. Use kein, and keep dabei at the end.", note:"Kein negates the neuter noun Fernglas. Dabei completes the expression dabei haben."},
-        {prompt:"Ask: “Can you see the monkeys in the tree?”", target:"Kannst du die Affen im Baum sehen?", hint:"Start the yes/no question with Kannst. With können, sehen goes at the end.", note:"Kannst matches du. The infinitive sehen follows the location phrase at the end."},
-        {prompt:"Say: “After lunch, we photograph the animals.”", target:"Nach dem Mittagessen fotografieren wir die Tiere.", hint:"When the time phrase comes first, the verb still comes second.", note:"Nach dem Mittagessen occupies the first position; fotografieren stays second."},
-        {prompt:"Say: “The animals are calm, but we are staying in the jeep.”", target:"Die Tiere sind ruhig, aber wir bleiben im Jeep.", hint:"Use sind with plural Tiere and bleiben with wir.", note:"Sind agrees with die Tiere; bleiben agrees with wir. Aber joins the two clauses."}
+        {prompt:"Say: “The zebras are drinking at the waterhole.”", target:"Die Zebras trinken an der Wasserstelle.", hint:"Use trinken with plural Zebras. An der Wasserstelle gives the location.", note:"Trinken matches the plural subject. An a static location takes dative der."},
+        {prompt:"Say: “Before the drive, we check the map.”", target:"Vor der Fahrt prüfen wir die Karte.", hint:"When Vor der Fahrt comes first, the verb prüfen must come second.", note:"The time phrase is first; prüfen stays in position two before wir."},
+        {prompt:"Say: “The camera is next to the map.”", target:"Die Kamera liegt neben der Karte.", hint:"Use liegt for where the camera is. Neben a location takes the dative.", note:"Die Kamera is singular, so use liegt. Neben der Karte describes its location."}
       ]
     },
     veryHard: {
@@ -97,16 +97,16 @@
       prefix: "space",
       scenes: scenes("veryHard", "space"),
       tasks: [
-        {prompt:"Say: “Tomorrow we are flying to the Moon.”", target:"Morgen fliegen wir zum Mond.", hint:"Morgen is first, so the conjugated verb fliegen comes second. Zum means zu dem.", note:"The time phrase comes first; fliegen must remain in position two."},
+        {prompt:"Say: “We see the Moon through the window.”", target:"Wir sehen den Mond durch das Fenster.", hint:"Mond is masculine, so use den in the accusative. Durch takes the accusative.", note:"Den Mond is the direct object. Durch das Fenster tells how we see it."},
+        {prompt:"Describe the Moon: “It is big and bright.”", target:"Der Mond ist groß und hell.", hint:"Use ist with the singular subject Der Mond.", note:"Der Mond is singular; ist links the subject to the two descriptions."},
         {prompt:"Say: “Our rocket launches at six o’clock.”", target:"Unsere Rakete startet um sechs Uhr.", hint:"Rakete is singular, so start takes the ending -et: startet.", note:"The singular subject Rakete takes startet. Um sechs Uhr tells the time."},
-        {prompt:"Say: “The astronaut has to press the red button.”", target:"Die Astronautin muss den roten Knopf drücken.", hint:"Muss matches the singular subject; the infinitive drücken goes last.", note:"With the modal verb muss, drücken stays in the infinitive at the end."},
-        {prompt:"Ask: “Where can we find the oxygen tanks?”", target:"Wo können wir die Sauerstoffflaschen finden?", hint:"Begin with Wo. After können, put the infinitive finden at the end.", note:"Können matches wir; finden is the infinitive and goes at the end."},
+        {prompt:"Say: “The astronaut is checking the launch.”", target:"Die Astronautin kontrolliert den Start.", hint:"Start is masculine, so use den as the direct object.", note:"Kontrolliert matches Die Astronautin; den Start is the direct object."},
         {prompt:"Say: “The small robot helps us in the laboratory.”", target:"Der kleine Roboter hilft uns im Labor.", hint:"Roboter is singular; helfen changes to hilft. Uns is the object form.", note:"The subject is masculine singular, so helfen becomes hilft. Uns is the object pronoun."},
-        {prompt:"Say: “I put on my spacesuit before launch.”", target:"Ich ziehe meinen Raumanzug vor dem Start an.", hint:"Anziehen is separable: ziehe is in position two and an goes at the end.", note:"The prefix an separates from ziehe and moves to the end of the clause."},
-        {prompt:"Say: “Two technicians are working together in the control room.”", target:"Im Kontrollraum arbeiten zwei Techniker zusammen.", hint:"The place phrase comes first, so arbeiten comes second. Zusammen completes zusammenarbeiten.", note:"Im Kontrollraum is first; the verb arbeiten remains in position two."},
-        {prompt:"Say: “After the alarm, we go straight to the cabin.”", target:"Nach dem Alarm gehen wir sofort zur Kabine.", hint:"After a phrase at the beginning, the verb goes second. Zur is zu der.", note:"The time phrase is first, so gehen comes second, before wir."},
+        {prompt:"Say: “The astronaut has to check the robot.”", target:"Die Astronautin muss den Roboter prüfen.", hint:"Muss matches the singular subject; the infinitive prüfen goes last.", note:"With the modal verb muss, prüfen stays in the infinitive at the end."},
+        {prompt:"Ask: “Where can we find the oxygen tanks?”", target:"Wo können wir die Sauerstoffflaschen finden?", hint:"Begin with Wo. After können, put the infinitive finden at the end.", note:"Können matches wir; finden is the infinitive and goes at the end."},
+        {prompt:"Say: “The astronaut is checking the tank.”", target:"Die Astronautin prüft den Tank.", hint:"Tank is masculine, so use den as the direct object.", note:"Prüft matches Die Astronautin; den Tank is the direct object."},
         {prompt:"Say: “We see the Earth through the window.”", target:"Wir sehen die Erde durch das Fenster.", hint:"Erde is feminine. Durch takes the accusative: das Fenster.", note:"Die Erde is the direct object; durch is followed by the accusative."},
-        {prompt:"Ask two astronauts: “Can you close the door from the outside?”", target:"Könnt ihr die Tür von außen schließen?", hint:"Use könnt with ihr. In a modal question, schließen goes at the end.", note:"Könnt matches ihr; the infinitive schließen stays at the end."}
+        {prompt:"Say: “The Earth looks blue and white.”", target:"Die Erde sieht blau und weiß aus.", hint:"Aussehen is separable: sieht comes second and aus goes at the end.", note:"The verb aussehen separates: sieht is conjugated, and aus closes the sentence."}
       ]
     }
   };
