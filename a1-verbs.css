@@ -104,3 +104,36 @@ mark{padding:1px 3px;border-radius:4px;background:#c7e7bd;color:#174f45;font-wei
   .pdf-table-scroll table[data-columns="6"] th:nth-child(5),.pdf-table-scroll table[data-columns="6"] td:nth-child(5){width:19%}
   .pdf-table-scroll table[data-columns="6"] th:nth-child(6),.pdf-table-scroll table[data-columns="6"] td:nth-child(6){width:26%}
 }
+
+/* Compact, border-light verb table for phone screens. */
+@media(max-width:600px){
+  .verbs-shell.table-shell{width:calc(100% + 8px);margin-left:-4px;padding-right:8px;padding-left:8px;border-radius:16px}
+  .table-shell .list-heading{margin:22px 0 13px}
+  .table-shell .list-heading .eyebrow{margin-bottom:8px;font-size:8px}
+  .table-shell .list-heading h1{font-size:36px;line-height:1.05}
+  .table-shell .list-heading .intro-copy{margin-top:8px;font-size:12px;line-height:1.4}
+  .table-shell .verb-list-panel{border-radius:14px}
+  .table-shell .list-toolbar{gap:7px;padding:9px 10px;background:#e7f0e2}
+  .table-shell .search-wrap{min-height:36px;padding:0 9px}
+  .table-shell .search-wrap input{height:34px;font-size:12px}
+  .table-shell .result-count{font-size:10px}
+  .pdf-table-scroll{overflow:visible}
+  .pdf-table-scroll table{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse}
+  .pdf-table-scroll th{padding:7px 2px;background:#d6e8d4;color:#285a4e;font-size:6.8px;line-height:1.15;letter-spacing:0;white-space:normal;overflow-wrap:anywhere}
+  .pdf-table-scroll td{padding:6px 2px;border:0;border-top:1px solid rgba(35,80,67,.12);font-size:7.8px;line-height:1.25;white-space:normal;overflow-wrap:anywhere;word-break:normal}
+  .pdf-table-scroll td:first-child{white-space:normal}
+  .pdf-table-scroll tbody tr:nth-child(odd){background:#f7f9f2}
+  .pdf-table-scroll tbody tr:nth-child(even){background:#edf4e9}
+  .pdf-table-scroll tbody tr:hover{background:#e8f1e4}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(1),.pdf-table-scroll table[data-columns="5"] td:nth-child(1){width:22%}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(2),.pdf-table-scroll table[data-columns="5"] td:nth-child(2){width:14%}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(3),.pdf-table-scroll table[data-columns="5"] td:nth-child(3){width:14%}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(4),.pdf-table-scroll table[data-columns="5"] td:nth-child(4){width:24%}
+  .pdf-table-scroll table[data-columns="5"] th:nth-child(5),.pdf-table-scroll table[data-columns="5"] td:nth-child(5){width:26%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(1),.pdf-table-scroll table[data-columns="6"] td:nth-child(1){width:19%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(2),.pdf-table-scroll table[data-columns="6"] td:nth-child(2){width:12%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(3),.pdf-table-scroll table[data-columns="6"] td:nth-child(3){width:12%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(4),.pdf-table-scroll table[data-columns="6"] td:nth-child(4){width:12%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(5),.pdf-table-scroll table[data-columns="6"] td:nth-child(5){width:20%}
+  .pdf-table-scroll table[data-columns="6"] th:nth-child(6),.pdf-table-scroll table[data-columns="6"] td:nth-child(6){width:25%}
+}
