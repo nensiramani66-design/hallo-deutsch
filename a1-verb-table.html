@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173b3b">
+  <title>A1 German Verb Table | Hallo Deutsch</title>
+  <link rel="stylesheet" href="a1-verbs.css">
+  <script src="a1-verbs-data.js" defer></script>
+  <script src="a1-verb-table.js" defer></script>
+</head>
+<body class="verb-site" data-verb-group="normal">
+  <main class="verbs-shell list-shell table-shell">
+    <a class="verb-back" href="a1-verbs.html">← <span>Back to verb groups</span></a>
+    <header class="list-heading">
+      <p class="eyebrow">A1 · PDF VERB TABLE</p>
+      <h1 id="table-title">German Verb Table</h1>
+      <p class="intro-copy" id="table-description">Browse the complete verb table, then continue to conjugations and examples.</p>
+    </header>
+    <section class="verb-list-panel">
+      <div class="list-toolbar">
+        <label class="search-wrap"><span class="sr-only">Search verbs</span><span aria-hidden="true">⌕</span><input id="table-search" type="search" placeholder="Search German or English…" autocomplete="off"></label>
+        <p class="result-count" id="table-count" aria-live="polite"></p>
+      </div>
+      <div class="pdf-table-scroll">
+        <table>
+          <thead><tr id="pdf-table-head"></tr></thead>
+          <tbody id="pdf-table-body"></tbody>
+        </table>
+        <p class="empty-state" id="table-empty" hidden>No matching verbs. Try another search.</p>
+      </div>
+      <a class="next-examples" id="continue-to-examples" href="a1-verbs-normal.html">
+        <span>Continue to full conjugations and example sentences</span><span aria-hidden="true">→</span>
+      </a>
+    </section>
+    <footer class="verbs-footer">Use the table to review the forms, then practise each verb in context.</footer>
+  </main>
+</body>
+</html>
