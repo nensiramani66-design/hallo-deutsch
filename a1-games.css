@@ -68,3 +68,5 @@ body[data-game="a1-verb-detective"] .game-shell{background:rgba(15,55,52,.42)}
 body[data-game="a1-verb-detective"] .game-panel.game-play{background:rgba(246,248,240,.78)}
 body[data-game="a1-verb-detective"] .game-scene{background:rgba(255,255,255,.72)}
 @media(max-width:560px){body.a1-game-page[data-game="a1-verb-detective"]{background-position:center,center 35%;background-attachment:scroll}body[data-game="a1-verb-detective"] .game-shell{background:rgba(15,55,52,.3)}}
+
+body[data-game="a1-verb-detective"] .game-panel.game-start{background:rgba(246,248,240,.82)}
