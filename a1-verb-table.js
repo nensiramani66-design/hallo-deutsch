@@ -19,7 +19,8 @@
   }
 
   title.textContent = group.title;
-  description.textContent = group.description + " Review the complete table, then continue for full conjugations and simple sentences.";
+  description.textContent = "Complete A1 verb list. Search by German form or English meaning.";
+  document.querySelector(".pdf-table-scroll table").dataset.columns = String(group.columns.length);
   document.title = group.title + " Table | Hallo Deutsch A1";
   continueLink.href = "a1-verbs-" + groupKey + ".html";
 
