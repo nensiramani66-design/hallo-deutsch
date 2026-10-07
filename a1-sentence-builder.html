@@ -39,7 +39,6 @@
 <img id="sb-scene-image" src="assets/sentence-builder/scene-1-desktop.png" alt="Lea greets her new neighbor Sam at her apartment doorway." fetchpriority="high">
 </picture>
 <figcaption id="sb-scene-caption">Lea has just moved in and is meeting her neighbor.</figcaption>
-</figure>
 <div class="sb-task">
 <p class="sb-task-label">BUILD THIS SENTENCE IN GERMAN</p>
 <p class="sb-prompt" id="sb-prompt"></p>
@@ -52,11 +51,19 @@
 </div>
 <p class="sb-hint" id="sb-hint" hidden></p>
 <div class="sb-feedback" id="sb-feedback" role="status" aria-live="polite" hidden></div>
+<div class="sb-correction" id="sb-correction" hidden>
+<div class="sb-wrong-answer" id="sb-wrong-answer" hidden><span>Your sentence</span><p id="sb-attempt-text"></p></div>
+<div class="sb-correct-answer"><span>Correct sentence</span><p id="sb-correct-text"></p></div>
+<a class="sb-explain-link" id="sb-explain-link" href="a1-sentence-builder-guide.html#sentence-1">Why is it built this way? Read the simple explanation →</a>
+</div>
 <div class="sb-actions">
+<button class="sb-previous" id="sb-previous-button" type="button">← Previous</button>
 <button class="game-primary sb-check" id="sb-check-button" type="button">Check sentence</button>
+<button class="game-primary sb-retry" id="sb-retry-button" type="button" hidden>Try again</button>
 <button class="game-primary sb-next" id="sb-next-button" type="button" hidden>Next sentence <span aria-hidden="true">→</span></button>
 </div>
 </div>
+</figure>
 </section>
 <section class="game-panel sb-results" id="sb-results" hidden>
 <p class="sb-kicker">A NEW HOME, A NEW CONVERSATION</p>

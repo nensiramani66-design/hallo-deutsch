@@ -11,7 +11,7 @@
       tasks: [
         {prompt:"Tell Sam: “My name is Lea.”",tokens:["Ich","heiße","Lea."],extra:["wohnt"],hint:"Start with “Ich”. With ich, heißen becomes heiße.",feedback:"The subject is ich, so the verb is heiße."},
         {prompt:"Tell Sam: “I come from Spain.”",tokens:["Ich","komme","aus","Spanien."],extra:["wohne"],hint:"Use Ich + komme + aus + the country.",feedback:"Kommt is used with er/sie/es and ihr. With ich, use komme."},
-        {prompt:"Tell Sam: “I live in Berlin now.”",tokens:["Ich","wohne","jetzt","in","Berlin."],extra:["komme"],hint:"Start with Ich, then the verb wohne. Add jetzt and the place.",feedback:"In a simple statement, the conjugated verb follows the subject."},
+        {prompt:"Tell Sam: “I live in Berlin now.”",tokens:["Ich","wohne","jetzt","in","Berlin."],extra:["komme"],accepted:["Jetzt wohne ich in Berlin."],hint:"Start with Ich, then the verb wohne. Add jetzt and the place.",feedback:"In a simple statement, the conjugated verb follows the subject."},
         {prompt:"Ask Sam: “Where do you live?”",tokens:["Wo","wohnst","du?"],extra:["wohnt"],hint:"A W-question starts with Wo. Put the conjugated verb before du.",feedback:"In a W-question, the question word comes first, then the verb, then the subject."}
       ]
     },
@@ -37,9 +37,9 @@
       desktop: "assets/sentence-builder/scene-3-desktop.png",
       phone: "assets/sentence-builder/scene-3-phone.png",
       tasks: [
-        {prompt:"Say: “I learn German every day.”",tokens:["Ich","lerne","jeden","Tag","Deutsch."],extra:["lernt"],hint:"Start with Ich and use the ich form lerne.",feedback:"The subject ich needs lerne; Tag is a noun and starts with a capital letter."},
-        {prompt:"Say: “I work on Monday.”",tokens:["Am","Montag","arbeite","ich."],extra:["arbeitet"],hint:"When Am Montag comes first, the conjugated verb still comes second.",feedback:"Am Montag is the first phrase; arbeite is the second element, before ich."},
-        {prompt:"Say: “I get up at seven.”",tokens:["Um","sieben","Uhr","stehe","ich","auf."],extra:["steht"],hint:"Aufstehen is separable: stehe goes in position two and auf goes at the end.",feedback:"With the separable verb aufstehen, its prefix auf goes at the end."},
+        {prompt:"Say: “I learn German every day.”",tokens:["Ich","lerne","jeden","Tag","Deutsch."],extra:["lernt"],accepted:["Jeden Tag lerne ich Deutsch."],hint:"Start with Ich and use the ich form lerne.",feedback:"The subject ich needs lerne; Tag is a noun and starts with a capital letter."},
+        {prompt:"Say: “I work on Monday.”",tokens:["Am","Montag","arbeite","ich."],extra:["arbeitet"],accepted:["Ich arbeite am Montag."],hint:"When Am Montag comes first, the conjugated verb still comes second.",feedback:"Am Montag is the first phrase; arbeite is the second element, before ich."},
+        {prompt:"Say: “I get up at seven.”",tokens:["Um","sieben","Uhr","stehe","ich","auf."],extra:["steht"],accepted:["Ich stehe um sieben Uhr auf."],hint:"Aufstehen is separable: stehe goes in position two and auf goes at the end.",feedback:"With the separable verb aufstehen, its prefix auf goes at the end."},
         {prompt:"Ask: “When does your course begin?”",tokens:["Wann","beginnt","dein","Kurs?"],extra:["beginnen"],hint:"Start with Wann, then the verb beginnt, then the subject dein Kurs.",feedback:"Kurs is singular, so begin is conjugated as beginnt."}
       ]
     },
@@ -51,10 +51,10 @@
       desktop: "assets/sentence-builder/scene-4-desktop.png",
       phone: "assets/sentence-builder/scene-4-phone.png",
       tasks: [
-        {prompt:"Say: “I have time on Saturday.”",tokens:["Am","Samstag","habe","ich","Zeit."],extra:["hat"],hint:"Start with Am Samstag. The conjugated verb habe comes next.",feedback:"The time phrase is first, so habe must stay in position two."},
+        {prompt:"Say: “I have time on Saturday.”",tokens:["Am","Samstag","habe","ich","Zeit."],extra:["hat"],accepted:["Ich habe am Samstag Zeit."],hint:"Start with Am Samstag. The conjugated verb habe comes next.",feedback:"The time phrase is first, so habe must stay in position two."},
         {prompt:"Ask Sam: “Can you help me?”",tokens:["Kannst","du","mir","helfen?"],extra:["kann"],hint:"In a yes/no question, the conjugated verb comes first. The infinitive helfen goes last.",feedback:"Kannst matches du. With a modal verb, helfen stays in the infinitive at the end."},
         {prompt:"Answer: “Yes, I can help you.”",tokens:["Ja,","ich","kann","dir","helfen."],extra:["hilfst"],hint:"After Ja, use ich + kann. Put the infinitive helfen at the end.",feedback:"The modal kann is conjugated; helfen remains at the end in the infinitive."},
-        {prompt:"Suggest: “We can go for a walk on Sunday.”",tokens:["Wir","können","am","Sonntag","spazieren","gehen."],extra:["geht"],hint:"Use Wir + können, then the time phrase. The two infinitives go at the end.",feedback:"With können, the other verbs stay in the infinitive at the end: spazieren gehen."}
+        {prompt:"Suggest: “We can go for a walk on Sunday.”",tokens:["Wir","können","am","Sonntag","spazieren","gehen."],extra:["geht"],accepted:["Am Sonntag können wir spazieren gehen."],hint:"Use Wir + können, then the time phrase. The two infinitives go at the end.",feedback:"With können, the other verbs stay in the infinitive at the end: spazieren gehen."}
       ]
     }
   ];
@@ -73,6 +73,12 @@
   const promptNode = document.getElementById("sb-prompt");
   const feedbackNode = document.getElementById("sb-feedback");
   const hintNode = document.getElementById("sb-hint");
+  const correctionNode = document.getElementById("sb-correction");
+  const wrongAnswerNode = document.getElementById("sb-wrong-answer");
+  const attemptTextNode = document.getElementById("sb-attempt-text");
+  const correctTextNode = document.getElementById("sb-correct-text");
+  const explainLink = document.getElementById("sb-explain-link");
+  const scored = new Set();
   let current = 0;
   let points = 0;
   let attempts = 0;
@@ -93,6 +99,22 @@
     feedbackNode.textContent = message;
     feedbackNode.classList.toggle("is-wrong", Boolean(wrong));
     feedbackNode.hidden = false;
+  }
+
+  function clearCorrection() {
+    correctionNode.hidden = true;
+    wrongAnswerNode.hidden = true;
+    answerNode.classList.remove("is-wrong", "is-correct");
+  }
+
+  function showCorrection(built, correct, model) {
+    correctionNode.hidden = false;
+    wrongAnswerNode.hidden = correct;
+    attemptTextNode.textContent = built;
+    correctTextNode.textContent = model;
+    explainLink.href = "a1-sentence-builder-guide.html#sentence-" + (current + 1);
+    answerNode.classList.toggle("is-wrong", !correct);
+    answerNode.classList.toggle("is-correct", correct);
   }
 
   function renderTiles() {
@@ -161,8 +183,11 @@
     hintNode.textContent = task.hint;
     document.getElementById("sb-hint-button").setAttribute("aria-expanded","false");
     document.getElementById("sb-next-button").hidden = true;
+    document.getElementById("sb-retry-button").hidden = true;
+    document.getElementById("sb-previous-button").hidden = current === 0;
     document.getElementById("sb-check-button").hidden = false;
     feedbackNode.hidden = true;
+    clearCorrection();
     renderTiles();
   }
 
@@ -179,6 +204,7 @@
   function restart() {
     current = 0;
     points = 0;
+    scored.clear();
     results.hidden = true;
     startPanel.hidden = true;
     board.hidden = false;
@@ -188,10 +214,14 @@
   document.getElementById("sb-start-button").addEventListener("click", restart);
   document.getElementById("sb-reset-button").addEventListener("click", () => {
     if (locked) return;
-    const item = allTasks[current].task;
     bank = shuffle(answer.concat(bank));
     answer = [];
     feedbackNode.hidden = true;
+    clearCorrection();
+    document.getElementById("sb-check-button").hidden = false;
+    document.getElementById("sb-retry-button").hidden = true;
+    document.getElementById("sb-next-button").hidden = true;
+    locked = false;
     renderTiles();
   });
   document.getElementById("sb-hint-button").addEventListener("click", (event) => {
@@ -200,22 +230,54 @@
     event.currentTarget.setAttribute("aria-expanded", String(opening));
     hintShown = hintShown || opening;
   });
+  document.getElementById("sb-retry-button").addEventListener("click", () => {
+    bank = shuffle(answer.concat(bank));
+    answer = [];
+    locked = false;
+    feedbackNode.hidden = true;
+    clearCorrection();
+    document.getElementById("sb-check-button").hidden = false;
+    document.getElementById("sb-retry-button").hidden = true;
+    document.getElementById("sb-next-button").hidden = true;
+    renderTiles();
+  });
+  document.getElementById("sb-previous-button").addEventListener("click", () => {
+    if (current > 0) {
+      current -= 1;
+      renderQuestion();
+    }
+  });
   document.getElementById("sb-check-button").addEventListener("click", () => {
     if (locked || !answer.length) return;
     const task = allTasks[current].task;
     const built = answer.map((tile) => tile.word).join(" ");
     const target = task.tokens.join(" ");
-    if (built === target) {
+    const normalized = built.trim().toLocaleLowerCase("de-DE");
+    const accepted = (task.accepted || []).find((sentence) => sentence.toLocaleLowerCase("de-DE") === normalized);
+    const isCorrect = built === target || Boolean(accepted);
+    if (isCorrect) {
       locked = true;
-      points += (attempts === 0 && !hintShown) ? 10 : 5;
+      if (!scored.has(current)) {
+        points += (attempts === 0 && !hintShown) ? 10 : 5;
+        scored.add(current);
+      }
+      const model = accepted || target;
       setFeedback("Correct! " + task.feedback, false);
+      showCorrection(built, true, model);
       document.getElementById("sb-check-button").hidden = true;
+      document.getElementById("sb-retry-button").hidden = true;
       document.getElementById("sb-next-button").hidden = false;
       document.getElementById("sb-score").textContent = "Score: " + points;
       renderTiles();
     } else {
       attempts += 1;
-      setFeedback("Not quite. Check the word order and verb form, then try again. " + task.hint, true);
+      locked = true;
+      setFeedback("Not quite. Compare your sentence with the correct version below, then try again or continue.", true);
+      showCorrection(built, false, target);
+      document.getElementById("sb-check-button").hidden = true;
+      document.getElementById("sb-retry-button").hidden = false;
+      document.getElementById("sb-next-button").hidden = false;
+      renderTiles();
     }
   });
   document.getElementById("sb-next-button").addEventListener("click", () => {
