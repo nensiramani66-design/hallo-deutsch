@@ -172,3 +172,25 @@
 @media(max-width:800px){.exam-page.exam-landing .hero-inner{width:auto}.exam-page.exam-content-page .exam-layout{padding-top:20px}}
 @media(max-width:540px){.exam-page .exam-breadcrumbs{margin:22px 17px 0;font-size:13px;gap:7px}.exam-page.exam-content-page .guide-section h1{font-size:25px}.exam-page.exam-content-page .section-heading h1{font-size:24px}.exam-page .exam-guide-grid{grid-template-columns:1fr}.exam-page .exam-page-actions{align-items:stretch;flex-direction:column}.exam-page .exam-page-actions .primary-link{justify-content:center}.exam-page .exam-page-actions .foundation-link{text-align:center}}
 @media(max-width:540px){.exam-page.exam-content-page .exam-header{display:grid;grid-template-columns:1fr auto;gap:10px 16px}.exam-page.exam-content-page .header-actions{display:contents}.exam-page.exam-content-page .exam-header .exam-brand{grid-column:1;grid-row:1}.exam-page.exam-content-page .language-control{grid-column:2;grid-row:1}.exam-page.exam-content-page .back-link{grid-column:1/-1;grid-row:2;justify-self:start;font-size:13px}}
+
+
+/* Preparation menu separates reference information from the four empty practice areas. */
+.exam-page .exam-hub-shell,.exam-page .practice-shell{max-width:1050px;margin:0 auto;padding:35px 0 60px;min-height:calc(100svh - 240px)}
+.exam-page .hub-heading h1{font-size:40px;letter-spacing:-1.25px;margin:0 0 30px;max-width:100%;overflow-wrap:anywhere}
+.exam-page .hub-heading .eyebrow,.exam-page .practice-heading .eyebrow{color:#68805e}
+.exam-page .hub-information-card{display:flex;align-items:center;gap:24px;padding:28px 30px;min-height:140px;background:linear-gradient(135deg,#fff,#e0efd2);border:1px solid #c6dbb5}
+.exam-page .hub-information-card .skill-icon{width:56px;height:56px;flex-shrink:0}
+.exam-page .hub-information-card h2{font-size:26px;margin:0 0 10px;letter-spacing:-.65px;color:#264b33}
+.exam-page .hub-information-card p{margin:0!important;font-size:16px!important;line-height:1.6!important;color:#5b7053!important}
+.exam-page .hub-practice{margin-top:32px}
+.exam-page .hub-practice>h2{font-size:23px;letter-spacing:-.5px;margin:0 0 18px}
+.exam-page .hub-module-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.exam-page .hub-module-card{min-height:165px;padding:25px;background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(232,243,222,.72));border-color:#d5e4ca}
+.exam-page .hub-module-card .skill-icon{margin-bottom:18px}
+.exam-page .hub-module-card h3{font-size:24px;margin-bottom:6px}
+.exam-page .hub-module-card p{margin-bottom:0!important}
+.exam-page .guide-sidebar .hub-return{margin-bottom:14px;border:1px solid #cfddc4;background:#edf4e5;font-weight:650;color:#41603c}
+.exam-page .practice-heading h1{font-size:38px;letter-spacing:-1px;margin:0 0 8px;max-width:100%}
+.exam-page .practice-workspace{min-height:300px;background:#fff;border:1px solid #dce4d8;border-radius:16px}
+@media(max-width:1150px){.exam-page .exam-hub-shell,.exam-page .practice-shell{margin-left:32px;margin-right:32px}}
+@media(max-width:540px){.exam-page .exam-hub-shell,.exam-page .practice-shell{margin:0 17px;padding-top:25px}.exam-page .hub-heading h1{font-size:31px;letter-spacing:-1px}.exam-page .hub-information-card{align-items:flex-start;padding:22px 18px;gap:16px}.exam-page .hub-information-card .skill-icon{width:40px;height:40px}.exam-page .hub-information-card h2{font-size:23px}.exam-page .hub-information-card p{font-size:15px!important}.exam-page .hub-module-grid{grid-template-columns:1fr;gap:14px}.exam-page .hub-module-card{min-height:150px;padding:23px}.exam-page .practice-heading h1{font-size:32px}.exam-page .practice-workspace{min-height:260px}}
