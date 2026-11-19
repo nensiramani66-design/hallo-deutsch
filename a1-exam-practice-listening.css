@@ -1,0 +1,58 @@
+/* Listening preparation: stationary cards and accessible, compact views. */
+.exam-page .listen-nav{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 20px;padding:0}
+.exam-page .listen-nav a{display:block;border:1px solid #cbd9c1;border-radius:9px;padding:11px 16px;background:#fff;color:#31543e;font-size:14px;font-weight:650;text-decoration:none}
+.exam-page .listen-nav a[aria-current="step"]{background:#244b3c;border-color:#244b3c;color:#fff}
+.exam-page .listen-content{padding:30px 34px;border:1px solid #d9e4d1;border-radius:18px;background:linear-gradient(125deg,#fff,#f0f6e9);box-shadow:0 8px 26px #2d51230a}
+.exam-page .listen-view[hidden],.exam-page .listen-explanation[hidden]{display:none!important}
+.exam-page .listen-view h2{font-size:29px;line-height:1.28;margin:0 0 15px;letter-spacing:-.6px}
+.exam-page .listen-view h3{font-size:19px;line-height:1.4;margin:26px 0 12px}
+.exam-page .listen-view p{font-size:16px;line-height:1.75;color:#596d53;margin:0 0 15px}
+.exam-page .listen-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.exam-page .listen-facts>div{padding:18px;background:#e8f1dd;border:1px solid #d9e5cc;border-radius:12px}
+.exam-page .listen-facts strong{display:block;font-size:29px;line-height:1.3;color:#244b3c}
+.exam-page .listen-facts span{display:block;font-size:14px;margin-top:5px;color:#53694c}
+.exam-page .listen-table-wrap{overflow-x:auto;border:1px solid #d8e3ce;border-radius:12px;margin:15px 0 22px}
+.exam-page .listen-table{border-collapse:collapse;width:100%;font-size:15px;text-align:left;background:#fff}
+.exam-page .listen-table th,.exam-page .listen-table td{padding:15px;border-bottom:1px solid #e0e8d9;vertical-align:middle}
+.exam-page .listen-table thead{background:#e8efdf;color:#35543a}
+.exam-page .listen-table tbody tr:last-child>*{border-bottom:0}
+.exam-page .listen-table small{display:block;margin-top:4px;color:#65765e;font-size:13px;font-weight:400}
+.exam-page .listen-table a{color:#244b3c;text-underline-offset:3px}
+.exam-page .listen-note{padding:20px 23px;background:#e7efdc;border-left:3px solid #75975e;border-radius:0 12px 12px 0;margin:24px 0}
+.exam-page .listen-note.light{background:#f3f6ed}
+.exam-page .listen-note h3{margin:0 0 8px}
+.exam-page .listen-note p:last-child{margin:0}
+.exam-page .listen-steps{padding-left:24px;margin:16px 0 25px}
+.exam-page .listen-steps li{padding:0 0 13px 6px;font-size:16px;line-height:1.7;color:#52694c}
+.exam-page .listen-steps li::marker{color:#3e683f;font-weight:700}
+.exam-page .listen-button{display:inline-block;font-family:inherit;font-size:14px;font-weight:650;line-height:1.4;text-decoration:none;border:1px solid #315a42;background:#315a42;color:#fff;border-radius:8px;padding:12px 18px;cursor:pointer}
+.exam-page .listen-next{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.exam-page .listen-part-label{font-size:13px;font-weight:700;color:#5c7851;letter-spacing:.5px;margin:0 0 13px}
+.exam-page .listen-example{margin:25px 0;padding:24px;border:1px solid #ceddc2;background:#fff;border-radius:14px}
+.exam-page .listen-example .listen-tag{font-size:12px;text-transform:uppercase;font-weight:700;letter-spacing:1px;color:#638354;margin:0}
+.exam-page .listen-example h3{margin-top:10px}
+.exam-page .listen-script{border:1px solid #dbe4d3;border-radius:9px;background:#f6f9f1;margin:20px 0}
+.exam-page .listen-script summary{padding:14px 16px;cursor:pointer;font-weight:650;color:#35543a}
+.exam-page .listen-script p{padding:0 18px 18px!important;margin:0!important;color:#2c483b;line-height:1.9}
+.exam-page .listen-question fieldset{padding:0;border:0;min-width:0;margin:0 0 17px}
+.exam-page .listen-question legend{font-size:18px;font-weight:700;line-height:1.5;margin:0 0 13px;color:#254a3a}
+.exam-page .listen-question label,.exam-page .listen-checklist label{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;margin-bottom:8px;border:1px solid #d9e4ce;border-radius:8px;background:#f9fbf6;font-size:15px;line-height:1.6;cursor:pointer;color:#35523d}
+.exam-page .listen-question input,.exam-page .listen-checklist input{accent-color:#315a42;margin:5px 0 0;flex-shrink:0;width:17px;height:17px}
+.exam-page .listen-feedback{font-weight:700;margin:15px 0 0!important;color:#31543a!important}
+.exam-page .listen-feedback[data-result="retry"]{color:#805124!important}
+.exam-page .listen-explanation{margin-top:14px;padding:15px;background:#ecf4e4;border-radius:8px}
+.exam-page .listen-explanation p{margin:0}
+.exam-page .listen-plan{display:grid;gap:14px;margin:24px 0}
+.exam-page .listen-plan article{display:flex;gap:18px;padding:20px;border:1px solid #d7e2cc;background:#fff;border-radius:12px}
+.exam-page .listen-step-number{display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#dcebcf;color:#426237;font-weight:750}
+.exam-page .listen-plan h3{margin:2px 0 8px}
+.exam-page .listen-plan p{margin:0}
+.exam-page .listen-checklist{margin:15px 0}
+.exam-page .listen-sources{padding:25px 4px 0}
+.exam-page .listen-sources h2{font-size:20px;margin:0 0 10px}
+.exam-page .listen-sources p{font-size:14px;line-height:1.7;color:#61715a}
+.exam-page .listen-sources ul{padding-left:21px;display:grid;gap:10px}
+.exam-page .listen-sources a{color:#315a42;font-size:14px;line-height:1.5;text-underline-offset:4px;overflow-wrap:anywhere}
+.exam-page .listen-nav a:focus-visible,.exam-page .listen-button:focus-visible,.exam-page .listen-script summary:focus-visible,.exam-page .listen-question input:focus-visible,.exam-page .listen-checklist input:focus-visible{outline:3px solid #779657;outline-offset:4px}
+@media(max-width:700px){.exam-page .listen-content{padding:25px 21px}.exam-page .listen-nav a{padding:11px 13px}.exam-page .listen-facts{gap:8px}.exam-page .listen-facts>div{padding:14px 10px}.exam-page .listen-facts strong{font-size:24px}.exam-page .listen-facts span{font-size:12px}.exam-page .listen-table th,.exam-page .listen-table td{padding:12px 10px}.exam-page .listen-table{font-size:13px}.exam-page .listen-table small{font-size:11px}.exam-page .listen-example{padding:19px}.exam-page .listen-plan article{padding:17px;gap:12px}}
+@media(max-width:440px){.exam-page .listen-content{padding:22px 16px}.exam-page .listen-view h2{font-size:24px}.exam-page .listen-nav{gap:7px}.exam-page .listen-nav a{font-size:12px;padding:11px 12px}.exam-page .listen-view p,.exam-page .listen-steps li{font-size:15px}.exam-page .listen-table th,.exam-page .listen-table td{padding:11px 7px}.exam-page .listen-table small{max-width:90px}.exam-page .listen-example{padding:16px 13px}.exam-page .listen-note{padding:17px}.exam-page .listen-question legend{font-size:16px}.exam-page .listen-next .listen-button{padding:11px 13px;font-size:13px}}
