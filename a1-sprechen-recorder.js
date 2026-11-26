@@ -30,7 +30,6 @@
       example:introduction,reply:''},
     ...data.info.map(([thema,word,example,reply],i)=>({
       id:`info-${i+1}`,part:2,kind:'question',thema,word,
-      instruction:'Ask one simple German question about this Thema using the word on your card. Then give a short example answer, as if practising both sides with a partner.',
       example,reply
     })),
     ...data.requests.map(([thema,word,example,reply,picture],i)=>({
@@ -70,7 +69,7 @@
 
   const descriptions = {
     1:['Teil 1 · Sich vorstellen','Introduce yourself using the seven German prompts.'],
-    2:['Teil 2 · Informationen','Each word card asks you to form a question.'],
+    2:['Teil 2 · Informationen','Ask one simple German question about the Thema using the word on your card. Then give a short example answer, as if practising both sides with a partner.'],
     3:['Teil 3 · Bitten','Each picture card asks you to make a polite request.']
   };
   const parts = new Map();
@@ -87,9 +86,15 @@
   function setStatus(entry,message) { entry.status.textContent=message; }
   function updateProgress() {
     const count=tasks.filter(task=>saved.get(task.id)).length;
+    const missing=tasks.length-count;
     progress.value=count;
     progressText.textContent=`${count} / ${tasks.length} answers saved`;
-    submitButton.textContent=count===tasks.length?'Submit all my speaking answers':'Submit my answers';
+    submitButton.disabled=missing>0;
+    submitButton.textContent='Submit all my speaking answers';
+    finishEarlyButton.hidden=missing===0;
+    submitStatus.textContent=missing>0
+      ? `${missing} unanswered. You can record the remaining answers or finish now and review.`
+      : 'All answers saved. You can submit your speaking exam.';
   }
   function clearRecording(entry) {
     if (entry.url) URL.revokeObjectURL(entry.url);
@@ -214,7 +219,7 @@
       card.append(picture);
     }
     const keyword=el('div','oral-keyword',task.word);keyword.lang='de';card.append(keyword);
-    card.append(el('p','oral-instruction',task.instruction));
+    if(task.instruction)card.append(el('p','oral-instruction',task.instruction));
     const recorderBox=el('div','oral-recorder');
     const controls=el('div','oral-record-controls');
     const entry={task,blob:null,url:null,record:null,stop:null,again:null,use:null,preview:null,download:null,status:null,done:null};
@@ -240,8 +245,10 @@
 
   const submitStatus=el('p','oral-submit-status');
   submitStatus.setAttribute('role','status');
-  const submitButton=button('primary oral-submit','Submit my answers',submitAnswers);
-  footer.replaceChildren(submitStatus,submitButton);
+  const submitButton=button('primary oral-submit','Submit all my speaking answers',()=>submitAnswers(false));
+  const finishEarlyButton=button('secondary oral-submit','Finish now & see results',()=>submitAnswers(true));
+  footer.replaceChildren(submitStatus,submitButton,finishEarlyButton);
+  updateProgress();
   content.replaceChildren(stage);
   content.hidden=true;
   footer.hidden=true;
@@ -274,11 +281,15 @@
     if(task.kind==='question')return 'For a W-question: Wo / Was / Wann / Wie + verb + subject + … ? For a yes/no question: Verb + subject + … ?';
     return 'For a polite request: Können Sie bitte + infinitive … ? or Bitte + verb + object … . Include bitte and use a friendly tone.';
   }
-  function submitAnswers() {
+  function submitAnswers(allowPartial) {
     if(submitted)return;
+    if(active || pendingPermission){
+      submitStatus.textContent='Please stop your current recording before finishing.';
+      return;
+    }
     const missing=tasks.filter(task=>!saved.get(task.id));
-    if(missing.length){
-      submitStatus.textContent=`Record and save ${missing.length} more answer${missing.length===1?'':'s'} before submitting.`;
+    if(missing.length && !allowPartial){
+      submitStatus.textContent=`You still have ${missing.length} unanswered. Choose “Finish now & see results” to review without completing them.`;
       entries.get(missing[0].id).record.closest('.oral-task').scrollIntoView({behavior:'smooth',block:'center'});
       return;
     }
@@ -286,17 +297,23 @@
     clearInterval(examClock);
     const results=el('section','oral-results');
     results.id='oral-results';
-    results.append(el('span','oral-kicker','YOUR SPRECHEN REVIEW'),el('h2','','All 7 speaking answers submitted'));
-    results.append(el('p','', 'Listen to what you recorded, then open the model sentences and sentence patterns. Different correct German answers are possible; this is a self-review, not an automatic pronunciation or grammar grade.'));
+    const answered=tasks.length-missing.length;
+    results.append(el('span','oral-kicker','YOUR SPRECHEN REVIEW'),el('h2','','Your speaking practice results'));
+    results.append(el('p','oral-result-count',`${answered} of ${tasks.length} answers recorded · ${missing.length} not answered`));
+    results.append(el('p','', 'Listen to your saved recordings and open the model sentences and sentence patterns for every task, including those you skipped. Different correct German answers are possible; this is a self-review, not an automatic pronunciation or grammar grade.'));
     results.append(el('p','oral-privacy','Your audio is still only in this tab. Download any recording you want to keep before leaving or refreshing the page.'));
     for(const [i,task] of tasks.entries()){
       const entry=entries.get(task.id);
       const card=el('article','oral-review-card');
       card.append(el('span','oral-number',`TASK ${String(i+1).padStart(2,'0')} · TEIL ${task.part}`));
       const heading=el('h3','',task.thema+' · '+task.word);heading.lang='de';card.append(heading);
-      card.append(el('strong','oral-play-title','Your recording'));
-      const playback=el('audio','oral-playback');playback.controls=true;playback.src=entry.url;card.append(playback);
-      const link=el('a','oral-download','Download this recording');link.href=entry.url;link.download=entry.download.download;card.append(link);
+      if(saved.get(task.id)){
+        card.append(el('strong','oral-play-title','Your saved recording'));
+        const playback=el('audio','oral-playback');playback.controls=true;playback.src=entry.url;card.append(playback);
+        const link=el('a','oral-download','Download this recording');link.href=entry.url;link.download=entry.download.download;card.append(link);
+      }else{
+        card.append(el('p','oral-skipped','Not answered — you can still review the model answer below.'));
+      }
       const details=el('details','oral-model');
       details.append(el('summary','','Check model answer & sentence formation'));
       const inner=el('div','oral-model-body');
