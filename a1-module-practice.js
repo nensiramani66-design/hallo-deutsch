@@ -67,6 +67,7 @@
   const heroButton = $('.exam-hero .primary');
   heroButton.addEventListener('click', begin);
   const content = $('#exam-content');
+  let readingQuestions = [];
   if (key === 'lesen') renderLesen(content);
   if (key === 'schreiben') renderSchreiben(content);
   if (key === 'sprechen') renderSprechen(content);
@@ -104,7 +105,6 @@
     q.append(options);parent.append(q);
     return {number,claim,choices,context,answer,renderMode};
   }
-  let readingQuestions=[];
   function renderLesen(target){
     const first=section(1,'Teil 1 · Kurze Nachrichten','Lesen Sie die beiden Nachrichten und die Aussagen 1 bis 5. Kreuzen Sie Richtig oder Falsch an.');
     let number=0;
