@@ -99,7 +99,26 @@
     2: {en: 'Announcements', de: 'Durchsagen', audioEn: 'ANNOUNCEMENT', audioDe: 'DURCHSAGE', plays: 1},
     3: {en: 'Phone messages', de: 'Telefonische Mitteilungen', audioEn: 'PHONE MESSAGE', audioDe: 'TELEFONNACHRICHT', plays: 2}
   };
+  // Each phrase comes directly from that question's original German audio script.
+  const audioEvidence = {
+    1: 'um halb zehn',
+    2: 'drei Euro fünfzig',
+    3: 'die Straßenbahn Nummer vier',
+    4: 'im dritten Stock',
+    5: 'sechs Bananen',
+    6: 'am Mittwoch',
+    7: 'um siebzehn Uhr',
+    8: 'zehn Minuten Verspätung',
+    9: 'die Kasse drei ist jetzt geöffnet',
+    10: 'um acht Uhr',
+    11: 'zu mir nach Hause',
+    12: 'um zehn Uhr',
+    13: 'Ihren Ausweis',
+    14: 'in der Schule abholen',
+    15: 'am Donnerstag'
+  };
   const answers = {};
+  const openExplanations = new Set();
   let currentIndex = 0;
   let remaining = 20 * 60;
   let timerId = null;
@@ -117,6 +136,24 @@
     if (className) element.className = className;
     if (content !== undefined) element.textContent = content;
     return element;
+  }
+
+  function highlightedTranscript(question) {
+    const transcript = make('p', 'hoeren-transcript');
+    transcript.lang = 'de';
+    const text = question.script.join('\n');
+    const phrase = audioEvidence[question.id];
+    const index = text.indexOf(phrase);
+    if (index === -1) {
+      transcript.textContent = text;
+      return transcript;
+    }
+    transcript.append(
+      document.createTextNode(text.slice(0, index)),
+      make('mark', 'hoeren-evidence', text.slice(index, index + phrase.length)),
+      document.createTextNode(text.slice(index + phrase.length))
+    );
+    return transcript;
   }
 
   function updateCounter() {
@@ -294,6 +331,7 @@
     stopAudio();
     if (timerId !== null) window.clearInterval(timerId);
     Object.keys(answers).forEach(key => delete answers[key]);
+    openExplanations.clear();
     currentIndex = 0;
     remaining = 20 * 60;
     deadline = Date.now() + remaining * 1000;
@@ -333,20 +371,44 @@
     questions.forEach(q => {
       const chosen = answers[q.id] || null;
       const correct = chosen === q.answer;
+      const entry = make('div', 'hoeren-review-entry');
       const details = make('details', 'hoeren-review-item' + (correct ? ' is-correct' : ' is-wrong'));
       const summary = make('summary', '', `${t('Question', 'Aufgabe')} ${q.id} · ${correct ? t('Correct', 'Richtig') : !chosen ? t('Not answered', 'Nicht beantwortet') : t('Incorrect', 'Falsch')}`);
       const content = make('div', 'hoeren-review-detail');
+      content.id = `hoeren-review-detail-${q.id}`;
       content.append(make('strong', '', q.prompt));
       const labels = q.part === 2 ? {richtig: 'Richtig', falsch: 'Falsch'} : Object.fromEntries(q.choices.map(([key, label]) => [key, label]));
       content.append(make('p', '', `${t('Your answer:', 'Deine Antwort:')} ${chosen ? labels[chosen] : t('No answer', 'Keine Antwort')}`));
-      content.append(make('p', '', `${t('Correct answer:', 'Richtige Antwort:')} ${labels[q.answer]}`));
+      const correctLine = make('p', 'hoeren-correct-line');
+      correctLine.append(
+        make('span', '', t('Correct answer: ', 'Richtige Antwort: ')),
+        make('mark', 'hoeren-answer-highlight', `${q.part === 2 ? '' : q.answer + ') '}${labels[q.answer]}`)
+      );
+      content.append(correctLine);
       content.append(make('p', 'hoeren-review-reason', q.reason[german() ? 1 : 0]));
       content.append(make('p', 'hoeren-script-caption', t('Listening text:', 'Hörtext:')));
-      const transcript = make('p', 'hoeren-transcript', q.script.join('\n'));
-      transcript.lang = 'de';
-      content.append(transcript);
+      content.append(highlightedTranscript(q));
       details.append(summary, content);
-      review.append(details);
+      const explanationLink = make('button', 'hoeren-explain-link');
+      explanationLink.type = 'button';
+      explanationLink.setAttribute('aria-controls', content.id);
+      if (openExplanations.has(q.id)) details.open = true;
+      const syncLink = () => {
+        explanationLink.textContent = details.open
+          ? t('Hide answer, script & explanation', 'Antwort, Hörtext & Erklärung ausblenden')
+          : t('See correct answer, script & explanation', 'Richtige Antwort, Hörtext & Erklärung ansehen');
+        explanationLink.setAttribute('aria-expanded', String(details.open));
+        if (details.open) openExplanations.add(q.id);
+        else openExplanations.delete(q.id);
+      };
+      details.addEventListener('toggle', syncLink);
+      explanationLink.addEventListener('click', () => {
+        details.open = !details.open;
+        syncLink();
+      });
+      syncLink();
+      entry.append(details, explanationLink);
+      review.append(entry);
     });
   }
 
