@@ -59,17 +59,6 @@
 .speak-card .speak-picture { margin: 20px auto 12px; }
 .exam-locked-note { background: #eff5e8; border-left: 4px solid #4e8c64; border-radius: 0 9px 9px 0; font-size: .93rem; padding: 11px 15px; }
 .speak-card details summary { border-top: 1px solid #dbe7d4; padding-top: 14px; }
-.speak-card .example p { margin-bottom: 9px; }
-.german-speaker-row { align-items: center; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
-.german-speak-button { align-items: center; background: #e1f1d9; border: 1px solid #abcba4; border-radius: 100px; color: #184b35; cursor: pointer; display: inline-flex; font-size: .85rem; font-weight: 800; justify-content: center; min-height: 36px; padding: 7px 13px; white-space: nowrap; }
-.german-speak-button:hover { background: #d1e9c6; }
-.german-speak-button[aria-pressed="true"] { background: #215e47; border-color: #215e47; color: #fff; }
-.german-speak-button:focus-visible { outline: 3px solid #d09b43; outline-offset: 3px; }
-.german-speak-status { color: #58705e; font-size: .82rem; }
-.spoken-example-line { border-bottom: 1px solid #dbe8d5; color: #244f3b; line-height: 1.75; padding: 12px 0; }
-.spoken-example-line:first-child { padding-top: 4px; }
-.spoken-example-line:last-child { border-bottom: 0; }
-.speech-note { background: #eef7e8; border-radius: 10px; font-size: .89rem; padding: 11px 14px; }
 
 @media (max-width: 760px) {
   .exam-session { border-radius: 13px; gap: 9px; padding: 12px 13px; top: 0; }

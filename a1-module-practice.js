@@ -210,64 +210,6 @@
     });actions.append(button,one('a',{class:'secondary',href:selectorURL},'All Schreiben exams'));
   }
 
-  // Play only the original German model sentences. Speech is produced by the
-  // visitor's browser/system voice; no recorded audio or external service is required.
-  let activeSpeaker = null;
-  let activeSpeechStatus = null;
-  let speakingToken = 0;
-  function clearGermanSpeaker(){
-    if(activeSpeaker){activeSpeaker.textContent='🔊 Listen';activeSpeaker.setAttribute('aria-pressed','false');}
-    if(activeSpeechStatus)activeSpeechStatus.textContent='';
-    activeSpeaker=null;activeSpeechStatus=null;
-  }
-  function stopGermanSpeech(){
-    speakingToken++;
-    if(window.speechSynthesis)window.speechSynthesis.cancel();
-    clearGermanSpeaker();
-  }
-  function chooseGermanVoice(){
-    const voices=window.speechSynthesis.getVoices();
-    const german=voices.filter(voice=>/^de(?:-|$)/i.test(voice.lang));
-    return german.find(voice=>/Google Deutsch|Microsoft Katja|Microsoft Conrad|Anna|Marlene|Petra/i.test(voice.name))
-      || german.find(voice=>voice.lang.toLowerCase()==='de-de')
-      || german[0] || null;
-  }
-  function germanSpeaker(sentence,label){
-    const row=one('div',{class:'german-speaker-row'});
-    const button=one('button',{type:'button',class:'german-speak-button','aria-pressed':'false','aria-label':`Listen to ${label} in German`,title:'Listen in German'},'🔊 Listen');
-    const status=one('span',{class:'german-speak-status',role:'status','aria-live':'polite'},'');
-    button.addEventListener('click',()=>{
-      if(activeSpeaker===button){stopGermanSpeech();return;}
-      stopGermanSpeech();
-      if(!window.speechSynthesis || typeof window.SpeechSynthesisUtterance!=='function'){
-        status.textContent='German speech is not available in this browser.';
-        return;
-      }
-      const voice=chooseGermanVoice();
-      const utterance=new window.SpeechSynthesisUtterance(sentence);
-      utterance.lang='de-DE';
-      if(voice)utterance.voice=voice;
-      utterance.rate=.9;
-      utterance.pitch=1;
-      utterance.volume=1;
-      const token=speakingToken;
-      activeSpeaker=button;activeSpeechStatus=status;
-      button.textContent='■ Stop';
-      button.setAttribute('aria-pressed','true');
-      status.textContent=voice?'Playing German pronunciation…':'Playing German (voice depends on your device)…';
-      utterance.onend=()=>{if(token===speakingToken)clearGermanSpeaker();};
-      utterance.onerror=event=>{
-        if(token!==speakingToken)return;
-        clearGermanSpeaker();
-        if(event.error!=='canceled'&&event.error!=='interrupted')status.textContent='Could not play. Enable a German voice in your browser or device settings.';
-      };
-      try{window.speechSynthesis.speak(utterance);}
-      catch(error){clearGermanSpeaker();status.textContent='German audio could not start on this device.';}
-    });
-    row.append(button,status);
-    return row;
-  }
-
   function renderSprechen(){
     const introductions = [
       'Guten Tag. Ich heiße Maria Lopez. Ich bin 24 Jahre alt und komme aus Spanien. Ich wohne in Bonn. Ich spreche Spanisch und ein bisschen Deutsch. Ich bin Studentin. Mein Hobby ist Musik.',
@@ -284,10 +226,7 @@
     const first=section(1,'Teil 1 · Sich vorstellen','Sprechen Sie laut. In der Goethe-Prüfung stellen Sie sich kurz vor. Sagen Sie Ihre persönlichen Angaben und beantworten Sie eine kurze Zusatzfrage.');
     const prompt=one('div',{class:'task-hint'},data.warmup);first.append(prompt);
     const intro=one('div',{class:'speak-card'});intro.innerHTML='<span class="topic">YOUR INTRODUCTION CARD</span><div class="keyword">Name · Alter · Land · Wohnort · Sprachen · Beruf · Hobby</div>';
-    const introDetails=one('details');introDetails.append(one('summary',{},'See an A1 example introduction'));
-    const introExample=one('div',{class:'example'});
-    introExample.append(one('p',{lang:'de'},introductions[index-1]),germanSpeaker(introductions[index-1],'the example introduction'));
-    introDetails.append(introExample);intro.append(introDetails);first.append(intro);
+    const introDetails=one('details');introDetails.append(one('summary',{},'See an A1 example introduction'));introDetails.append(one('div',{class:'example'},introductions[index-1]));intro.append(introDetails);first.append(intro);
     introDetails.hidden=true;introDetails.dataset.locked='true';
     first.append(one('p',{class:'task-hint'},`Extra task: ${data.spell}`));
     const second=section(2,'Teil 2 · Um Informationen bitten','Sprechen Sie mit einer Partnerin oder einem Partner. Lesen Sie das Thema und das Wort auf der Karte. Stellen Sie dazu eine einfache Frage. Antworten Sie auch auf die Fragen Ihres Partners.');
@@ -301,7 +240,6 @@
       content.classList.add('review-unlocked');
       let panel=$('#speaking-review');if(!panel){panel=one('section',{class:'result-card',id:'speaking-review'});content.append(panel);}
       panel.replaceChildren(one('span',{class:'eyebrow'},'YOUR SPEAKING REVIEW'),one('h2',{},'Check your Sprechen practice'),one('p',{},'There is no automatic score for speaking. Practise aloud with a partner and mark what you could do. Open the sample answers on each card to compare.'));
-      panel.append(one('p',{class:'speech-note'},'Use the small 🔊 Listen buttons under each German example to hear it aloud, or Stop to pause. Pronunciation uses the German voice available in your browser or device.'));
       const checks=one('div',{class:'self-check'});['I introduced myself with all seven personal details.','I completed the spelling or number task.','I asked understandable questions about the topic cards.','I answered my partner using short German sentences.','I made polite requests and reacted appropriately.','I spoke clearly and asked for repetition when necessary.'].forEach((txt,i)=>{const label=one('label');label.append(one('input',{type:'checkbox',id:`speaking-check-${i}`}));label.append(one('span',{},txt));checks.append(label);});panel.append(checks);
       panel.scrollIntoView({behavior:'smooth'});
     });actions.append(btn,one('a',{class:'secondary',href:selectorURL},'All Sprechen exams'));
@@ -310,13 +248,6 @@
     const card=one('article',{class:'speak-card'});
     const visual=type==='request'&&picture?`<div class="speak-picture" role="img" aria-label="${escapeHTML(word)}"><span aria-hidden="true">${escapeHTML(picture)}</span></div>`:'';
     card.innerHTML=`<div class="topic">${type==='request'?'BILDKARTE':'WORTKARTE'} ${number} · ${escapeHTML(topic)}</div>${visual}<div class="keyword">${escapeHTML(word)}</div><p>${type==='request'?'Make a polite request about this picture. How would your partner reply?':'Ask a German question using this word. Then give a short answer.'}</p>`;
-    const detail=one('details');detail.dataset.locked='true';detail.hidden=true;detail.append(one('summary',{},'See example question and response'));
-    const ex=one('div',{class:'example'});
-    for(const [speaker,sentence] of [['You',example],['Partner',answer]]){
-      const line=one('div',{class:'spoken-example-line'});
-      line.append(one('strong',{},`${speaker}: `),one('span',{lang:'de'},sentence),germanSpeaker(sentence,`${speaker.toLowerCase()}'s example`));
-      ex.append(line);
-    }
-    detail.append(ex);card.append(detail);return card;
+    const detail=one('details');detail.dataset.locked='true';detail.hidden=true;detail.append(one('summary',{},'See example question and response'));const ex=one('div',{class:'example'});ex.append(one('strong',{},'You: '),document.createTextNode(example),document.createElement('br'),one('strong',{},'Partner: '),document.createTextNode(answer));detail.append(ex);card.append(detail);return card;
   }
 })();
