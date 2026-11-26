@@ -46,11 +46,11 @@
   .exam-info table td:first-child { font-size: 16px; color: #215640; }
   .exam-info table td:nth-child(2)::before { content: 'Tasks: '; font-weight: 700; color: #536a57; }
   .exam-info table td:nth-child(3) { color: #587160; }
-  .exam-session { position: relative; top: auto; gap: 9px; padding: 12px; margin: 10px 0 16px; }
+  .exam-session { position: relative; top: auto; display: flex; flex-direction: column; align-items: stretch; gap: 9px; padding: 12px; margin: 10px 0 16px; }
   .exam-session-copy { min-width: 0; }
   .exam-session-copy strong { font-size: 1rem; line-height: 1.3; }
   .session-kicker { font-size: 12px; }
-  .session-timer { min-width: 76px; font-size: 1rem; padding: 9px 7px; }
+  .session-timer { min-width: 76px; max-width: 100%; align-self: flex-start; white-space: nowrap; font-size: 1rem; padding: 9px 7px; }
   .part-heading { align-items: flex-start; }
   .part-heading h2 { font-size: 1.4rem; }
   .text-source, .source-task, .task-hint { padding: 15px; font-size: 1rem; line-height: 1.7; }
