@@ -56,7 +56,9 @@
 
   function stopSpeech() {
     speechToken++;
-    if (speechAvailable) window.speechSynthesis.cancel();
+    if (speechAvailable) {
+      try { window.speechSynthesis.cancel(); } catch (_) { /* Some browsers expose speech without a usable engine. */ }
+    }
     if (playingPanel) {
       idleButton(playingPanel);
       playingPanel = null;
@@ -83,20 +85,31 @@
       return;
     }
     stopSpeech();
+    showAudioStatus(panel, 'Preparing German audio…', 'Deutsche Sprachausgabe wird vorbereitet…');
 
     if (!speechAvailable) {
       showAudioStatus(panel, 'Speech playback is unavailable here. Read the transcript or try the official audio test below.', 'Sprachausgabe ist hier nicht verfügbar. Lies den Hörtext oder nutze den offiziellen Audiotest unten.');
       return;
     }
 
-    const lines = getScriptLines(panel);
+    let lines;
+    let voices;
+    try {
+      lines = getScriptLines(panel);
+      voices = window.speechSynthesis.getVoices().filter(voice => /^de([-_]|$)/i.test(voice.lang));
+    } catch (_) {
+      showAudioStatus(panel, 'This browser cannot play the sample. Read the transcript or open the official test below.', 'Dieser Browser kann das Beispiel nicht abspielen. Lies den Hörtext oder nutze den offiziellen Test unten.');
+      return;
+    }
     const repetitions = Number(panel.dataset.playbacks);
-    const voices = window.speechSynthesis.getVoices().filter(voice => /^de([-_]|$)/i.test(voice.lang));
     const steps = [];
     for (let round = 1; round <= repetitions; round++) {
       for (let line = 0; line < lines.length; line++) steps.push({round, line, text: lines[line]});
     }
-    if (!steps.length) return;
+    if (!steps.length) {
+      showAudioStatus(panel, 'Sample audio is unavailable. Open the transcript below.', 'Hörbeispiel nicht verfügbar. Öffne den Hörtext unten.');
+      return;
+    }
 
     const token = ++speechToken;
     playingPanel = panel;
