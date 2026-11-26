@@ -186,10 +186,22 @@
   }
 
   function renderSprechen(){
+    const introductions = [
+      'Guten Tag. Ich heiße Maria Lopez. Ich bin 24 Jahre alt und komme aus Spanien. Ich wohne in Bonn. Ich spreche Spanisch und ein bisschen Deutsch. Ich bin Studentin. Mein Hobby ist Musik.',
+      'Hallo. Mein Name ist Amir Kaya. Ich bin 31 Jahre alt. Ich komme aus der Türkei und wohne in Essen. Ich spreche Türkisch und etwas Deutsch. Ich bin Koch. Ich lese gern.',
+      'Guten Tag. Ich heiße Li Chen. Ich bin 22 und komme aus China. Ich lebe in Berlin. Ich spreche Chinesisch, Englisch und ein wenig Deutsch. Ich studiere. Mein Hobby ist Tennis.',
+      'Hallo. Ich bin Eva Novak, 40 Jahre alt. Ich komme aus Tschechien. Ich wohne in Dresden. Ich spreche Tschechisch und Deutsch. Ich bin Verkäuferin. Ich arbeite gern im Garten.',
+      'Guten Tag. Mein Name ist Omar Said. Ich bin 28 Jahre alt und komme aus Ägypten. Jetzt wohne ich in Köln. Ich spreche Arabisch und etwas Deutsch. Ich bin Mechaniker. Ich spiele gern Fußball.',
+      'Hallo. Ich heiße Sofia Rossi. Ich bin 35. Ich komme aus Italien und wohne in Frankfurt. Ich spreche Italienisch und Deutsch. Ich bin Friseurin. Ich koche gern.',
+      'Guten Tag. Ich heiße David Silva. Ich bin 26 Jahre alt. Ich komme aus Brasilien und wohne in Hamburg. Ich spreche Portugiesisch und ein bisschen Deutsch. Ich bin Krankenpfleger. Mein Hobby ist Schwimmen.',
+      'Hallo. Mein Name ist Anna Kowalska. Ich bin 30 Jahre alt. Ich komme aus Polen und lebe in Leipzig. Ich spreche Polnisch und Deutsch. Ich arbeite im Büro. Ich tanze gern.',
+      'Guten Tag. Ich bin Hiro Tanaka. Ich bin 23 und komme aus Japan. Ich wohne in München. Ich spreche Japanisch, Englisch und etwas Deutsch. Ich bin Student. Ich wandere gern.',
+      'Hallo. Ich heiße Fatima Hassan. Ich bin 29 Jahre alt. Ich komme aus Marokko und wohne in Nürnberg. Ich spreche Arabisch, Französisch und etwas Deutsch. Ich bin Lehrerin. Mein Hobby ist Fotografieren.'
+    ];
     const first=section(1,'Teil 1 · Sich vorstellen','Sprechen Sie laut. In der Goethe-Prüfung stellen Sie sich kurz vor. Sagen Sie Ihre persönlichen Angaben und beantworten Sie eine kurze Zusatzfrage.');
     const prompt=one('div',{class:'task-hint'},data.warmup);first.append(prompt);
     const intro=one('div',{class:'speak-card'});intro.innerHTML='<span class="topic">YOUR INTRODUCTION CARD</span><div class="keyword">Name · Alter · Land · Wohnort · Sprachen · Beruf · Hobby</div>';
-    const introDetails=one('details');introDetails.append(one('summary',{},'See an A1 example introduction'));introDetails.append(one('div',{class:'example'},'Guten Tag. Ich heiße Maria Lopez. Ich bin 24 Jahre alt und komme aus Spanien. Ich wohne in Bonn. Ich spreche Spanisch und ein bisschen Deutsch. Ich bin Studentin. Mein Hobby ist Musik.'));intro.append(introDetails);first.append(intro);
+    const introDetails=one('details');introDetails.append(one('summary',{},'See an A1 example introduction'));introDetails.append(one('div',{class:'example'},introductions[index-1]));intro.append(introDetails);first.append(intro);
     first.append(one('p',{class:'task-hint'},`Extra task: ${data.spell}`));
     const second=section(2,'Teil 2 · Um Informationen bitten','Sprechen Sie mit einer Partnerin oder einem Partner. Lesen Sie das Thema und das Wort auf der Karte. Stellen Sie dazu eine einfache Frage. Antworten Sie auch auf die Fragen Ihres Partners.');
     data.info.forEach(([topic,word,question,answer],i)=>second.append(speakingCard(i+1,topic,word,question,answer,'question')));

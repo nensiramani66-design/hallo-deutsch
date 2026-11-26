@@ -28,7 +28,7 @@ window.A1_MODULE_DATA = {
       ['Sie suchen die Öffnungszeiten eines Fitnessstudios.','Meine Gesundheit','Allgemeine Tipps zum Schlafen.','Studio Aktiv','Trainingszeiten, Preise und Öffnungszeiten.',1]
     ],signs:[
       ['In der Arztpraxis','Mittwoch: Sprechstunde nur von 8 bis 12 Uhr.','Am Mittwochnachmittag ist die Praxis geschlossen.',true],
-      ['An der Apotheke','Nachtdienst heute: Apotheke am Markt, Marktstraße 2.','Diese Apotheke hat heute Nachtdienst.',false],
+      ['Vor der Apotheke am Markt','Nachtdienst heute: Apotheke am Markt, Marktstraße 2.','Die Apotheke am Markt hat heute Nachtdienst.',true],
       ['Im Schwimmbad','Bitte vor dem Schwimmen duschen.','Vor dem Schwimmen muss man duschen.',true],
       ['Im Wartezimmer','Bitte hier keine Lebensmittel essen.','Man darf im Wartezimmer essen.',false],
       ['An der Sporthalle','Yoga am Freitag um 18 Uhr. Anmeldung bis Donnerstag.','Für Yoga muss man sich bis Donnerstag anmelden.',true]
