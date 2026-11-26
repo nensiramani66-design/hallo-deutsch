@@ -1,0 +1,68 @@
+/* A calm, recording-first speaking exam for the ten independent A1 practice sets. */
+.oral-stage,.oral-results{color:#193e32}
+.oral-session{align-items:center;background:linear-gradient(118deg,#164536,#2c7356);border-radius:22px;color:#fff;display:flex;justify-content:space-between;gap:16px;padding:25px 29px;margin:18px 0 16px}
+.oral-session h2{color:#fff;font-size:clamp(1.5rem,3.5vw,2.2rem);margin:5px 0}
+.oral-session p{color:#e8f5e9;font-size:.98rem;margin:0}
+.oral-kicker{color:#cde8bb;font-size:.77rem;font-weight:800;letter-spacing:.12em}
+.oral-clock{background:#deefcb;border-radius:12px;color:#22513b;display:inline-block;font-size:1.35rem;font-variant-numeric:tabular-nums;font-weight:800;min-width:99px;padding:11px 15px;text-align:center}
+.oral-privacy{background:#edf5e8;border-left:4px solid #6d9c67;border-radius:0 11px 11px 0;color:#3d6650;font-size:.92rem;margin:12px 0 17px;padding:13px 17px}
+.oral-progress-box{align-items:center;display:flex;justify-content:space-between;gap:19px;margin:18px 0 21px}
+.oral-progress-label{white-space:nowrap}
+.oral-progress{accent-color:#26714e;border:0;border-radius:20px;flex:1;height:14px;max-width:420px}
+.oral-part{background:#fff;border:1px solid #d4e3ce;border-radius:20px;margin:20px 0;padding:clamp(18px,3.3vw,30px)}
+.oral-part-header{border-bottom:1px solid #e0e9d9;margin-bottom:18px;padding-bottom:12px}
+.oral-part-header h2{font-size:1.55rem;margin:0 0 4px}
+.oral-part-header p{font-size:.95rem;margin:0}
+.oral-task{background:linear-gradient(125deg,#fff 30%,#f5f9f1);border:1px solid #d0dfc5;border-radius:18px;margin:17px 0;padding:clamp(18px,3vw,27px);scroll-margin-top:15px}
+.oral-card-heading{align-items:center;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-bottom:19px}
+.oral-number{background:#e2f0d9;border-radius:9px;color:#27573e;display:inline-block;font-size:.78rem;font-weight:800;letter-spacing:.09em;padding:7px 10px}
+.oral-role{color:#607d65;font-size:.78rem;font-weight:800;letter-spacing:.07em}
+.oral-theme-label{color:#709575;display:block;font-size:.8rem;font-weight:800;letter-spacing:.12em}
+.oral-theme{font-size:clamp(1.55rem,3.4vw,2.15rem);line-height:1.25;margin:6px 0 8px}
+.oral-keyword{background:#e8f3e0;border-radius:11px;color:#1f5b3f;display:inline-block;font-size:1.12rem;font-weight:800;margin:7px 0 13px;padding:10px 15px}
+.oral-picture{align-items:center;background:radial-gradient(circle,#fff,#e5f0db);border:2px solid #cadfbf;border-radius:20px;display:flex;font-size:4.7rem;height:140px;justify-content:center;margin:11px 0;max-width:220px}
+.oral-instruction{color:#415d4d;font-size:1rem;margin-bottom:19px;max-width:820px}
+.oral-recorder{background:#f1f7ed;border:1px solid #d6e7ce;border-radius:15px;padding:17px 18px}
+.oral-record-controls{align-items:center;display:flex;flex-wrap:wrap;gap:9px}
+.oral-record-controls button{border:1px solid #bcd3b6;border-radius:11px;font-size:.91rem;font-weight:800;min-height:44px;padding:10px 15px}
+.oral-record{background:#215f47!important;border-color:#215f47!important;color:#fff}
+.oral-record:hover{background:#1a4e3a!important}
+.oral-stop{background:#a4313b!important;border-color:#a4313b!important;color:#fff}
+.oral-stop:hover{background:#85232d!important}
+.oral-again{background:#fff;color:#215f47}
+.oral-use{background:#d9eccb;color:#1b5039}
+.oral-saved{background:#d6f0d9;border-radius:10px;color:#1a6845;font-size:.92rem;padding:11px 15px}
+.oral-playback{display:block;margin:13px 0 8px;max-width:510px;width:100%}
+.oral-download{display:inline-block;font-size:.88rem;font-weight:700;margin:6px 0;text-underline-offset:3px}
+.oral-record-status{color:#456852;font-size:.87rem;margin:12px 0 0}
+.oral-submit-status{align-self:center;color:#9a5137;font-size:.92rem;font-weight:700;margin:0}
+.oral-submit{white-space:normal}
+.oral-results{background:#fff;border:1px solid #cddfca;border-radius:23px;margin:20px 0;padding:clamp(19px,4vw,36px)}
+.oral-results h2{font-size:clamp(1.8rem,3.7vw,2.6rem);margin:8px 0}
+.oral-review-card{border:1px solid #d6e3cf;border-radius:15px;margin:18px 0;padding:clamp(17px,3vw,25px)}
+.oral-review-card h3{font-size:1.24rem;margin:11px 0 14px}
+.oral-play-title{display:block;margin-bottom:6px}
+.oral-review-card .oral-playback{margin:6px 0}
+.oral-model{border-top:1px solid #dce6d6;margin-top:16px;padding-top:15px}
+.oral-model summary{color:#1b674b;cursor:pointer;font-weight:800;padding:8px 0}
+.oral-model-body{padding:10px 0 0}
+.oral-model-body>strong{display:block;margin:12px 0 6px}
+.oral-german-example{background:#f2f7ed;border-left:4px solid #72a66a;border-radius:0 10px 10px 0;color:#234e37;font-size:1.03rem;line-height:1.7;margin:0 0 12px;padding:13px 15px}
+.oral-pattern{background:#edf4e6;border-radius:11px;color:#305c43;font-size:.97rem;padding:14px}
+.oral-self-check{align-items:center;display:flex;gap:12px;font-size:.93rem;font-weight:700;padding:11px 0}
+.oral-self-check input{accent-color:#2b7150;width:19px;height:19px}
+.oral-caveat{color:#617567;font-size:.84rem;margin:7px 0}
+.oral-final-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.oral-stage button:focus-visible,.oral-results a:focus-visible,.oral-model summary:focus-visible{outline:3px solid #d5a04a;outline-offset:3px}
+@media(max-width:680px){
+  .oral-session{align-items:flex-start;border-radius:15px;padding:17px;gap:10px}
+  .oral-session h2{font-size:1.5rem}
+  .oral-session p{font-size:.88rem}
+  .oral-clock{font-size:1rem;min-width:76px;padding:9px 8px}
+  .oral-progress-box{align-items:flex-start;flex-direction:column;gap:9px}
+  .oral-progress{max-width:none;width:100%}
+  .oral-picture{font-size:4.1rem;height:125px}
+  .oral-part,.oral-results{border-radius:15px}
+  .oral-record-controls button{flex:1 1 auto}
+  .oral-final-actions a{width:100%}
+}
