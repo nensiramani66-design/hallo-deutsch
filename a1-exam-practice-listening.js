@@ -70,7 +70,10 @@
   function getScriptLines(panel) {
     // The displayed original script is the single source for audio and transcript.
     const source = panel.closest('.listen-part').querySelector('.listen-script-text');
-    return source.innerText.split(/\n+/).map(text => text.replace(/^[AB]:\s*/, '').trim()).filter(Boolean);
+    // innerText can be empty when the parent <details> is collapsed.
+    const copy = source.cloneNode(true);
+    copy.querySelectorAll('br').forEach(br => br.replaceWith(document.createTextNode('\n')));
+    return copy.textContent.split(/\n+/).map(text => text.replace(/^[AB]:\s*/, '').trim()).filter(Boolean);
   }
 
   function playSpeech(panel) {
