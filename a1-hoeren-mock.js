@@ -130,6 +130,8 @@
   let playing = false;
   let utteranceTimer = null;
   const speechAvailable = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+  const completedAudio = new Set();
+  const allowReplay = () => Boolean(byId('practice-replay')?.checked);
 
   function make(tag, className, content) {
     const element = document.createElement(tag);
@@ -181,8 +183,11 @@
   }
 
   function updateAudioButton() {
-    byId('audio-button-icon').textContent = playing ? '■' : '▶';
-    byId('audio-button-text').textContent = playing ? t('Stop audio', 'Audio stoppen') : t('Play audio', 'Audio abspielen');
+    const locked = !playing && started && !finished && completedAudio.has(questions[currentIndex].id) && !allowReplay();
+    byId('audio-button-icon').textContent = playing ? '■' : locked ? '✓' : '▶';
+    byId('audio-button-text').textContent = playing ? t('Stop audio', 'Audio stoppen')
+      : locked ? t('Already played', 'Bereits gehört') : t('Play audio', 'Audio abspielen');
+    byId('play-audio').disabled = locked;
     byId('play-audio').classList.toggle('is-playing', playing);
   }
 
@@ -205,6 +210,10 @@
 
   function playAudio() {
     const question = questions[currentIndex];
+    if (completedAudio.has(question.id) && !allowReplay()) {
+      byId('audio-status').textContent = t('Audio already played in exam mode.', 'Im Prüfungsmodus bereits gehört.');
+      return;
+    }
     if (playing) {
       stopAudio();
       byId('audio-status').textContent = t('Playback stopped.', 'Wiedergabe beendet.');
@@ -230,6 +239,7 @@
     function finish(messageEn, messageDe, failed = false) {
       if (token !== speechToken) return;
       playing = false;
+      if (!failed) completedAudio.add(question.id);
       updateAudioButton();
       byId('audio-status').textContent = t(messageEn, messageDe);
       if (failed) showFallback(question);
@@ -244,13 +254,13 @@
       byId('audio-status').textContent = t(`Playing ${step.round} of ${repetitions}…`, `Wiedergabe ${step.round} von ${repetitions}…`);
       const utterance = new SpeechSynthesisUtterance(step.text);
       utterance.lang = 'de-DE';
-      utterance.rate = .94;
+      utterance.rate = .91;
       utterance.pitch = step.index % 2 ? .96 : 1.05;
       if (voices.length) utterance.voice = voices[step.index % voices.length];
       utterance.onend = () => {
         if (token !== speechToken) return;
         const following = steps[next];
-        const pause = following && following.round !== step.round ? 900 : 300;
+        const pause = following && following.round !== step.round ? 1350 : 420;
         utteranceTimer = window.setTimeout(speakNext, pause);
       };
       utterance.onerror = () => finish('Could not play audio.', 'Audio konnte nicht abgespielt werden.', true);
@@ -268,9 +278,13 @@
     byId('question-number').textContent = String(q.id).padStart(2, '0');
     byId('question-title').textContent = q.prompt;
     byId('audio-category').textContent = german() ? part.audioDe : part.audioEn;
-    byId('audio-instruction').textContent = part.plays === 1
-      ? t('Plays once · replay allowed for practice.', 'Einmal pro Klick · zum Üben wiederholbar.')
-      : t('Plays twice · replay allowed for practice.', 'Zweimal pro Klick · zum Üben wiederholbar.');
+    byId('audio-instruction').textContent = allowReplay()
+      ? (part.plays === 1
+        ? t('Plays once · replay allowed in practice mode.', 'Einmal pro Klick · Wiederholen im Übungsmodus erlaubt.')
+        : t('Plays twice automatically · replay allowed in practice mode.', 'Automatisch zweimal · Wiederholen im Übungsmodus erlaubt.'))
+      : (part.plays === 1
+        ? t('Exam mode · plays once, without replay.', 'Prüfungsmodus · einmal hören, ohne Wiederholung.')
+        : t('Exam mode · plays twice automatically, without replay.', 'Prüfungsmodus · automatisch zweimal hören, ohne Wiederholung.'));
     byId('audio-status').textContent = '';
     byId('audio-fallback').hidden = true;
     byId('fallback-script').textContent = '';
@@ -294,12 +308,15 @@
         updateCounter();
         buildIndex();
       });
-      const picture = make('span', 'hoeren-option-picture', emoji);
+      const visual = window.HOEREN_VISUALS?.forOption(label, emoji) || {text:emoji, className:''};
+      const picture = make('span', 'hoeren-option-picture ' + visual.className, visual.text);
       picture.setAttribute('aria-hidden', 'true');
       const caption = make('span', 'hoeren-option-label', `${q.part === 2 ? '' : value + ')  '}${label}`);
-      wrapper.append(input, picture, caption);
+      if (visual.className === 'is-symbol' && q.part !== 2) wrapper.append(input, caption);
+      else wrapper.append(input, picture, caption);
       fieldset.append(wrapper);
     });
+    updateAudioButton();
     byId('prev-question').disabled = currentIndex === 0;
     byId('next-question').hidden = currentIndex === questions.length - 1;
     byId('submit-exam').hidden = currentIndex !== questions.length - 1;
@@ -331,6 +348,7 @@
     stopAudio();
     if (timerId !== null) window.clearInterval(timerId);
     Object.keys(answers).forEach(key => delete answers[key]);
+    completedAudio.clear();
     openExplanations.clear();
     currentIndex = 0;
     remaining = 20 * 60;

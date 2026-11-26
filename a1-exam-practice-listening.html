@@ -8,8 +8,10 @@
   <title>Hören · Exam Preparation 1 · Hallo Deutsch</title>
   <link rel="stylesheet" href="a1-exam-preparation.css?v=5">
   <link rel="stylesheet" href="a1-hoeren-mock.css?v=2">
+  <link rel="stylesheet" href="a1-hoeren-answer-visuals.css?v=1">
   <script src="a1-exam-preparation.js?v=2" defer></script>
-  <script src="a1-hoeren-mock.js?v=2" defer></script>
+  <script src="a1-hoeren-answer-visuals.js?v=1" defer></script>
+  <script src="a1-hoeren-mock.js?v=3" defer></script>
 </head>
 <body class="exam-page exam-content-page listening-mock" data-page="practice-listening" data-title-en="Hören · Exam Preparation 1 · Hallo Deutsch" data-title-de="Hören · Prüfungsvorbereitung 1 · Hallo Deutsch">
   <a class="skip-link" href="#main-content"><span data-en="Skip to listening exam" data-de="Zum Hörtest springen">Skip to listening exam</span></a>
@@ -55,6 +57,11 @@
             </table>
           </div>
           <p class="hoeren-small-note" data-en="1 point per correct answer · 15 raw points maximum (worth 25% of the full A1 exam)." data-de="1 Punkt pro richtiger Antwort · maximal 15 Rohpunkte (25 % der gesamten A1-Prüfung).">1 point per correct answer · 15 raw points maximum (worth 25% of the full A1 exam).</p>
+          <label class="hoeren-replay-mode" for="practice-replay">
+            <input id="practice-replay" type="checkbox">
+            <span data-en="Practice mode: allow audio replays" data-de="Übungsmodus: Hörtexte wiederholen">Practice mode: allow audio replays</span>
+          </label>
+          <p class="hoeren-replay-note" data-en="Leave unchecked for exam mode: each audio plays once (with the required internal repetition). The voice is still computer-generated." data-de="Ohne Häkchen gilt der Prüfungsmodus: Jeder Hörtext kann nur einmal gestartet werden (mit den vorgesehenen Wiederholungen). Die Stimme wird weiterhin vom Computer erzeugt.">Leave unchecked for exam mode: each audio plays once (with the required internal repetition). The voice is still computer-generated.</p>
           <div class="hoeren-intro-actions">
             <button id="start-exam" class="hoeren-primary" type="button"><span data-en="Start your exam" data-de="Prüfung starten">Start your exam</span><span aria-hidden="true">→</span></button>
             <span data-en="Have headphones ready. Your answers are checked only when you finish." data-de="Halte Kopfhörer bereit. Die Antworten werden erst am Ende bewertet.">Have headphones ready. Your answers are checked only when you finish.</span>

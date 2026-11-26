@@ -1,0 +1,49 @@
+/* Clear answer-card visuals that complement, never replace, the German labels. */
+.listening-mock .hoeren-option-picture {
+  width: 60px;
+  height: 56px;
+  border: 1px solid #d0ddc8;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #f9fcf6, #e4efe0);
+  font-size: 30px;
+}
+.listening-mock .hoeren-option-picture.is-time,
+.listening-mock .hoeren-option-picture.is-price,
+.listening-mock .hoeren-option-picture.is-weekday,
+.listening-mock .hoeren-option-picture.is-number {
+  min-width: 82px;
+  width: auto;
+  padding: 4px 8px;
+  font-size: 19px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+  color: #205640;
+}
+.listening-mock .hoeren-option-picture.is-number {font-size: 28px}
+.listening-mock .hoeren-option-picture.is-color {width: 68px; border: 4px solid #fff; box-shadow: 0 0 0 1px #bdcdbb}
+.listening-mock .hoeren-option-picture.is-rot {background: #de5445}
+.listening-mock .hoeren-option-picture.is-blau {background: #467ed1}
+.listening-mock .hoeren-option-picture.is-grün {background: #4b9659}
+.listening-mock .hoeren-option-picture.is-schwarz {background: #28323b}
+.listening-mock .hoeren-option-picture.is-gelb {background: #e8bb37}
+.listening-mock .hoeren-replay-mode {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: #2d5640;
+  font-size: 16px;
+  font-weight: 650;
+  margin: 18px 0 4px;
+  cursor: pointer;
+}
+.listening-mock .hoeren-replay-mode input {accent-color: #226344; width: 20px; height: 20px}
+.listening-mock .hoeren-replay-note {font-size: 14px; margin: 0 0 18px; color: #58715f}
+.listening-mock .hoeren-play:disabled {opacity: .65; cursor: not-allowed}
+@media(max-width: 650px) {
+  .listening-mock .hoeren-option-picture {height: 51px; width: 52px; font-size: 27px}
+  .listening-mock .hoeren-option-picture.is-time,
+  .listening-mock .hoeren-option-picture.is-price,
+  .listening-mock .hoeren-option-picture.is-weekday {min-width: 70px; font-size: 16px}
+}
