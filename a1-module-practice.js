@@ -145,7 +145,7 @@
       body.append(one('p',{},`Your answer: ${picked}`));
       const explanation=one('div',{class:'feedback'});
       explanation.append(one('strong',{},`Correct answer: ${expected}`));
-      explanation.append(one('p',{},q.renderMode==='sites'?`The relevant offer says: ${q.choices[q.answer][1]}`:'Check the dates, times, places and negation in the highlighted reading text above. The statement must agree exactly with that text.'));
+      explanation.append(one('p',{},q.renderMode==='sites'?`The relevant offer says: ${q.choices[q.answer][1]}`:`The statement is ${expected} according to the reading text above. Compare the dates, times, places and negative words carefully.`));
       body.append(explanation);detail.append(summary,body);panel.append(detail);
     });
     content.hidden=true;$('.exam-info').hidden=true;$('.exam-hero').hidden=true;
