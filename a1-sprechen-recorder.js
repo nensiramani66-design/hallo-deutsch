@@ -326,7 +326,7 @@
     const answered=tasks.length-missing.length;
     results.append(el('span','oral-kicker','YOUR SPRECHEN REVIEW'),el('h2','','Your speaking practice results'));
     results.append(el('p','oral-result-count',`${answered} of ${tasks.length} answers recorded · ${missing.length} not answered`));
-    results.append(el('p','', 'Your spoken words appear below each recording. Fix any words the microphone misheard, then select “Check my German” for feedback. Each task also has a separate A1 example.'));
+    results.append(el('p','', 'The German check starts automatically. Edit any misheard words in your transcript, then select “Check my German” to update the corrections. A separate A1 example is shown below each task.'));
     results.append(el('p','oral-privacy','Recording files and transcripts disappear when you leave or refresh. Download your audio if you want to keep it. This is practice feedback, not an official Goethe score.'));
     const reviewControls=el('div','oral-review-controls');
     const reviewButton=button('primary oral-review-all','Check my German',()=>reviewAll());
