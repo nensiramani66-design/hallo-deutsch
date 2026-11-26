@@ -1,0 +1,22 @@
+/* Original visual prompts for Goethe A1-style Sprechen Teil 3. */
+.speak-card .speak-picture {
+  align-items: center;
+  background: radial-gradient(circle at 46% 37%, #ffffff 0%, #f5faee 58%, #e3eed8 100%);
+  border: 2px solid #bed6b3;
+  border-radius: 20px;
+  display: flex;
+  height: 146px;
+  justify-content: center;
+  margin: 15px 0 10px;
+  max-width: 225px;
+}
+.speak-card .speak-picture span {
+  font-size: 5.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 8px 6px rgba(27, 67, 47, .13));
+}
+.speak-card:has(.speak-picture) .keyword { font-size: 1.35rem; }
+@media (max-width: 580px) {
+  .speak-card .speak-picture { height: 124px; max-width: 100%; }
+  .speak-card .speak-picture span { font-size: 4.4rem; }
+}

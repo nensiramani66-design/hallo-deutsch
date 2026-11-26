@@ -205,8 +205,8 @@
     first.append(one('p',{class:'task-hint'},`Extra task: ${data.spell}`));
     const second=section(2,'Teil 2 · Um Informationen bitten','Sprechen Sie mit einer Partnerin oder einem Partner. Lesen Sie das Thema und das Wort auf der Karte. Stellen Sie dazu eine einfache Frage. Antworten Sie auch auf die Fragen Ihres Partners.');
     data.info.forEach(([topic,word,question,answer],i)=>second.append(speakingCard(i+1,topic,word,question,answer,'question')));
-    const third=section(3,'Teil 3 · Bitten formulieren','Sehen Sie die Situation und das Wort auf der Karte. Bitten Sie höflich um etwas. Üben Sie auch eine kurze Antwort auf die Bitte Ihres Partners.');
-    data.requests.forEach(([topic,word,request,response],i)=>third.append(speakingCard(i+1,topic,word,request,response,'request')));
+    const third=section(3,'Teil 3 · Bitten formulieren','Sehen Sie sich die Bildkarte an. Formulieren Sie eine passende, höfliche Bitte. Reagieren Sie auch auf die Bitte Ihrer Partnerin oder Ihres Partners.');
+    data.requests.forEach(([topic,word,request,response,picture],i)=>third.append(speakingCard(i+1,topic,word,request,response,'request',picture)));
     const actions=$('#bottom-actions');const btn=one('button',{class:'primary'},'Finish speaking · Self-review →');btn.addEventListener('click',()=>{
       if(!running)begin();stopClock();
       let panel=$('#speaking-review');if(!panel){panel=one('section',{class:'result-card',id:'speaking-review'});content.append(panel);}
@@ -215,8 +215,10 @@
       panel.scrollIntoView({behavior:'smooth'});
     });actions.append(btn,one('a',{class:'secondary',href:selectorURL},'All Sprechen exams'));
   }
-  function speakingCard(number,topic,word,example,answer,type){
-    const card=one('article',{class:'speak-card'});card.innerHTML=`<div class="topic">CARD ${number} · ${escapeHTML(topic)}</div><div class="keyword">${escapeHTML(word)}</div><p>${type==='request'?'Make a polite request. How would your partner reply?':'Ask a German question using this word. Then give a short answer.'}</p>`;
+  function speakingCard(number,topic,word,example,answer,type,picture){
+    const card=one('article',{class:'speak-card'});
+    const visual=type==='request'&&picture?`<div class="speak-picture" role="img" aria-label="${escapeHTML(word)}"><span aria-hidden="true">${escapeHTML(picture)}</span></div>`:'';
+    card.innerHTML=`<div class="topic">${type==='request'?'BILDKARTE':'WORTKARTE'} ${number} · ${escapeHTML(topic)}</div>${visual}<div class="keyword">${escapeHTML(word)}</div><p>${type==='request'?'Make a polite request about this picture. How would your partner reply?':'Ask a German question using this word. Then give a short answer.'}</p>`;
     const detail=one('details');detail.append(one('summary',{},'See example question and response'));const ex=one('div',{class:'example'});ex.append(one('strong',{},'You: '),document.createTextNode(example),document.createElement('br'),one('strong',{},'Partner: '),document.createTextNode(answer));detail.append(ex);card.append(detail);return card;
   }
 })();
