@@ -200,10 +200,9 @@
         const recognition=new Recognition();
         recognition.lang='de-DE';recognition.continuous=true;recognition.interimResults=true;
         entry.recognition=recognition;
-        let settled='';
         recognition.onresult=(event)=>{
-          let interim='';
-          for(let i=event.resultIndex;i<event.results.length;i++){
+          let settled='',interim='';
+          for(let i=0;i<event.results.length;i++){
             const text=event.results[i][0]?.transcript||'';
             if(event.results[i].isFinal)settled+=(settled?' ':'')+text.trim();
             else interim+=(interim?' ':'')+text.trim();
@@ -308,11 +307,6 @@
     },1000);
   });
 
-  function sentencePattern(task) {
-    if(task.kind==='intro')return 'Introduce yourself with short statements: Ich heiße … . Ich bin … Jahre alt. Ich komme aus … . Ich wohne in … .';
-    if(task.kind==='question')return 'For a W-question: Wo / Was / Wann / Wie + verb + subject + … ? For a yes/no question: Verb + subject + … ?';
-    return 'For a polite request: Können Sie bitte + infinitive … ? or Bitte + verb + object … . Include bitte and use a friendly tone.';
-  }
   function submitAnswers(allowPartial) {
     if(submitted)return;
     if(active || pendingPermission){
@@ -369,7 +363,7 @@
         card.append(el('p','oral-skipped','Not answered — you can still review the model answer below.'));
       }
       const details=el('details','oral-model');details.open=true;
-      details.append(el('summary','','3 · A1 example (another possible answer)'));
+      details.append(el('summary','',saved.get(task.id)?'3 · A1 example':'A1 example'));
       const inner=el('div','oral-model-body');
       inner.append(el('strong','','Example sentence'));
       const answer=el('p','oral-german-example',task.example);answer.lang='de';inner.append(answer);
@@ -377,16 +371,25 @@
         inner.append(el('strong','','Possible partner response'));
         const response=el('p','oral-german-example',task.reply);response.lang='de';inner.append(response);
       }
-      inner.append(el('p','oral-pattern',sentencePattern(task)));
       details.append(inner);card.append(details);results.append(card);
     }
+    if(!editableReviews.length){reviewButton.disabled=true;reviewStatus.textContent='There are no recorded answers to check.';}
     async function reviewAll(){
       if(reviewButton.disabled)return;
       const feedback=window.A1_SPEAK_FEEDBACK;
       if(!feedback){reviewStatus.textContent='The feedback checker did not load. Please refresh and try again.';return;}
       reviewButton.disabled=true;
       let model=null;let reviewed=0;let withoutTranscript=0;
-      reviewStatus.textContent='Preparing the German checker…';
+      // Show an honest limited correction immediately, even if a device AI
+      // model needs downloading or is unavailable.
+      for(const item of editableReviews){
+        const spoken=item.field.value.trim();
+        if(!spoken)continue;
+        const basic=feedback.basicReview(spoken);
+        item.correction.textContent=basic.corrected;
+        item.notes.textContent=basic.note;
+      }
+      reviewStatus.textContent='Basic checks ready. Looking for a stronger on-device German checker…';
       try{
         model=await feedback.createModel();
         for(const item of editableReviews){
@@ -397,15 +400,14 @@
             item.notes.textContent='Your recording was saved, but the browser could not hear its text.';
             continue;
           }
-          reviewStatus.textContent=`Checking answer ${++reviewed} of ${editableReviews.length}…`;
-          item.correction.textContent='Checking…';
+          reviewed++;
+          if(model)reviewStatus.textContent=`On-device AI: reviewing ${reviewed} of ${editableReviews.length}…`;
           const result=await feedback.review(spoken,item.task,model);
           item.correction.textContent=result.corrected;
           item.notes.textContent=result.note;
         }
-        reviewStatus.textContent=withoutTranscript
-          ? `${reviewed} checked; ${withoutTranscript} need a transcript. Edit the text and check again when ready.`
-          : `${reviewed} answers checked. Compare your corrected German with the example below.`;
+        reviewStatus.textContent=(model?'On-device AI review complete. ':'Basic offline grammar checks complete; full AI correction is unavailable on this device. ')
+          + `${reviewed} checked, ${withoutTranscript} need a transcript. Edit any text and check again if needed.`;
       }catch(error){reviewStatus.textContent='The checker stopped unexpectedly. Please try again.';}
       finally{try{model?.destroy?.();}catch(_){}reviewButton.disabled=false;}
     }

@@ -46,7 +46,7 @@
     return {
       corrected,
       note: notes.length
-        ? `Basic offline checks: ${[...new Set(notes)].join(' · ')}. This does not catch every mistake.`
+        ? `Basic offline checks: ${[...new Set(notes)].join(' · ')} (not a complete grammar check).`
         : 'Basic offline check only: no common mistake detected. Other grammar or sentence errors may remain.'
     };
   }
