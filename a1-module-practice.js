@@ -4,7 +4,7 @@
   const MODULES = {
     lesen: {name:'Lesen', english:'Reading', minutes:25, parts:3, icon:'📖', guide:'a1-exam-practice-reading.html', tasks:'15 questions', synopsis:'Read short messages, find information online and understand everyday signs.'},
     schreiben: {name:'Schreiben', english:'Writing', minutes:20, parts:2, icon:'✎', guide:'a1-exam-practice-writing.html', tasks:'2 tasks', synopsis:'Complete a form and write a short German message of about 30 words.'},
-    sprechen: {name:'Sprechen', english:'Speaking', minutes:15, parts:3, icon:'♬', guide:'a1-exam-practice-speaking.html', tasks:'3 parts', synopsis:'Introduce yourself, ask for information and make polite requests.'}
+    sprechen: {name:'Sprechen', english:'Speaking', minutes:15, parts:3, icon:'💬', guide:'a1-exam-practice-speaking.html', tasks:'3 parts', synopsis:'Introduce yourself, ask for information and make polite requests.'}
   };
   const params = new URLSearchParams(location.search);
   const key = params.get('module');
