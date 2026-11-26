@@ -63,7 +63,7 @@
   $('#hero-icon').textContent = module.icon;
   $('#metric-row').innerHTML = `<div class="metric"><strong>${module.minutes}</strong><small>minutes</small></div><div class="metric"><strong>${module.tasks}</strong><small>in this practice</small></div><div class="metric"><strong>${module.parts}</strong><small>exam parts</small></div>`;
   $('#parts-rows').innerHTML = parts[key].map(([part,task,format]) => `<tr><td>${part}</td><td>${task}</td><td>${format}</td></tr>`).join('');
-  $('#exam-note').textContent = key === 'sprechen' ? 'In the official Goethe A1 exam, speaking takes place in a group without preparation time. Practise aloud with a partner if possible; the example answers are aids, not fixed required answers.' : key === 'schreiben' ? 'Goethe A1 Schreiben contains a 5-point form task and a 10-point message task. Model answers are examples only; this page does not automatically grade your German.' : 'Like the Goethe A1 model: 3 parts with 5 questions each. One point is awarded for each correct answer in this original practice.';
+  $('#exam-note').textContent = key === 'sprechen' ? 'The official Goethe A1 speaking exam is a group exam without preparation time. These original topic and picture cards are for partner practice; sample answers are examples, not sentences you must memorise.' : key === 'schreiben' ? 'Goethe A1 Schreiben contains a 5-point form task and a 10-point message task. Model answers are examples only; this page does not automatically grade your German.' : 'Like the Goethe A1 model: 3 parts with 5 questions each. One point is awarded for each correct answer in this original practice.';
   const heroButton = $('.exam-hero .primary');
   heroButton.addEventListener('click', begin);
   const content = $('#exam-content');
@@ -71,14 +71,25 @@
   if (key === 'lesen') renderLesen(content);
   if (key === 'schreiben') renderSchreiben(content);
   if (key === 'sprechen') renderSprechen(content);
+  // A mock exam begins when the student presses Start, not while they are reading the format guide.
+  content.hidden = true;
+  $('#bottom-actions').hidden = true;
 
   function begin(){
     if (running || submitted) return;
     running = true;
-    heroButton.textContent = 'Continue your exam ↓';
-    const clock = one('span',{class:'meta-pill',id:'clock',role:'timer','aria-label':'Time remaining'},'');
-    $('.selector-actions')?.append(clock);
-    $('.bottom-actions').prepend(clock);
+    content.hidden = false;
+    $('#bottom-actions').hidden = false;
+    $('.exam-hero').hidden = true;
+    $('.exam-info').hidden = true;
+    const bar = one('div',{class:'exam-session',id:'exam-session'});
+    const copy = one('div',{class:'exam-session-copy'});
+    copy.append(one('span',{class:'session-kicker'},`EXAM PREPARATION ${index} · ${module.name.toUpperCase()}`));
+    copy.append(one('strong',{id:'session-heading'},key === 'lesen' ? 'Read the texts. Choose your answers.' : key === 'schreiben' ? 'Complete the form. Write your message.' : 'Speak aloud with your partner.'));
+    copy.append(one('span',{class:'session-subtitle',id:'session-subtitle'},key === 'lesen' ? '0 of 15 answers selected' : key === 'schreiben' ? '5 form fields · 3 writing points' : 'Three parts · group-speaking practice'));
+    const clock = one('span',{class:'session-timer',id:'clock',role:'timer','aria-live':'off','aria-label':'Time remaining'},'');
+    bar.append(copy,clock);
+    content.prepend(bar);
     updateClock();
     ticker = setInterval(() => {if (timeRemaining>0) timeRemaining--; updateClock(); if(timeRemaining===0){stopClock(); if(key==='lesen'){submitLesen(true);}else {const msg=one('p',{class:'notice'},'Practice time is over. You may still review your work.'); content.prepend(msg);}}},1000);
   }
@@ -89,7 +100,12 @@
     card.innerHTML=`<div class="part-heading"><h2>${escapeHTML(title)}</h2><span class="part-label">TEIL ${number}</span></div><p class="instructions">${escapeHTML(instruction)}</p>`;
     content.append(card);return card;
   }
-  function appendSource(parent,source,heading=''){const div=one('div',{class:'text-source'});if(heading){const h=one('strong',{},heading);div.append(h,document.createElement('br'));}div.append(document.createTextNode(source));parent.append(div);return div;}
+  function appendSource(parent,source,heading=''){
+    const kind = /E-Mail|SMS|Nachricht|Brief/i.test(heading) ? 'source-message' : /Situation|Schreibaufgabe/i.test(heading) ? 'source-task' : 'source-notice';
+    const div=one('div',{class:`text-source ${kind}`});
+    if(heading){div.append(one('strong',{class:'source-heading'},heading));}
+    div.append(one('div',{class:'source-copy'},source));parent.append(div);return div;
+  }
   function addQuestion(parent,number,claim,choices,context,answer,renderMode='simple'){
     const q=one('div',{class:'question',id:`question-${number}`});
     q.innerHTML=`<span class="question-index">QUESTION ${number} / 15</span><h3>${escapeHTML(claim)}</h3>`;
@@ -99,7 +115,12 @@
       const radio=one('input',{type:'radio',name:`q${number}`,value:String(i),'aria-label':`Question ${number}: option ${i+1}`});
       radio.addEventListener('change',()=>{examAnswers[number]=i;updateProgress();});
       label.append(radio);
-      if(renderMode==='sites') {const head=one('span',{class:'website-title'},`${i===0?'a':'b'} · ${choice[0]}`);const description=one('span',{class:'website-copy'},choice[1]);label.append(head,description);}else label.append(one('span',{},choice));
+      if(renderMode==='sites') {
+        const preview=one('span',{class:'website-preview'});
+        preview.append(one('span',{class:'website-chrome'},`${i===0?'A':'B'} · WEBSITE / ANZEIGE`));
+        preview.append(one('span',{class:'website-title'},choice[0]));
+        preview.append(one('span',{class:'website-copy'},choice[1]));label.append(preview);
+      } else label.append(one('span',{},choice));
       options.append(label);
     });
     q.append(options);parent.append(q);
@@ -120,7 +141,7 @@
     const button=one('button',{class:'primary',id:'finish-reading'},'Finish exam · Show my result →');button.addEventListener('click',()=>submitLesen(false));
     actions.append(progress,button);
   }
-  function updateProgress(){const progress=$('#answer-progress');if(progress)progress.textContent=`${Object.keys(examAnswers).length} of 15 answered`;}
+  function updateProgress(){const count=Object.keys(examAnswers).length;const progress=$('#answer-progress');if(progress)progress.textContent=`${count} of 15 answered`;const subtitle=$('#session-subtitle');if(subtitle)subtitle.textContent=`${count} of 15 answers selected`;}
   function submitLesen(timedOut){
     if(submitted)return;
     const count=Object.keys(examAnswers).length;
@@ -142,9 +163,9 @@
       appendSource(body,q.context,'Reading text:');
       const expected=q.renderMode==='sites'?`${q.answer===0?'a':'b'} · ${q.choices[q.answer][0]}`:q.choices[q.answer];
       const picked=answer===null?'No answer':q.renderMode==='sites'?`${answer===0?'a':'b'} · ${q.choices[answer][0]}`:q.choices[answer];
-      body.append(one('p',{},`Your answer: ${picked}`));
+      body.append(one('p',{class:'review-selection'},`Your answer: ${picked}`));
       const explanation=one('div',{class:'feedback'});
-      explanation.append(one('strong',{},`Correct answer: ${expected}`));
+      explanation.append(one('strong',{class:'review-correct-answer'},`✓ Correct answer: ${expected}`));
       explanation.append(one('p',{},q.renderMode==='sites'?`The relevant offer says: ${q.choices[q.answer][1]}`:`The statement is ${expected} according to the reading text above. Compare the dates, times, places and negative words carefully.`));
       body.append(explanation);detail.append(summary,body);panel.append(detail);
     });
@@ -156,14 +177,17 @@
 
   function renderSchreiben(){
     const first=section(1,'Teil 1 · Ein Formular ausfüllen','Lesen Sie die Situation. Tragen Sie die fünf fehlenden Informationen in das Formular ein.');
+    first.append(one('span',{class:'task-points'},'5 points · 5 missing entries'));
     appendSource(first,data.scenario,'Situation:');
-    const title=one('h3',{},data.form);first.append(title);
+    const sheet=one('div',{class:'mock-form'});sheet.append(one('span',{class:'mock-form-label'},'ANMELDUNG / FORMULAR'));
+    const title=one('h3',{},data.form);sheet.append(title);
     const grid=one('div',{class:'form-grid'});
     data.fields.forEach(([label],i)=>{
       const field=one('label',{class:'field'});field.append(one('span',{},`${i+1}. ${label}`));
-      field.append(one('input',{type:'text',autocomplete:'off',name:`form${i}`,placeholder:'Ihre Antwort',id:`form${i}`}));grid.append(field);
-    });first.append(grid);
+      field.append(one('input',{type:'text',autocomplete:'off',name:`form${i}`,placeholder:'Hier eintragen',id:`form${i}`}));grid.append(field);
+    });sheet.append(grid);first.append(sheet);
     const second=section(2,'Teil 2 · Eine kurze Nachricht schreiben','Schreiben Sie circa 30 Wörter. Beantworten Sie alle drei Punkte. Beginnen Sie mit einer Anrede und enden Sie mit einem Gruß.');
+    second.append(one('span',{class:'task-points'},'10 points · 3 content points + greeting and closing'));
     appendSource(second,data.task,'Schreibaufgabe:');
     const list=one('ul',{class:'bullet-list'});data.bullets.forEach(point=>list.append(one('li',{},point)));second.append(list);
     const textarea=one('textarea',{class:'writing-area',id:'writing-answer',placeholder:'Liebe/Lieber …\n\nSchreiben Sie hier Ihre Nachricht …','aria-label':'Your German message'});second.append(textarea);
@@ -179,6 +203,7 @@
       panel.append(one('h3',{},'Teil 2 · Example of a suitable message'));
       const example=one('div',{class:'answer-key'});example.append(one('p',{},data.model));panel.append(example);
       panel.append(one('p',{},'Check your message against this list. There is no automatic Goethe grade. Ask a teacher or fluent speaker to check grammar and whether your message is understandable.'));
+      panel.append(one('p',{class:'task-hint'},'Official-style self-check: each of the three content points can contribute up to 3 marks, plus up to 1 mark for an appropriate greeting and closing. Only an examiner or teacher can assess your text reliably.'));
       const checks=one('div',{class:'self-check'});['I answered the first content point.','I answered the second content point.','I answered the third content point.','I used an appropriate greeting and closing.','My message is understandable and about 30 words.'].forEach((item,i)=>{const label=one('label');label.append(one('input',{type:'checkbox',id:`writing-check-${i}`}));label.append(one('span',{},item));checks.append(label);});panel.append(checks);
       const existing=$('#writing-review');if(!existing)content.append(panel);
       panel.scrollIntoView({behavior:'smooth'});
@@ -202,13 +227,17 @@
     const prompt=one('div',{class:'task-hint'},data.warmup);first.append(prompt);
     const intro=one('div',{class:'speak-card'});intro.innerHTML='<span class="topic">YOUR INTRODUCTION CARD</span><div class="keyword">Name · Alter · Land · Wohnort · Sprachen · Beruf · Hobby</div>';
     const introDetails=one('details');introDetails.append(one('summary',{},'See an A1 example introduction'));introDetails.append(one('div',{class:'example'},introductions[index-1]));intro.append(introDetails);first.append(intro);
+    introDetails.hidden=true;introDetails.dataset.locked='true';
     first.append(one('p',{class:'task-hint'},`Extra task: ${data.spell}`));
     const second=section(2,'Teil 2 · Um Informationen bitten','Sprechen Sie mit einer Partnerin oder einem Partner. Lesen Sie das Thema und das Wort auf der Karte. Stellen Sie dazu eine einfache Frage. Antworten Sie auch auf die Fragen Ihres Partners.');
     data.info.forEach(([topic,word,question,answer],i)=>second.append(speakingCard(i+1,topic,word,question,answer,'question')));
     const third=section(3,'Teil 3 · Bitten formulieren','Sehen Sie sich die Bildkarte an. Formulieren Sie eine passende, höfliche Bitte. Reagieren Sie auch auf die Bitte Ihrer Partnerin oder Ihres Partners.');
     data.requests.forEach(([topic,word,request,response,picture],i)=>third.append(speakingCard(i+1,topic,word,request,response,'request',picture)));
+    const lockNote=one('p',{class:'exam-locked-note'},'Speak without looking at the examples. The sample questions and responses will unlock when you finish.');first.insertBefore(lockNote,intro);
     const actions=$('#bottom-actions');const btn=one('button',{class:'primary'},'Finish speaking · Self-review →');btn.addEventListener('click',()=>{
       if(!running)begin();stopClock();
+      content.querySelectorAll('details[data-locked]').forEach(detail=>{detail.hidden=false;});
+      content.classList.add('review-unlocked');
       let panel=$('#speaking-review');if(!panel){panel=one('section',{class:'result-card',id:'speaking-review'});content.append(panel);}
       panel.replaceChildren(one('span',{class:'eyebrow'},'YOUR SPEAKING REVIEW'),one('h2',{},'Check your Sprechen practice'),one('p',{},'There is no automatic score for speaking. Practise aloud with a partner and mark what you could do. Open the sample answers on each card to compare.'));
       const checks=one('div',{class:'self-check'});['I introduced myself with all seven personal details.','I completed the spelling or number task.','I asked understandable questions about the topic cards.','I answered my partner using short German sentences.','I made polite requests and reacted appropriately.','I spoke clearly and asked for repetition when necessary.'].forEach((txt,i)=>{const label=one('label');label.append(one('input',{type:'checkbox',id:`speaking-check-${i}`}));label.append(one('span',{},txt));checks.append(label);});panel.append(checks);
@@ -219,6 +248,6 @@
     const card=one('article',{class:'speak-card'});
     const visual=type==='request'&&picture?`<div class="speak-picture" role="img" aria-label="${escapeHTML(word)}"><span aria-hidden="true">${escapeHTML(picture)}</span></div>`:'';
     card.innerHTML=`<div class="topic">${type==='request'?'BILDKARTE':'WORTKARTE'} ${number} · ${escapeHTML(topic)}</div>${visual}<div class="keyword">${escapeHTML(word)}</div><p>${type==='request'?'Make a polite request about this picture. How would your partner reply?':'Ask a German question using this word. Then give a short answer.'}</p>`;
-    const detail=one('details');detail.append(one('summary',{},'See example question and response'));const ex=one('div',{class:'example'});ex.append(one('strong',{},'You: '),document.createTextNode(example),document.createElement('br'),one('strong',{},'Partner: '),document.createTextNode(answer));detail.append(ex);card.append(detail);return card;
+    const detail=one('details');detail.dataset.locked='true';detail.hidden=true;detail.append(one('summary',{},'See example question and response'));const ex=one('div',{class:'example'});ex.append(one('strong',{},'You: '),document.createTextNode(example),document.createElement('br'),one('strong',{},'Partner: '),document.createTextNode(answer));detail.append(ex);card.append(detail);return card;
   }
 })();

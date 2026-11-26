@@ -1,0 +1,72 @@
+/* A1 exam-session presentation for Lesen, Schreiben and Sprechen. */
+[hidden] { display: none !important; }
+
+.exam-session {
+  align-items: center;
+  background: linear-gradient(115deg, #183f33, #28614d);
+  border: 1px solid #376c57;
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(24, 62, 50, .13);
+  color: #fff;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin: 16px 0 22px;
+  padding: 19px 23px;
+  position: sticky;
+  top: 10px;
+  z-index: 10;
+}
+.exam-session-copy { display: flex; flex-direction: column; gap: 2px; }
+.session-kicker { color: #cae9b6; font-size: .76rem; font-weight: 800; letter-spacing: .1em; }
+.exam-session-copy strong { color: #fff; font-size: 1.13rem; }
+.session-subtitle { color: #e5f2e7; font-size: .84rem; }
+.session-timer { background: #e0edcb; border-radius: 11px; color: #174834; font-size: 1.15rem; font-variant-numeric: tabular-nums; font-weight: 800; min-width: 124px; padding: 12px 14px; text-align: center; white-space: nowrap; }
+
+.text-source { border: 1px solid #d6e5ce; border-left: 5px solid #70a56e; position: relative; }
+.text-source .source-heading { display: block; font-size: .8rem; letter-spacing: .08em; margin-bottom: 12px; text-transform: uppercase; }
+.text-source .source-copy { color: #203f34; font-size: 1rem; line-height: 1.75; white-space: pre-line; }
+.source-message { background: #fffefa; border-color: #d9d9c9; border-left-color: #d4af70; box-shadow: 0 7px 18px rgba(83, 72, 42, .05); }
+.source-message .source-heading { border-bottom: 1px solid #e6e3d6; color: #7b6747; padding-bottom: 10px; }
+.source-notice { background: #f2f6f0; border: 2px solid #a6bea0; border-radius: 11px; text-align: center; }
+.source-notice .source-heading { color: #365d41; }
+.source-task { background: #f0f5e9; border-left-color: #417c5e; }
+
+.website-options .option { background: #fff; border: 2px solid #dce5d8; padding: 0; position: relative; }
+.website-options .option:has(input:checked) { border-color: #1d674c; box-shadow: 0 0 0 2px rgba(41, 125, 83, .12); }
+.website-options .option input { left: 14px; position: absolute; top: 14px; }
+.website-preview { display: block; padding: 0 15px 18px; width: 100%; }
+.website-chrome { background: #e6ece5; border-bottom: 1px solid #d4e0d0; border-radius: 10px 10px 0 0; color: #57735b; display: block; font-size: .68rem; font-weight: 800; letter-spacing: .1em; margin: 0 -15px 17px; padding: 15px 14px 15px 42px; }
+.website-title { display: block; font-size: 1.06rem; margin-bottom: 6px; }
+.website-copy { display: block; line-height: 1.55; }
+.review-selection { background: #f4f7f1; border-radius: 9px; font-weight: 600; padding: 10px 13px; }
+.review-correct-answer { color: #146b44; display: block; font-size: 1.08rem; }
+.review-item.is-correct .review-selection { color: #176e49; }
+
+.task-points { background: #e2f0d7; border-radius: 20px; color: #275f40; display: inline-block; font-size: .78rem; font-weight: 800; margin: 0 0 12px; padding: 6px 13px; }
+.mock-form { background: linear-gradient(#fff, #fbfdfa); border: 2px solid #cbdcc2; border-radius: 15px; margin-top: 16px; padding: clamp(17px, 3.5vw, 28px); }
+.mock-form-label { border-bottom: 2px solid #dce6d3; color: #59715e; display: block; font-size: .75rem; font-weight: 800; letter-spacing: .12em; padding-bottom: 9px; }
+.mock-form h3 { color: #183f32; margin: 15px 0 20px; }
+.mock-form .field { background: #f8faf5; border: 1px solid #e1e9db; border-radius: 10px; padding: 12px; }
+.mock-form .field input { border-radius: 7px; }
+.writing-area { background: repeating-linear-gradient(#fff 0, #fff 39px, #f0f4ea 40px); line-height: 40px; min-height: 290px; padding: 11px 17px; }
+#word-counter { font-weight: 700; }
+
+.speak-card { border: 2px solid #bdd5b8; border-radius: 22px; box-shadow: 0 7px 22px rgba(25, 62, 50, .045); padding: clamp(20px, 4vw, 32px); }
+.speak-card .topic { background: #e0efda; border-radius: 8px; color: #23583d; display: inline-block; padding: 8px 12px; }
+.speak-card .keyword { font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -.025em; margin: 18px 0; }
+.speak-card:has(.speak-picture) { background: #fefefb; }
+.speak-card .speak-picture { margin: 20px auto 12px; }
+.exam-locked-note { background: #eff5e8; border-left: 4px solid #4e8c64; border-radius: 0 9px 9px 0; font-size: .93rem; padding: 11px 15px; }
+.speak-card details summary { border-top: 1px solid #dbe7d4; padding-top: 14px; }
+
+@media (max-width: 760px) {
+  .exam-session { border-radius: 13px; gap: 9px; padding: 12px 13px; top: 0; }
+  .exam-session-copy strong { font-size: .96rem; }
+  .session-kicker { font-size: .64rem; }
+  .session-subtitle { font-size: .76rem; }
+  .session-timer { font-size: .9rem; min-width: 94px; padding: 9px 6px; }
+  .website-options { grid-template-columns: 1fr; }
+  .text-source .source-copy { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { .exam-session { scroll-behavior: auto; } }
