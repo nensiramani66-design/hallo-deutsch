@@ -1,4 +1,4 @@
-/* Recording-first Sprechen practice. Audio stays in this tab: no upload or automatic grading. */
+/* Recording-first Sprechen practice with editable speech transcripts and local review. */
 (() => {
   'use strict';
   const params = new URLSearchParams(location.search);
@@ -55,7 +55,7 @@
   title.append(timer);
 
   const privacy = el('p','oral-privacy',
-    'Microphone required. Your recordings stay in this browser tab, are not uploaded, and disappear if you reload or leave. Submit opens a self-review, not an automatic Goethe grade.');
+    'Your recordings stay in this tab. When supported, your browser converts speech to German text while you record; its speech service may process audio online. Review transcripts before checking grammar. No Hallo Deutsch API key or account is needed.');
   const progressBox = el('div','oral-progress-box');
   const progressText = el('strong','oral-progress-label','0 / 7 answers saved');
   const progress = el('progress','oral-progress');
@@ -97,6 +97,8 @@
       : 'All answers saved. You can submit your speaking exam.';
   }
   function clearRecording(entry) {
+    if (entry.recognition) {try {entry.recognition.abort();} catch (_) {} entry.recognition=null;}
+    entry.transcript='';entry.transcriptionMessage='';
     if (entry.url) URL.revokeObjectURL(entry.url);
     entry.url=null;
     entry.blob=null;
@@ -112,6 +114,8 @@
     entry.record.disabled=false;
     entry.stop.hidden=true;
     entry.done.hidden=true;
+    entry.transcriptPreview.hidden=true;
+    entry.transcriptPreview.textContent='';
     updateProgress();
   }
 
@@ -154,6 +158,7 @@
     recorder.addEventListener('dataavailable',event=>{if(event.data?.size)chunks.push(event.data);});
     recorder.addEventListener('error',()=>setStatus(entry,'A recording error occurred. Please re-record.'));
     recorder.addEventListener('stop',()=>{
+      if(entry.recognition){try{entry.recognition.stop();}catch(_){}entry.recognition=null;}
       clearInterval(session.interval);
       stream.getTracks().forEach(track=>track.stop());
       if(active===session)active=null;
@@ -174,6 +179,10 @@
       entry.download.hidden=false;
       entry.again.hidden=false;
       entry.use.hidden=false;
+      entry.transcriptPreview.hidden=false;
+      entry.transcriptPreview.textContent=entry.transcript
+        ? `Heard: ${entry.transcript}`
+        : 'No words transcribed. You can type or correct your words on the results page.';
       setStatus(entry,'Recording ready. Listen, save this answer or re-record it.');
     });
     try {recorder.start(250);}
@@ -183,6 +192,28 @@
       setStatus(entry,'Recording failed to start. Please try again.');
       return;
     }
+    // Web Speech processes sound only while the microphone is live. Recognition
+    // results are provisional; the learner can fix them in the results page.
+    const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(Recognition){
+      try{
+        const recognition=new Recognition();
+        recognition.lang='de-DE';recognition.continuous=true;recognition.interimResults=true;
+        entry.recognition=recognition;
+        let settled='';
+        recognition.onresult=(event)=>{
+          let interim='';
+          for(let i=event.resultIndex;i<event.results.length;i++){
+            const text=event.results[i][0]?.transcript||'';
+            if(event.results[i].isFinal)settled+=(settled?' ':'')+text.trim();
+            else interim+=(interim?' ':'')+text.trim();
+          }
+          entry.transcript=[settled,interim].filter(Boolean).join(' ').trim();
+        };
+        recognition.onerror=(event)=>{entry.transcriptionMessage=`Speech recognition unavailable (${event.error||'browser error'}). Type your transcript at review.`;};
+        recognition.start();
+      }catch(_){entry.recognition=null;entry.transcriptionMessage='Speech recognition unavailable. Type your words at review.';}
+    }else{entry.transcriptionMessage='This browser cannot automatically transcribe. Type your words at review.';}
     session.interval=setInterval(()=>{
       const seconds=Math.floor((Date.now()-startedAt)/1000);
       setStatus(entry,`Recording… ${seconds} seconds (maximum ${maxSeconds})`);
@@ -222,7 +253,7 @@
     if(task.instruction)card.append(el('p','oral-instruction',task.instruction));
     const recorderBox=el('div','oral-recorder');
     const controls=el('div','oral-record-controls');
-    const entry={task,blob:null,url:null,record:null,stop:null,again:null,use:null,preview:null,download:null,status:null,done:null};
+    const entry={task,blob:null,url:null,record:null,stop:null,again:null,use:null,preview:null,download:null,status:null,done:null,recognition:null,transcript:'',transcriptionMessage:'',transcriptPreview:null};
     entry.record=button('oral-record','🎙 Record my answer',()=>startRecording(entry));
     entry.stop=button('oral-stop','■ Stop recording',()=>stopRecording(entry));
     entry.stop.hidden=true;
@@ -236,7 +267,8 @@
     entry.download=el('a','oral-download','Download my audio');entry.download.hidden=true;
     entry.status=el('p','oral-record-status','Not recorded yet.');
     entry.status.setAttribute('role','status');
-    recorderBox.append(controls,entry.preview,entry.download,entry.status);
+    entry.transcriptPreview=el('p','oral-transcript-preview');entry.transcriptPreview.hidden=true;
+    recorderBox.append(controls,entry.preview,entry.download,entry.transcriptPreview,entry.status);
     card.append(recorderBox);
     entries.set(task.id,entry);
     return card;
@@ -300,8 +332,13 @@
     const answered=tasks.length-missing.length;
     results.append(el('span','oral-kicker','YOUR SPRECHEN REVIEW'),el('h2','','Your speaking practice results'));
     results.append(el('p','oral-result-count',`${answered} of ${tasks.length} answers recorded · ${missing.length} not answered`));
-    results.append(el('p','', 'Listen to your saved recordings and open the model sentences and sentence patterns for every task, including those you skipped. Different correct German answers are possible; this is a self-review, not an automatic pronunciation or grammar grade.'));
-    results.append(el('p','oral-privacy','Your audio is still only in this tab. Download any recording you want to keep before leaving or refreshing the page.'));
+    results.append(el('p','', 'Your spoken words appear below each recording. Fix any words the microphone misheard, then select “Check my German” for feedback. Each task also has a separate A1 example.'));
+    results.append(el('p','oral-privacy','Recording files and transcripts disappear when you leave or refresh. Download your audio if you want to keep it. This is practice feedback, not an official Goethe score.'));
+    const reviewControls=el('div','oral-review-controls');
+    const reviewButton=button('primary oral-review-all','Check my German',()=>reviewAll());
+    const reviewStatus=el('p','oral-review-status');reviewStatus.setAttribute('role','status');
+    reviewControls.append(reviewButton,reviewStatus);results.append(reviewControls);
+    const editableReviews=[];
     for(const [i,task] of tasks.entries()){
       const entry=entries.get(task.id);
       const card=el('article','oral-review-card');
@@ -311,26 +348,66 @@
         card.append(el('strong','oral-play-title','Your saved recording'));
         const playback=el('audio','oral-playback');playback.controls=true;playback.src=entry.url;card.append(playback);
         const link=el('a','oral-download','Download this recording');link.href=entry.url;link.download=entry.download.download;card.append(link);
+        const transcriptPanel=el('div','oral-feedback-panel oral-panel-transcript');
+        transcriptPanel.append(el('strong','','1 · Your spoken German'));
+        const field=el('textarea','oral-transcript-field');
+        field.lang='de';field.rows=3;field.value=entry.transcript;
+        field.placeholder='Your German transcript will appear here. If it is blank, type what you said.';
+        field.setAttribute('aria-label',`Your German transcript for task ${i+1}`);
+        transcriptPanel.append(field);
+        transcriptPanel.append(el('p','oral-feedback-hint',entry.transcript
+          ? 'Automatic transcript — please correct any misheard words.'
+          : (entry.transcriptionMessage||'Nothing was transcribed. Type what you said to receive feedback.')));
+        card.append(transcriptPanel);
+        const correctedPanel=el('div','oral-feedback-panel oral-panel-corrected');
+        correctedPanel.append(el('strong','','2 · Your corrected German'));
+        const correction=el('p','oral-correction-text','Check my German to review this answer.');
+        const notes=el('p','oral-feedback-hint');
+        correctedPanel.append(correction,notes);card.append(correctedPanel);
+        editableReviews.push({task,field,correction,notes});
       }else{
         card.append(el('p','oral-skipped','Not answered — you can still review the model answer below.'));
       }
-      const details=el('details','oral-model');
-      details.append(el('summary','','Check model answer & sentence formation'));
+      const details=el('details','oral-model');details.open=true;
+      details.append(el('summary','','3 · A1 example (another possible answer)'));
       const inner=el('div','oral-model-body');
-      inner.append(el('strong','','Possible A1 answer'));
+      inner.append(el('strong','','Example sentence'));
       const answer=el('p','oral-german-example',task.example);answer.lang='de';inner.append(answer);
       if(task.reply){
         inner.append(el('strong','','Possible partner response'));
         const response=el('p','oral-german-example',task.reply);response.lang='de';inner.append(response);
       }
-      inner.append(el('strong','','Sentence pattern to compare'));
       inner.append(el('p','oral-pattern',sentencePattern(task)));
-      const check=el('label','oral-self-check');
-      const checkbox=el('input');checkbox.type='checkbox';
-      check.append(checkbox,el('span','','I addressed this Thema and used an understandable A1 sentence.'));
-      inner.append(check);
-      inner.append(el('p','oral-caveat','Use the model as guidance, not as the only correct answer. A teacher or speaking partner is needed for reliable grammar and pronunciation feedback.'));
       details.append(inner);card.append(details);results.append(card);
+    }
+    async function reviewAll(){
+      if(reviewButton.disabled)return;
+      const feedback=window.A1_SPEAK_FEEDBACK;
+      if(!feedback){reviewStatus.textContent='The feedback checker did not load. Please refresh and try again.';return;}
+      reviewButton.disabled=true;
+      let model=null;let reviewed=0;let withoutTranscript=0;
+      reviewStatus.textContent='Preparing the German checker…';
+      try{
+        model=await feedback.createModel();
+        for(const item of editableReviews){
+          const spoken=item.field.value.trim();
+          if(!spoken){
+            withoutTranscript++;
+            item.correction.textContent='Transcript missing — type the words you said and run the check again.';
+            item.notes.textContent='Your recording was saved, but the browser could not hear its text.';
+            continue;
+          }
+          reviewStatus.textContent=`Checking answer ${++reviewed} of ${editableReviews.length}…`;
+          item.correction.textContent='Checking…';
+          const result=await feedback.review(spoken,item.task,model);
+          item.correction.textContent=result.corrected;
+          item.notes.textContent=result.note;
+        }
+        reviewStatus.textContent=withoutTranscript
+          ? `${reviewed} checked; ${withoutTranscript} need a transcript. Edit the text and check again when ready.`
+          : `${reviewed} answers checked. Compare your corrected German with the example below.`;
+      }catch(error){reviewStatus.textContent='The checker stopped unexpectedly. Please try again.';}
+      finally{try{model?.destroy?.();}catch(_){}reviewButton.disabled=false;}
     }
     const actions=el('div','oral-final-actions');
     const again=el('a','secondary','Try this exam again');
@@ -341,6 +418,9 @@
     stage.hidden=true;footer.hidden=true;
     content.append(results);
     results.scrollIntoView({behavior:'smooth',block:'start'});
+    // Submission itself begins the personalized review; the button above lets
+    // learners run it again after fixing any misheard transcript words.
+    if(editableReviews.length)void reviewAll();
   }
   window.addEventListener('pagehide',()=>{
     clearInterval(examClock);

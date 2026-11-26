@@ -35,6 +35,7 @@
 .oral-playback{display:block;margin:13px 0 8px;max-width:510px;width:100%}
 .oral-download{display:inline-block;font-size:.88rem;font-weight:700;margin:6px 0;text-underline-offset:3px}
 .oral-record-status{color:#456852;font-size:.87rem;margin:12px 0 0}
+.oral-transcript-preview{background:#fff;border-left:3px solid #8baa82;border-radius:0 8px 8px 0;color:#356047;font-size:.94rem;line-height:1.5;margin:11px 0 0;padding:10px 13px}
 .oral-submit-status{align-self:center;color:#9a5137;font-size:.92rem;font-weight:700;margin:0}
 .oral-submit{white-space:normal}
 .bottom-actions .oral-submit[hidden]{display:none}
@@ -44,9 +45,24 @@
 .oral-results h2{font-size:clamp(1.8rem,3.7vw,2.6rem);margin:8px 0}
 .oral-review-card{border:1px solid #d6e3cf;border-radius:15px;margin:18px 0;padding:clamp(17px,3vw,25px)}
 .oral-review-card h3{font-size:1.24rem;margin:11px 0 14px}
+.oral-review-controls{align-items:center;background:#edf7e9;border:1px solid #c9dec5;border-radius:14px;display:flex;flex-wrap:wrap;gap:15px;margin:18px 0 24px;padding:16px}
+.oral-review-controls button{min-height:46px;padding:11px 20px}
+.oral-review-status{color:#315f47;font-size:.94rem;line-height:1.45;margin:0}
+.oral-feedback-panel{border:1px solid;border-radius:14px;margin:13px 0;padding:17px 19px}
+.oral-feedback-panel>strong{display:block;font-size:1rem;margin:0 0 11px}
+.oral-panel-transcript{background:#edf5ff;border-color:#b9d7f6;color:#163f65}
+.oral-panel-corrected{background:#eaf8ed;border-color:#b3dec2;color:#184e32}
+.oral-transcript-field{background:#fff;border:1px solid #9cbdd9;border-radius:9px;color:#183d56;display:block;font:inherit;font-size:1rem;line-height:1.55;min-height:95px;padding:11px 13px;resize:vertical;width:100%}
+.oral-correction-text{background:#fff;border-left:4px solid #33936a;border-radius:0 8px 8px 0;color:#184e32;font-size:1.03rem;line-height:1.7;margin:0;padding:12px 14px;white-space:pre-wrap}
+.oral-feedback-hint{color:#41665a;font-size:.9rem;line-height:1.5;margin:10px 0 0}
+.oral-panel-transcript .oral-feedback-hint{color:#355c81}
 .oral-play-title{display:block;margin-bottom:6px}
 .oral-review-card .oral-playback{margin:6px 0}
 .oral-model{border-top:1px solid #dce6d6;margin-top:16px;padding-top:15px}
+.oral-review-card .oral-model{background:#f1edff;border:1px solid #d7c8fa;border-radius:14px;padding:13px 18px}
+.oral-review-card .oral-model summary{color:#573d8e}
+.oral-review-card .oral-german-example{background:#fff;border-left-color:#8b71d7;color:#4b347b}
+.oral-review-card .oral-pattern{background:#eae4fc;color:#4e4277}
 .oral-model summary{color:#1b674b;cursor:pointer;font-weight:800;padding:8px 0}
 .oral-model-body{padding:10px 0 0}
 .oral-model-body>strong{display:block;margin:12px 0 6px}
@@ -57,6 +73,7 @@
 .oral-caveat{color:#617567;font-size:.84rem;margin:7px 0}
 .oral-final-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
 .oral-stage button:focus-visible,.oral-results a:focus-visible,.oral-model summary:focus-visible{outline:3px solid #d5a04a;outline-offset:3px}
+.oral-results button:focus-visible,.oral-transcript-field:focus-visible{outline:3px solid #d5a04a;outline-offset:3px}
 @media(max-width:680px){
   .oral-session{align-items:flex-start;border-radius:15px;padding:17px;gap:10px}
   .oral-session h2{font-size:1.5rem}
@@ -68,4 +85,7 @@
   .oral-part,.oral-results{border-radius:15px}
   .oral-record-controls button{flex:1 1 auto}
   .oral-final-actions a{width:100%}
+  .oral-review-controls{align-items:stretch;flex-direction:column}
+  .oral-review-controls button{width:100%}
+  .oral-feedback-panel{padding:14px}
 }
